@@ -16,6 +16,8 @@ image:
 
 in this post I will explain how to use the microsoft/azure-cli container image programmatically to connect to AzureStack
 
+## the basics
+
 The easiest way to start the AzureCLI Container interactively is by using
 
 {% highlight scss %}
@@ -27,6 +29,8 @@ docker run -it microsoft/azure-cli:latest
 	<figcaption>azcli from docker</figcaption>
 </figure>
 
+
+## the Idea
 While this might be just enough to run some commands in Azure or AzureStack one time, it is not sufficient to scale Multiple Sessions or different Cloud Environments.
 
 So we need to have a more efficient way to run the Container.
@@ -41,9 +45,11 @@ to do so, i create 3 Directories:
 - vars, contains environment specific vars
 - scripts, contains the startup script for the azure env
 
-## the vars file
-
-a typical vars file would contain:
+## the vars directory file
+the vars directory will hold
+- *.env.sh*
+- *.secrets*
+a typical env.sh file would contain:
 
 {% highlight scss %}
 AZURE_CLI_CA_PATH="/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
@@ -56,4 +62,16 @@ AZURE_TENANT_ID=""
 AZURE_SUBSCRIPTION_ID=""
 {% endhighlight %}
 
+the *.secrets* file is and option, and  will hold and Azure Service Principle to login programmatically.
 
+it contains:
+
+{% highlight scss %}
+#!/bin/bash
+export AZURE_CLIENT_ID=""
+export AZURE_CLIENT_SECRET=""
+{% endhighlight %}
+
+If you do not want to expose the secrets in a file, you may pass them ass environment Variables.
+
+## the scripts directory
