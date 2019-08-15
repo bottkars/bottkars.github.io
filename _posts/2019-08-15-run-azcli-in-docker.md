@@ -85,7 +85,7 @@ If you do not want to expose the secrets in a file, you may pass them ass enviro
 
 ## the scripts directory
 
-the Script Directory in essence host the start script that you will execute from within the Container
+the Script Directory in essence host the start script */scripts/run.sh* that you will execute from within the Container
 
 it will 
 - append the root ca cert to the az cli certificates
@@ -145,3 +145,11 @@ docker run -it --rm \
 
 once in, we can start our environment and connect to our AzureStack endpoint:
 
+```bash
+./srcipts/run.sh
+```
+
+<figure class="full">
+	<img src="/images/connect_azs.png" alt="">
+	<figcaption>connect to AzureStack</figcaption>
+</figure>
