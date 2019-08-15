@@ -16,11 +16,15 @@ image:
 
 in this post I will explain how to use the microsoft/azure-cli container image programmatically to connect to AzureStack
 
+The easiest way to start the AzureCLI Container interactively is by using
+
+{% highlight scss %}
+docker run -it microsoft/azure-cli:latest
+{% endhighlight %}
+
 <figure class="third">
 	<img src="/images/azcli_docker.png" alt="">
 	<figcaption>azcli from dockerdocker</figcaption>
 </figure>
 
-{% highlight scss %}
-openssl.exe x509 -inform DER  -outform pem -in .\root.cer -out root.pem
-{% endhighlight %}
+However, this would require to manually configure the Cloud Environment
