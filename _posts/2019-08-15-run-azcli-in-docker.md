@@ -153,3 +153,7 @@ once in, we can start our environment and connect to our AzureStack endpoint:
 	<img src="/images/connect_azs.png" alt="">
 	<figcaption>connect to AzureStack</figcaption>
 </figure>
+
+The Script templates can be found on my Github
+
+[azcli-docker-template](https://github.com/bottkars/azcli-docker-template)
