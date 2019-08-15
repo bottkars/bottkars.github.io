@@ -113,7 +113,7 @@ az cloud register -n AzureStackUser \
 --profile ${PROFILE}
 az cloud set -n AzureStackUser
 set +eux
-if [ -z "${AZURE_CLIENT_ID}" ] || [ "${AZURE_CLIENT_SECRET}"  ]
+if [ -z "${AZURE_CLIENT_ID}" ] || [ -z "${AZURE_CLIENT_SECRET}"  ]
 then
     echo "no Client Credentials found, skipping login"
 else
@@ -142,3 +142,6 @@ docker run -it --rm \
 	<img src="/images/docker_azcli_connect.png" alt="">
 	<figcaption>azcli from docker</figcaption>
 </figure>
+
+once in, we can start our environment and connect to our AzureStack endpoint:
+
