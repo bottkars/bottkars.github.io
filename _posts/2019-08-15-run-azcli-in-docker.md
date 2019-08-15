@@ -6,8 +6,8 @@ modified: 2019-08-15
 comments: true
 tags: [cert post]
 image:
-  path: https://azurecomcdn.azureedge.net/cvt-8163d731844e53b6d7ebd76103b6d0409c63cd671a1cea2acc86b45244d13a43/images/page/services/kubernetes-service/docker/docker-logo.svg
-  feature: docker-logo.svg
+  path: /images/docker_run.gif
+  feature: docker_run.gif
   credit: 
   creditlink: 
 ---
@@ -24,7 +24,11 @@ docker run -it microsoft/azure-cli:latest
 
 <figure class="third">
 	<img src="/images/azcli_docker.png" alt="">
-	<figcaption>azcli from dockerdocker</figcaption>
+	<figcaption>azcli from docker</figcaption>
 </figure>
+
+While this might be just enough to run some commands in Azure or AzureStack one time, it is not sufficient to scale Multiple Sessions or different Cloud Environments.
+
+To have a more efficient way to
 
 However, this would require to manually configure the Cloud Environment
