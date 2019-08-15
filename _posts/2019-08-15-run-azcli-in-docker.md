@@ -39,6 +39,16 @@ One way would be passing Environment Variables o the Container, but I was lookin
 The idea here is to use docker volumes to mount local directories into the docker container.
 
 By leveraging *docker run -it -v <<volume>>:/path*, we should be able to pass environments, variables, files  and scripts to the container.
+Example:
+
+{% highlight scss %}
+WORKSPACE=wokspace
+docker run -it --rm \
+    -v $(pwd)/vars:/${WORKSPACE}/vars \
+    -v $(pwd)/scripts:/${WORKSPACE}/scripts \
+    -v $(pwd)/certs:/${WORKSPACE}/certs \
+    -w /${WORKSPACE} microsoft/azure-cli 
+{% endhighlight %}
 
 to do so, i create 3 Directories:
 - certs, contains the Azure Stack root ca 
