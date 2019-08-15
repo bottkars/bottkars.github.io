@@ -17,7 +17,7 @@ image:
 in this post I will explain how to use the microsoft/azure-cli container image programmatically to connect to AzureStack
 
 <figure class="third">
-	<img src="/images/azcli_docker.png alt=">
+	<img src="/images/azcli_docker.png" alt="">
 	<figcaption>azcli from dockerdocker</figcaption>
 </figure>
 
