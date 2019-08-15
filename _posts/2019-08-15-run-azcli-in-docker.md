@@ -22,13 +22,38 @@ The easiest way to start the AzureCLI Container interactively is by using
 docker run -it microsoft/azure-cli:latest
 {% endhighlight %}
 
-<figure class="third">
+<figure class="half">
 	<img src="/images/azcli_docker.png" alt="">
 	<figcaption>azcli from docker</figcaption>
 </figure>
 
 While this might be just enough to run some commands in Azure or AzureStack one time, it is not sufficient to scale Multiple Sessions or different Cloud Environments.
 
-To have a more efficient way to
+So we need to have a more efficient way to run the Container.
+One way would be passing Environment Variables o the Container, but I was looking for a more flexible approach.
 
-However, this would require to manually configure the Cloud Environment
+The idea here is to use docker volumes to mount local directories into the docker container.
+
+By leveraging *docker run -it -v <<volume>>:/path*, we should be able to pass environments, variables, files  and scripts to the container.
+
+to do so, i create 3 Directories:
+- certs, contains the Azure Stack root ca 
+- vars, contains environment specific vars
+- scripts, contains the startup script for the azure env
+
+## the vars file
+
+a typical vars file would contain:
+
+{% highlight scss %}
+AZURE_CLI_CA_PATH="/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
+PROFILE="2019-03-01-hybrid"
+CA_CERT=root.pem
+ENDPOINT_RESOURCE_MANAGER="https://management.local.azurestack.external"
+VAULT_DNS=".vault.local.azurestack.external"
+SUFFIX_STORAGE_ENDPOINT="local.azurestack.external"
+AZURE_TENANT_ID=""
+AZURE_SUBSCRIPTION_ID=""
+{% endhighlight %}
+
+
