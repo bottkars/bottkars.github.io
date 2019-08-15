@@ -6,8 +6,8 @@ modified: 2019-08-15
 comments: true
 tags: [cert post]
 image:
-  path: /images/azcli_docker.png
-  feature: azcli_docker.png
+  path: https://azurecomcdn.azureedge.net/cvt-8163d731844e53b6d7ebd76103b6d0409c63cd671a1cea2acc86b45244d13a43/images/page/services/kubernetes-service/docker/docker-logo.svg
+  feature: docker-logo.svg
   credit: 
   creditlink: 
 ---
