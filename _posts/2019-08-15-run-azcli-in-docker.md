@@ -24,7 +24,7 @@ The easiest way to start the AzureCLI Container interactively is by using
 docker run -it microsoft/azure-cli:latest
 {% endhighlight %}
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/azcli_docker.png" alt="">
 	<figcaption>azcli from docker</figcaption>
 </figure>
@@ -138,7 +138,7 @@ docker run -it --rm \
     -w /${WORKSPACE} microsoft/azure-cli
 ```
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/docker_azcli_connect.png" alt="">
 	<figcaption>azcli from docker</figcaption>
 </figure>
