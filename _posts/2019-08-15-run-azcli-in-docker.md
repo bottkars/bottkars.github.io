@@ -29,7 +29,6 @@ docker run -it microsoft/azure-cli:latest
 	<figcaption>azcli from docker</figcaption>
 </figure>
 
-
 ## the Idea
 While this might be just enough to run some commands in Azure or AzureStack one time, it is not sufficient to scale Multiple Sessions or different Cloud Environments.
 
@@ -85,3 +84,61 @@ export AZURE_CLIENT_SECRET=""
 If you do not want to expose the secrets in a file, you may pass them ass environment Variables.
 
 ## the scripts directory
+
+the Script Directory in essence host the start script that you will execute from within the Container
+
+it will 
+- append the root ca cert to the az cli certificates
+- Create the Cloud Environment for you AzureStack
+- Signs in to AZS with the Service Principal, if provided
+
+{% highlight scss %}
+!/bin/bash
+pushd $(pwd)
+cd "$(dirname "$0")"
+source ../vars/.secrets
+set -eux
+source ../vars/.env.sh
+if [ -z "${CA_CERT}" ]
+then
+    echo "no custom root ca found"
+else
+    cat ../certs/${CA_CERT} >> ${AZURE_CLI_CA_PATH} 
+fi
+
+az cloud register -n AzureStackUser \
+--endpoint-resource-manager ${ENDPOINT_RESOURCE_MANAGER} \
+--suffix-storage-endpoint ${SUFFIX_STORAGE_ENDPOINT} \
+--suffix-keyvault-dns ${VAULT_DNS} \
+--profile ${PROFILE}
+az cloud set -n AzureStackUser
+set +eux
+if [ -z "${AZURE_CLIENT_ID}" ] || [ "${AZURE_CLIENT_SECRET}"  ]
+then
+    echo "no Client Credentials found, skipping login"
+else
+    az login --service-principal \
+    -u ${AZURE_CLIENT_ID} \
+    -p ${AZURE_CLIENT_SECRET} \
+    --tenant ${AZURE_TENANT_ID}  
+    az account set --subscription ${AZURE_SUBSCRIPTION_ID}
+fi
+{% endhighlight %}
+
+## putting it all together
+
+with the above files in place, we would start docker with
+
+```bash
+WORKSPACE=workspace
+docker run -it --rm \
+    -v $(pwd)/vars:/${WORKSPACE}/vars \
+    -v $(pwd)/scripts:/${WORKSPACE}/scripts \
+    -v $(pwd)/certs:/${WORKSPACE}/certs \
+    -w /${WORKSPACE} microsoft/azure-cli
+```
+
+<figure class="half">
+	<img src="/images/docker_azcli_connect.png" alt="">
+	<figcaption>azcli from docker</figcaption>
+</figure>
