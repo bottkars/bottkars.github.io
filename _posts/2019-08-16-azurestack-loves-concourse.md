@@ -182,7 +182,7 @@ No go Back to the Web Interface. You should now see the pipeline named azurestac
 	<figcaption>set-pipeline</figcaption>
 </figure>
 
-Hover over the Blue Boy and click on the name azurestack.
+Hover over the Blue box and click on the name azurestack.
 this should open the pipeline view.
 
 <figure class="full">
