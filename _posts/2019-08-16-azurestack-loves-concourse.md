@@ -40,15 +40,16 @@ Concourse-CI provides a generic docker-compose file that will fit our needs for 
 
 linux/OSX users simply enter
 
-```bash
+{% highlight scss %}
 wget https://concourse-ci.org/docker-compose.yml
-```
+{% endhighlight %}
 
 if you are running Windows, set docker desktop to linux Containers and run
 
-```Powershell
-Invoke-Webrequest https://concourse-ci.org/docker-compose.yml -OutFile docker-compose.yml
-```
+{% highlight scss %}
+Invoke-Webrequest https://concourse-ci.org/docker-compose.yml -OutFile 
+{% endhighlight %}
+
 ### run the container(s)
 Once the file is downloaded, we start Concourse with
 *docker-compose up* ( in attached mode )
@@ -82,9 +83,10 @@ As we can target multiple instances of Concourse, we first need to target our in
 
 therefore, we use fly -t <<targetname>> login -c <url> -b
 
-```bash
+{% highlight scss %}
 fly -t docker login -c http://localhost:8080 -b
-```
+{% endhighlight %}
+
 <figure class="full">
 	<img src="/images/concourse-login.png" alt="">
 	<figcaption>concourse ui</figcaption>
