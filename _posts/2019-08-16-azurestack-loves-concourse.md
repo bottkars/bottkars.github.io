@@ -62,7 +62,7 @@ docker-compose up
 
 <figure class="full">
 	<img src="/images/concourse-up.gif" alt="">
-	<figcaption>concourse up</figcaption>
+	<figcaption>docker-compose up</figcaption>
 </figure>
 
 ### Download the CLI
