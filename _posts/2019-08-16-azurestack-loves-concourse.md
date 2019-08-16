@@ -44,7 +44,7 @@ Once the file is downloaded, we start Concourse with
 docker-compose up
 {% endhighlight %}
 
-<figure class="full">
+<figure class="half">
 	<img src="/images/concourse-up.gif" alt="">
 	<figcaption>concourse up</figcaption>
 </figure>
