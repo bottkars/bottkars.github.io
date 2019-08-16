@@ -45,6 +45,6 @@ docker-compose up
 {% endhighlight %}
 
 <figure class="full">
-	<img src="/images/concourse_up.gif" alt="">
+	<img src="/images/concourse-up.gif" alt="">
 	<figcaption>concourse up</figcaption>
 </figure>
