@@ -57,7 +57,7 @@ If you want to run on a different Port, check the docker-compose.yml
 docker-compose up
 {% endhighlight %}
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/concourse-up.gif" alt="">
 	<figcaption>concourse up</figcaption>
 </figure>
@@ -65,7 +65,7 @@ docker-compose up
 ### Download the CLI
 Now that we have concourse up and running, we download the *fly cli* commandline for concourse. therefore, we use the browser to browse to *http://localhost:8080*
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/concourse_fly_1.png" alt="">
 	<figcaption>concourse ui</figcaption>
 </figure>
@@ -76,14 +76,14 @@ Copy the fly cli into your path
 ### Connect to Concourse 
 Open a new Shell ( Powershell, Bash ) to start with our first commands.
 
-As we can target Multiple instances of Concourse, we first need to target our instance and log in.
+As we can target multiple instances of Concourse, we first need to target our instance and log in.
 
-therefore, we use fly -t <targetname> login -c <url> -b
+therefore, we use fly -t <<targetname>> login -c <url> -b
 
 ```bash
 fly -t docker login -c http://localhost:8080 -b
 ```
-<figure class="half">
+<figure class="full">
 	<img src="/images/concourse-login.png" alt="">
 	<figcaption>concourse ui</figcaption>
 </figure>
@@ -98,7 +98,7 @@ This should log you in to concourse at cli and Browser Interface.
 For our First pipeline, I created a template repository on Github.
 go to [azurestack-concourse-tasks-template](https://github.com/bottkars/azurestack-concourse-tasks-template), and click on the *Use this template* button.
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/use-this-template.png" alt="">
 	<figcaption>template</figcaption>
 </figure>
@@ -106,7 +106,7 @@ go to [azurestack-concourse-tasks-template](https://github.com/bottkars/azuresta
 Github will ask you for a Repository name, choose *azcli-concourse*.
 Once the repository is created, clone into the repository from commandline, eg *git clone https://github.com/youruser/azcli-concourse.git*
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/clone-repo.png" alt="">
 	<figcaption>repo</figcaption>
 </figure>
@@ -164,7 +164,7 @@ Now tha we have edited the Parameter to point to our github repo, we can load th
 azcli-concourse-uri: <your github repo>
 {% endhighlight %}
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/set-pipeline.png" alt="">
 	<figcaption>set-pipeline</figcaption>
 </figure>
@@ -173,7 +173,7 @@ Apply the Pipeline configuration by confirming with *y*
 
 No go Back to the Web Interface. You should now see the pipeline named azurestack in a paused state
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/pipe-1.png" alt="">
 	<figcaption>set-pipeline</figcaption>
 </figure>
@@ -181,7 +181,7 @@ No go Back to the Web Interface. You should now see the pipeline named azurestac
 Hover over the Blue Boy and click on the name azurestack.
 this should open the pipeline view.
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/pipeview1.png" alt="">
 	<figcaption>pipeview</figcaption>
 </figure>
@@ -190,7 +190,7 @@ You can see the 2 resources az-cli-image and azcli-concourse
 
 if you click on each of them, you will notice they have been checked successfully
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/checked.png" alt="">
 	<figcaption>checked resource</figcaption>
 </figure>
@@ -201,7 +201,7 @@ Now, it is time to unpause our Pipeline. In  the web-interface, click on the sta
 
 this will trigger you build....
 
-<figure class="half">
+<figure class="full">
 	<img src="/images/first-build.gif" alt="">
 	<figcaption>first build</figcaption>
 </figure>
