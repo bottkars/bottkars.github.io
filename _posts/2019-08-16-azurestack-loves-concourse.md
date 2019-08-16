@@ -13,17 +13,19 @@ image:
   creditlink: 
 ---
 
-# Use [Concourse CI](https://concourse-ci.org/) to Automate AzureStack - Part 1
+# Use [Concourse CI](https://concourse-ci.org/) to Automate AzureStack - Chapter 1
 
-This Post will focus on getting a base Concourse System Setup on Docker and create and run basic Pipelines and Tasks on AzureStack
+This Chapter will focus on getting a base Concourse System Setup on Docker and create and run a basic test pipeline
 
-## What Concourse ?
+This is the base for the upcoming chapters where we create Customized Tasks and Jobs to do cull Stuff with AzureStack
+
+## What, Concourse ?
 
 Concourse is a CI/CD Pipeline that was developed with ease of use in Mind.
 Other than in well-known CI/CD Tools, it *DOES NOT* install plugins or agents.
 Concourse runs Tasks in OCI Compatible Containers.
 All in and output´s of Jobs are resources, and are defined by a Type.
-Based on the Resource Type, concourse will detect Version Changes of the resources. Concourse comes with a view built-in-types like *git* and *S3*, but you can very easy integrate you own Types. 
+Based on the Resource Type, concourse will detect Version Changes of the resources. Concourse comes with a view built-in-types like *git* and *S3*, but you can very easy integrate you own Types.
 
 read more about Concourse at [Concourse-CI](https://concourse-ci.org/docs.html)
 
@@ -205,3 +207,5 @@ this will trigger you build....
 	<img src="/images/first-build.gif" alt="">
 	<figcaption>first build</figcaption>
 </figure>
+
+Now, as we have setup the first Pipeline, take you time to explore the fly cli and read on concourse-ci.org before we start with customized tasks an jobs.
