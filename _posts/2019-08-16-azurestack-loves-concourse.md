@@ -81,7 +81,7 @@ Open a new Shell ( Powershell, Bash ) to start with our first commands.
 
 As we can target multiple instances of Concourse, we first need to target our instance and log in.
 
-therefore, we use fly -t <<targetname>> login -c <url> -b
+therefore, we use fly -t <<targetname>> login -c <<url>> -b
 
 {% highlight scss %}
 fly -t docker login -c http://localhost:8080 -b
