@@ -4,8 +4,8 @@ title: fly set-pipeline azurestack chapter 1
 description: "The awesome way to automate AzureStack"
 modified: 2019-08-16
 comments: true
-published: false
-tags: [AzureStack, concourse,]
+published: true
+tags: [AzureStack, concourse, azure, cli]
 image:
   path: /images/pipeline_pcf.gif
   feature: pipeline_pcf.gif
