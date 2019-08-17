@@ -1,11 +1,11 @@
 ---
 layout: post
-title: fly set-pipeline azurestack chapter 1
+title: fly set-pipeline azurestack chapter 2
 description: "The awesome way to automate Azure and AzureStack"
-modified: 2019-08-16
+modified: 2019-08-17
 comments: true
-published: true
-tags: [AzureStack, azure, concourse, azure, cli]
+published: false
+tags: [AzureStack, concourse, azure, cli, Azure]
 image:
   path: /images/pipeline_pcf.gif
   feature: pipeline_pcf.gif
@@ -13,7 +13,7 @@ image:
   creditlink: 
 ---
 
-# Use [Concourse CI](https://concourse-ci.org/) to Automate Azure and AzureStack - Chapter 1
+# Use [Concourse CI](https://concourse-ci.org/) to Automate Azure and AzureStack - Chapter 2
 
 This Chapter will focus on getting a base Concourse System Setup on Docker and create and run a basic test pipeline to get az-cli up and running 
 
