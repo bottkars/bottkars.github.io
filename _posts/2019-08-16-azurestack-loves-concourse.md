@@ -15,9 +15,15 @@ image:
 
 # Use [Concourse CI](https://concourse-ci.org/) to Automate Azure and AzureStack - Chapter 1
 
-This Chapter will focus on getting a base Concourse System Setup on Docker and create and run a basic test pipeline to get az-cli up and running 
+This Chapter will focus on:
+- getting a base Concourse System using Docker
+- create and run a basic test pipeline
+- get az-cli container up and running 
 
-This is the base for the upcoming chapters where we create Customized Tasks and Jobs to do cull Stuff with AzureStack
+This is the Base Setup we will use for the upcoming chapters where we create :
+- Customized Tasks 
+- ARM Jobs
+- some other cool Stuff for AzureStack
 
 ## What, Concourse ?
 
