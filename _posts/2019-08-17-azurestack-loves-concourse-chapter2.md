@@ -25,7 +25,8 @@ This Chapter will we will create out first Task that let us
 ## Going Secure from now
 
 Before we edit our parameter file, it is time to go secure from now.
-*Note: In this example we put credentials in parameter files. we secure them with private repositories. Concourse, however, allows to integrate with Vaults like Hashi Vault or Credhub. We will to that once we move from  the docker based setup to a Cloud Based setup.*
+
+*Note: In this example we put credentials in parameter files. we secure them with private Github repositories. Concourse, however, allows to integrate with Vaults like Hashi Vault or Credhub. We will do that once we move from  the docker based setup to a Cloud Based setup.*
 
 1. create a ssh key for your Pipeline Repository
 2. Set the repository to private
