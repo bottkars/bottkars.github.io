@@ -1,7 +1,7 @@
 ---
 layout: post
-title: fly set-pipeline azurestack chapter 1
-description: "The awesome way to automate Azure and AzureStack"
+title: fly set-hybrid -> automation for azure and azurestack chapter 1
+description: "The awesome way to automate Hypbrid Cloud Azure and AzureStack"
 modified: 2019-08-16
 comments: true
 published: true
@@ -13,7 +13,7 @@ image:
   creditlink: 
 ---
 
-# Use [Concourse CI](https://concourse-ci.org/) to Automate Azure and AzureStack - Chapter 1
+# Use [Concourse CI](https://concourse-ci.org/) to automate Azure and AzureStack - Chapter 1
 
 This Chapter will focus on:
 - getting a base Concourse System using Docker
