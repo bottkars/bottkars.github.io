@@ -32,28 +32,28 @@ Before we edit our parameter file, it is time to go secure from now.
 3. add the ssh key to Deploy Keys
 4. set the ssh key for the github resource
 
-1. to create an ssh key for your Pipeline Repository, run
+
+to create an ssh key for your Pipeline Repository, run
 
 {% highlight scss %}
 ssh-keygen -t rsa -b 4096 -C mypipeline@github.com -f ~/.ssh/azcli_demo_key -N ""
 {% endhighlight %}
-
-2. Set the repository to private
-Growse to your Github Repository. Go to the settings in the upper right.
+Set the repository to private
+Browse to your Github Repository. Go to the settings in the upper right:
 
 <figure class="full">
 	<img src="/images/git_settings.png" alt="">
 	<figcaption>git settings</figcaption>
 </figure>
 
-scroll down to the "Danger Zone" and click on make Private
+scroll down to the "Danger Zone" and click on make Private:
 
 <figure class="full">
 	<img src="/images/danger_zone.png" alt="">
 	<figcaption>git settings</figcaption>
 </figure>
 
-3. Add the Deploy key
+Add the Deploy key
 Go to the Deploy key Section on the right
 
 <figure class="full">
