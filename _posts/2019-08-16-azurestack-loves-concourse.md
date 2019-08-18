@@ -13,7 +13,7 @@ image:
   creditlink: 
 ---
 
-# Use [Concourse CI](https://concourse-ci.org/) to automate Azure and AzureStack - Chapter 1
+# Use [Concourse CI](https://concourse-ci.org/) to automate Azure and AzureStack - Chapter 1 - The Basic Setup
 
 This Chapter will focus on:
 - getting a base Concourse System using Docker
