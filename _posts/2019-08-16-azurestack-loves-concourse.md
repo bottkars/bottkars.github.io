@@ -1,11 +1,11 @@
 ---
 layout: post
 title: fly set-hybrid -> automation for azure and azurestack chapter 1
-description: "The awesome way to automate Hypbrid Cloud Azure and AzureStack"
+description: "Concourse, the awesome way to automate Azure and AzureStack"
 modified: 2019-08-16
 comments: true
 published: true
-tags: [AzureStack, azure, concourse, azure, cli]
+tags: [AzureStack, azure, concourse, cli, fly, azcli]
 image:
   path: /images/pipeline_pcf.gif
   feature: pipeline_pcf.gif

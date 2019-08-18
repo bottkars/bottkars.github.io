@@ -1,14 +1,14 @@
 ---
 layout: post
 title: fly set-hybrid -> automation for azure and azurestack chapter 2
-description: "The awesome way to automate Azure and AzureStack"
+description: "Concourse, the awesome way to automate Azure and AzureStack"
 modified: 2019-08-17
 comments: true
-published: false
-tags: [AzureStack, concourse, azure, cli, Azure]
+published: true
+tags: [AzureStack, azure, concourse, cli, fly, azcli]
 image:
-  path: /images/pipeline_pcf.gif
-  feature: pipeline_pcf.gif
+  path: /images/basic_azure.png
+  feature: basic_azure.png
   credit: 
   creditlink: 
 ---
@@ -309,7 +309,7 @@ Excellent, now you has you first task to an Azure Stack
 
 copy the existing pipeline file into *03-azcli-pipeline.yml*.
 
-Using the basic Task, we add a new Job but with fewer Parameters:
+Using the basic Task, we add a new Job but with fewer Parameters to *03-azcli-pipeline.yml*:
 
 ```yaml
 - name: basic-azcli-azure
@@ -329,3 +329,34 @@ Using the basic Task, we add a new Job but with fewer Parameters:
       AZURE_CLIENT_SECRET: ((azure.client_secret))
       AZURE_SUBSCRIPTION_ID: ((azure.subscription_id))
 ```
+
+edit the Parameter file to include the azure parameters:
+
+```bash
+azure:
+  tenant_id: "your tenant id"
+  client_id: "your client id"
+  client_secret: "your very secret secret"
+  subscription_id: "your subscription id"
+  cloud: AzureCloud
+  profile: "latest"
+```
+
+save the files
+
+### Load the updated pipeline
+
+we load Version 3 of our Pipeline now with
+
+{% highlight scss %}
+fly -t docker set-pipeline -p azurestack  -c 03-azcli-pipeline.yml -l parameters.yml 
+{% endhighlight %}
+
+This should start the new Job :
+<figure class="full">
+	<img src="/images/basic_azure.png" alt="">
+	<figcaption>basic azure task</figcaption>
+</figure>
+
+Now we have successfully setup Connections to Azure And AzureStack´s
+In the next Chapter, we will write some tasks to work with Azure/Stack resources, and create some yaml templates to make our Pipelines more Handy and start working with triggers
