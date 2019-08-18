@@ -50,7 +50,7 @@ scroll down to the "Danger Zone" and click on make Private:
 
 <figure class="half">
 	<img src="/images/danger_zone.png" alt="">
-	<figcaption>git settings</figcaption>
+	<figcaption>danger zone</figcaption>
 </figure>
 
 Add the Deploy key
@@ -58,7 +58,7 @@ Go to the Deploy key Section on the right
 
 <figure class="half">
 	<img src="/images/deploy_key.png" alt="">
-	<figcaption>git settings</figcaption>
+	<figcaption>deploy key</figcaption>
 </figure>
 
 Click on *Add Key* to add you ssh public key created in step 1.
@@ -85,7 +85,7 @@ if you look at you pipeline in the Browser now, you will notify the Git resource
 
 <figure class="full">
 	<img src="/images/git_orange.png" alt="">
-	<figcaption>git settings</figcaption>
+	<figcaption>git orange</figcaption>
 </figure>
 
 this is expected behavior, as it can no longe check the private git repository for changes.
@@ -93,7 +93,7 @@ click on the orange resource to the the failure detail.
 
 <figure class="full">
 	<img src="/images/git_error.png" alt="">
-	<figcaption>git settings</figcaption>
+	<figcaption>git error</figcaption>
 </figure>
 
 ### Now, edit you Pipeline to include your ssh Private Key
