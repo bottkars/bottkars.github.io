@@ -32,7 +32,6 @@ Before we edit our parameter file, it is time to go secure from now.
 3. add the ssh key to Deploy Keys
 4. set the ssh key for the github resource
 
-
 to create an ssh key for your Pipeline Repository, run
 
 {% highlight scss %}
@@ -48,7 +47,7 @@ Browse to your Github Repository. Go to the settings in the upper right:
 
 scroll down to the "Danger Zone" and click on make Private:
 
-<figure class="full">
+<figure class="half">
 	<img src="/images/danger_zone.png" alt="">
 	<figcaption>git settings</figcaption>
 </figure>
@@ -56,17 +55,18 @@ scroll down to the "Danger Zone" and click on make Private:
 Add the Deploy key
 Go to the Deploy key Section on the right
 
-<figure class="full">
+<figure class="half">
 	<img src="/images/deploy_key.png" alt="">
 	<figcaption>git settings</figcaption>
 </figure>
 
-Click on Add Key to add you ssh public key created in step 1.
-Insert you Key, Check allow Write access and click Add Key
+Click on *Add Key* to add you ssh public key created in step 1.
+Insert you Key
+Check allow Write access and click *Add Key*
 
 We will change the Pipeline Git Resource later accordingly.
 
-## commit the current files
+### commit the current files
 
 Before we edit the pipeline, it is time to commit you work.
 
@@ -78,7 +78,7 @@ git commit -a -m "added basic-task"
 git push
 ```
 
-## adding the ssh key to the Pipeline
+### adding the ssh key to the Pipeline
 
 if you look at you pipeline in the Browser now, you will notify the Git resource changed to orange.
 
