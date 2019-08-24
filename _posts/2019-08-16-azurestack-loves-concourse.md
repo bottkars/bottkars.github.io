@@ -53,7 +53,7 @@ wget https://concourse-ci.org/docker-compose.yml
 if you are running Windows, set docker desktop to linux Containers and run
 
 {% highlight scss %}
-Invoke-Webrequest https://concourse-ci.org/docker-compose.yml -OutFile 
+Invoke-Webrequest https://concourse-ci.org/docker-compose.yml -OutFile docker-compose.yml
 {% endhighlight %}
 
 ### run the container(s)
