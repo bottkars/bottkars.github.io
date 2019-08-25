@@ -2,7 +2,7 @@
 layout: post
 title: fly set-hybrid -> automation for azure and azurestack chapter 3
 description: "Concourse, the awesome way to automate Azure and AzureStack"
-modified: 2019-08-17
+modified: 2019-08-24
 comments: true
 published: true
 tags: [AzureStack, azure, concourse, cli, fly, azcli]
@@ -13,13 +13,13 @@ image:
   creditlink: 
 ---
 
-# Use [Concourse CI](https://concourse-ci.org/) to automate Azure and AzureStack - Chapter 3 - working with Tasks and Anchors
+# Use [Concourse CI](https://concourse-ci.org/) to automate Azure and AzureStack - Chapter 3 - working with Scripts, Tasks  and Anchors
 
 This Chapter will we will create out first Task that let us
 
 - use Anchors for streamlining pipelines
-- create some tasks 
-
+- create some tasks
+- write a short script in a second Pipeline
 ## Tasks
 
 First of all, we copy last weeks 03-azcli-pipeline.yml into 04-azcli-pipeline.yml
@@ -55,7 +55,7 @@ git push
 The call of the task from the pipline will essetially look like our basic task, just we have to add a parameter and change the name of the taskfile.
 as this will creat a lot of overhead in the Parameters, we chreate a YAML anchor for our "Standard"  Parameters of the task.
 
-At the beginning of our04-azcli-pipeline.yml, create the following Anchor:
+At the beginning of our 04-azcli-pipeline.yml, create the following Anchor:
 (it should name your environment, in my case, the asdk, so azurestack_asdk_env)
 
 ```yml
