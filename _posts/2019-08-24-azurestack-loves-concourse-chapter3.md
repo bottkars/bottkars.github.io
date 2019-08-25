@@ -20,7 +20,8 @@ This Chapter will we will create out first Task that let us
 - use Anchors for streamlining pipelines
 - create some tasks
 - write a short script in a second Pipeline
-## Tasks
+
+## Tasks and Anchors
 
 First of all, we copy last weeks 03-azcli-pipeline.yml into 04-azcli-pipeline.yml
 
@@ -46,11 +47,11 @@ Commit your changes
 
 ```bash
 git add tasks/get-vms-rg.yml
-git commit -a -m "added basic-task"
+git commit -a -m "added get-vms-rg"
 git push
 ```
 
-## adding the task to our pipeline and create anchors
+### adding the task to our pipeline and create anchors
 
 The call of the task from the pipline will essetially look like our basic task, just we have to add a parameter and change the name of the taskfile.
 as this will creat a lot of overhead in the Parameters, we chreate a YAML anchor for our "Standard"  Parameters of the task.
