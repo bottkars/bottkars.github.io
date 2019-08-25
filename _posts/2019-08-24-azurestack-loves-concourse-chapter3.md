@@ -314,10 +314,12 @@ Trigger a build by clicking the plus button
 </figure>
 
 This should run your script.
-You can see from the pipeline File that inline Scripting makes you piprlinr quite large.
-My preferred methos is to put the scripts in task´s and load them from GitHub.
-You even can have versioned scripts zipped on axternal resources, with new version´s causing a new job trigger.
+You can see from the pipeline file that inline Scripting makes you pipeline quite large.  
+My preferred method is to put the scripts in task files and load them from GitHub.  
+You even can have versioned scripts zipped on external resources.  
+That will alos allow to trigger a new build on script change.
 
 We will dive intom that in one of the next Chapters.
 
 For now, familiarize yourself with Anchors, internal and external tasks, and even have a look at the fly cli for method´s to pass tasks from directories
+
