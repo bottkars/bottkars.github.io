@@ -115,8 +115,8 @@ git push
 
 ### adding the task to our pipeline and create anchors
 
-The call of the task from the pipline will essetially look like our basic task, just we have to add a parameter and change the name of the taskfile.
-as this will creat a lot of overhead in the Parameters, we chreate a YAML anchor for our "Standard"  Parameters of the task.
+The call of the task from the pipeline will essentially look like our basic task, just we have to add a parameter and change the name of the taskfile.
+as this will create a lot of overhead in the Parameters, we create a YAML anchor for our "Standard"  Parameters of the task.
 
 At the beginning of our 04-azcli-pipeline.yml, create the following Anchor:
 (it should name your environment, in my case, the asdk, so azurestack_asdk_env)
@@ -136,7 +136,7 @@ azurestack_asdk_env: &azurestack_asdk_env
   AZURE_CLI_CA_PATH: "/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
 ```  
 
-in our existing Task fo AzureSTack, we repace the parameters in the params section with
+in our existing Task fo AzureSTack, we replace the parameters in the params section with
 
 ```yml
 params:
@@ -149,7 +149,7 @@ insert it as a new task.
 change the task name to get-vms-rg, and change the path of the task file to get-vms-rg.yml
 Add a Parameter for the Resource Group, in my case asdk.resource group
 the new task should look like this:
-*(note, i am using the parameters with prefiy asdk. in this example as this is my set of specicfic parameters for my asdk)*
+*(note, i am using the parameters with prefix asdk. in this example as this is my set of specific parameters for my asdk)*
 
 ```yml
 - name: get-vms-rg
@@ -209,7 +209,7 @@ You may now create / apply anchors and tasks for your different Azure/AzureStack
 
 No, you do not have. Originally, the run Part of the task was Part of the Pipeline as well.
 And for testing Purposes, i would even recommend to create a short test-pipeline for you task including the run statement.
-That would allow you for easier testing and sripting WITHOUT applying changes to your master pipeline.
+That would allow you for easier testing and scripting WITHOUT applying changes to your master pipeline.
 
 ### Example
 
@@ -219,7 +219,7 @@ Put in your Anchor(s).
 We do not need resource definitions, as we even call the image to use from within the Task.
 We to not trigger the job, as we want to run it manually.
 
-This is a basic task i user for script testing. Modiufy the run section to your needs.
+This is a basic task i user for script testing. Modify the run section to your needs.
 
 ```yml
 ---
