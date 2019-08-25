@@ -74,12 +74,12 @@ run:
     case ${CLOUD} in
 
     AzureStackUser)
-        if [[ -z "${CA_CERT}" ]] 
+        if [[ -z "${CA_CERT}" ]]
         then
             echo "no Custom root ca cert provided"
-        else    
+        else
             echo "${CA_CERT}" >> ${AZURE_CLI_CA_PATH}
-        fi    
+        fi
         az cloud register -n ${CLOUD} \
         --endpoint-resource-manager ${ENDPOINT_RESOURCE_MANAGER} \
         --suffix-storage-endpoint ${SUFFIX_STORAGE_ENDPOINT} \
@@ -98,7 +98,7 @@ run:
     az login --service-principal \
      -u ${AZURE_CLIENT_ID} \
      -p ${AZURE_CLIENT_SECRET} \
-     --tenant ${AZURE_TENANT_ID} 
+     --tenant ${AZURE_TENANT_ID}
      # --allow-no-subscriptions
     set -eux
     az account set --subscription ${AZURE_SUBSCRIPTION_ID}
