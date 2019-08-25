@@ -31,7 +31,7 @@ We will use the same Parameter set to initialize Azure/AzureStack, but this time
 
 edit the parameter section in the taskfile and add
 
-```yaml
+```yml
   RESOURCE_GROUP:
 ```
 
@@ -221,7 +221,7 @@ We to not trigger the job, as we want to run it manually.
 
 This is a basic task i user for script testing. Modiufy the run section to your needs.
 
-```YAML
+```yml
 ---
 # script developement pipeline
 azurestack_asdk_env: &azurestack_asdk_env
