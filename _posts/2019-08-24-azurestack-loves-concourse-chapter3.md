@@ -43,6 +43,68 @@ In the run Part, right under *az account set --subscription ${AZURE_SUBSCRIPTION
  az vm list --resource-group ${RESOURCE_GROUP} --output table
  ```
 
+you new Task File should look like this now:
+
+```YAML
+---
+# this a ^task to get vm´s of a certain resource croup
+platform: linux
+
+params:
+  PROFILE:
+  CLOUD:
+  # AzureStack AzureCloud AzureChinaCloud AzureUSGovernment AzureGermanCloud
+  CA_CERT:
+  ENDPOINT_RESOURCE_MANAGER:
+  VAULT_DNS:
+  SUFFIX_STORAGE_ENDPOINT:
+  AZURE_TENANT_ID:
+  AZURE_CLIENT_ID:
+  AZURE_CLIENT_SECRET:
+  AZURE_SUBSCRIPTION_ID:
+  AZURE_CLI_CA_PATH:
+  RESOURCE_GROUP:
+
+run:
+  path: bash
+  args:
+  - "-c"
+  - |
+    set -eux
+    case ${CLOUD} in
+
+    AzureStackUser)
+        if [[ -z "${CA_CERT}" ]] 
+        then
+            echo "no Custom root ca cert provided"
+        else    
+            echo "${CA_CERT}" >> ${AZURE_CLI_CA_PATH}
+        fi    
+        az cloud register -n ${CLOUD} \
+        --endpoint-resource-manager ${ENDPOINT_RESOURCE_MANAGER} \
+        --suffix-storage-endpoint ${SUFFIX_STORAGE_ENDPOINT} \
+        --suffix-keyvault-dns ${VAULT_DNS} \
+        --profile ${PROFILE}
+        ;;
+
+    *)
+        echo "Nothing to do here"
+        ;;
+    esac
+
+    az cloud set -n ${CLOUD}
+    az cloud list --output table
+    set +x
+    az login --service-principal \
+     -u ${AZURE_CLIENT_ID} \
+     -p ${AZURE_CLIENT_SECRET} \
+     --tenant ${AZURE_TENANT_ID} 
+     # --allow-no-subscriptions
+    set -eux
+    az account set --subscription ${AZURE_SUBSCRIPTION_ID}
+    az vm list --resource-group ${RESOURCE_GROUP} --output table
+```
+
 Commit your changes
 
 ```bash
@@ -108,7 +170,6 @@ The Anchor will instruct fly to insert the Section from the Anchor definition
 edit the Parameter file to include the resource_group parameters:
 
 ```YAML
-{% highlight scss %}
 asdk:
   tenant_id: "your tenant id"
   client_id: "your client id"
@@ -125,7 +186,6 @@ asdk:
     <<you root ca>>
     -----END CERTIFICATE-----
   resource_group: "you resource group"
-{% endhighlight %}
 ```
 
 save the files
