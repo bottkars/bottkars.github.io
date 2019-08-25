@@ -47,7 +47,7 @@ you new Task File should look like this now:
 
 ```YAML
 ---
-# this a ^task to get vm´s of a certain resource croup
+# this a task to get vm´s of a certain resource croup
 platform: linux
 
 params:
@@ -149,9 +149,9 @@ insert it as a new task.
 change the task name to get-vms-rg, and change the path of the task file to get-vms-rg.yml
 Add a Parameter for the Resource Group, in my case asdk.resource group
 the new task should look like this:
-*(note, i am using the parameters with prefiy asdk. in nthis example as this is my set of specicfic parameters for my asdk)*
+*(note, i am using the parameters with prefiy asdk. in this example as this is my set of specicfic parameters for my asdk)*
 
-```YAML
+```yml
 - name: get-vms-rg
   plan:
   - get: azcli-concourse
@@ -169,7 +169,7 @@ the new task should look like this:
 The Anchor will instruct fly to insert the Section from the Anchor definition
 edit the Parameter file to include the resource_group parameters:
 
-```YAML
+```yml
 asdk:
   tenant_id: "your tenant id"
   client_id: "your client id"
