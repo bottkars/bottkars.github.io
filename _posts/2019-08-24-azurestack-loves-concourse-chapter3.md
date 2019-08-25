@@ -39,13 +39,13 @@ right under AZURE_CA_PATH.
 
 In the run Part, right under *az account set --subscription ${AZURE_SUBSCRIPTION_ID}*, add the following code:
 
-```YAML
+```bash
  az vm list --resource-group ${RESOURCE_GROUP} --output table
  ```
 
 you new Task File should look like this now:
 
-```YAML
+```yml
 ---
 # this a task to get vm´s of a certain resource croup
 platform: linux
@@ -294,7 +294,7 @@ jobs:
 
 Now start a new pipeline called *script-test* with the new Pipeline file
 
-```powershell
+```bash
 fly -t docker sp -p script-test -c .\script-test.yml -l .\parameters.yml
 ```
 
