@@ -1,6 +1,6 @@
 ---
 layout: post
-title: cf-for-k8s -> aRun Cloudfoundry on Azurestack AKS
+title: cf-for-k8s -> Run Cloudfoundry on Azurestack AKS
 description: "the way software get´s created in the cloud"
 modified: 2019-08-24
 comments: true
@@ -58,307 +58,179 @@ aks:
   ```
 <figure class="full">
 	<img src="images/cf_for_k8s_set_pipeline.png" alt="">
-	<figcaption>get-vms-rg</figcaption>
+	<figcaption>set-pipeline</figcaption>
 </figure>  
 
-
-cf_for_k8s_set_pipeline
-
-
-## Tasks and Anchors
-
-First of all, we copy last weeks 04-azcli-pipeline.yml into 05-azcli-pipeline.yml
-
-
-```yml
-  RESOURCE_GROUP:
-```
-
-right under AZURE_CA_PATH.
-
-In the run Part, right under *az account set --subscription ${AZURE_SUBSCRIPTION_ID}*, add the following code:
-
-```bash
- az vm list --resource-group ${RESOURCE_GROUP} --output table
- ```
-
-you new Task File should look like this now:
-
-```yml
----
-# this a task to get vm´s of a certain resource croup
-platform: linux
-
-params:
-  PROFILE:
-  CLOUD:
-  # AzureStack AzureCloud AzureChinaCloud AzureUSGovernment AzureGermanCloud
-  CA_CERT:
-  ENDPOINT_RESOURCE_MANAGER:
-  VAULT_DNS:
-  SUFFIX_STORAGE_ENDPOINT:
-  AZURE_TENANT_ID:
-  AZURE_CLIENT_ID:
-  AZURE_CLIENT_SECRET:
-  AZURE_SUBSCRIPTION_ID:
-  AZURE_CLI_CA_PATH:
-  RESOURCE_GROUP:
-
-run:
-  path: bash
-  args:
-  - "-c"
-  - |
-    set -eux
-    case ${CLOUD} in
-
-    AzureStackUser)
-        if [[ -z "${CA_CERT}" ]]
-        then
-            echo "no Custom root ca cert provided"
-        else
-            echo "${CA_CERT}" >> ${AZURE_CLI_CA_PATH}
-        fi
-        az cloud register -n ${CLOUD} \
-        --endpoint-resource-manager ${ENDPOINT_RESOURCE_MANAGER} \
-        --suffix-storage-endpoint ${SUFFIX_STORAGE_ENDPOINT} \
-        --suffix-keyvault-dns ${VAULT_DNS} \
-        --profile ${PROFILE}
-        ;;
-
-    *)
-        echo "Nothing to do here"
-        ;;
-    esac
-
-    az cloud set -n ${CLOUD}
-    az cloud list --output table
-    set +x
-    az login --service-principal \
-     -u ${AZURE_CLIENT_ID} \
-     -p ${AZURE_CLIENT_SECRET} \
-     --tenant ${AZURE_TENANT_ID}
-     # --allow-no-subscriptions
-    set -eux
-    az account set --subscription ${AZURE_SUBSCRIPTION_ID}
-    az vm list --resource-group ${RESOURCE_GROUP} --output table
-```
-
-Commit your changes
-
-```bash
-git add tasks/get-vms-rg.yml
-git commit -a -m "added get-vms-rg"
-git push
-```
-
-### adding the task to our pipeline and create anchors
-
-The call of the task from the pipeline will essentially look like our basic task, just we have to add a parameter and change the name of the taskfile.
-as this will create a lot of overhead in the Parameters, we create a YAML anchor for our "Standard"  Parameters of the task.
-
-At the beginning of our 04-azcli-pipeline.yml, create the following Anchor:
-(it should name your environment, in my case, the asdk, so azurestack_asdk_env)
-
-```yml
-azurestack_asdk_env: &azurestack_asdk_env
-  CLOUD: ((asdk.cloud))
-  CA_CERT: ((asdk.ca_cert))
-  PROFILE: ((asdk.profile))
-  ENDPOINT_RESOURCE_MANAGER: ((asdk.endpoint_resource_manager))
-  VAULT_DNS:  ((asdk.vault_dns))
-  SUFFIX_STORAGE_ENDPOINT: ((asdk.suffix_storage_endpoint))
-  AZURE_TENANT_ID: ((asdk.tenant_id))
-  AZURE_CLIENT_ID: ((asdk.client_id))
-  AZURE_CLIENT_SECRET: ((asdk.client_secret))
-  AZURE_SUBSCRIPTION_ID: ((asdk.subscription_id))
-  AZURE_CLI_CA_PATH: "/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
-```  
-
-in our existing Task fo AzureSTack, we replace the parameters in the params section with
-
-```yml
-params:
- <<: *azurestack_asdk_env
-```
-
-now mark and copy the the basic task of your pipeline file.
-
-insert it as a new task.
-change the task name to get-vms-rg, and change the path of the task file to get-vms-rg.yml
-Add a Parameter for the Resource Group, in my case asdk.resource group
-the new task should look like this:
-*(note, i am using the parameters with prefix asdk. in this example as this is my set of specific parameters for my asdk)*
-
-```yml
-- name: get-vms-rg
-  plan:
-  - get: azcli-concourse
-    trigger: true
-  - get: az-cli-image
-    trigger: true
-  - task: get-vms-rg
-    image: az-cli-image
-    file: azcli-concourse/tasks/get-vms-rg.yml
-    params:
-      <<: *azurestack_asdk_env
-      RESOURCE_GROUP: ((asdk.resource_group))
-```
-
-The Anchor will instruct fly to insert the Section from the Anchor definition
-edit the Parameter file to include the resource_group parameters:
-
-```yml
-asdk:
-  tenant_id: "your tenant id"
-  client_id: "your client id"
-  client_secret: "your very secret secret"
-  subscription_id: "your subscription id"
-  endpoint_resource_manager: "https://management.local.azurestack.external"
-  vault_dns: ".vault.local.azurestack.external"
-  suffix_storage_endpoint: "local.azurestack.external"
-  cloud: AzureStackUser
-  profile: "2019-03-01-hybrid"
-  azure_cli_ca_path: "/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
-  ca_cert: |
-    -----BEGIN CERTIFICATE-----
-    <<you root ca>>
-    -----END CERTIFICATE-----
-  resource_group: "you resource group"
-```
-
-save the files
-
-### Load the updated pipeline
-
-we load Version 4 of our Pipeline now with
-
-{% highlight scss %}
-fly -t docker set-pipeline -p azurestack  -c 04-azcli-pipeline.yml -l parameters.yml 
-{% endhighlight %}
+we should now have a Paused cf-for-k8s Pipeline in our UI :
 
 <figure class="full">
-	<img src="/images/get-vms-rg.png" alt="">
-	<figcaption>get-vms-rg</figcaption>
+	<img src="images/cf_for_k8s_pused_pipeline.png" alt="">
+	<figcaption>paused pipeline</figcaption>
+</figure>  
+
+the Pipeline has the folllowing Task Flow:
+
+- deploy-aks-cluster ( c.a. 12 Minutes)
+- validate-aks-cluster ( sonobuoy basic validation, ca. 5 minutes)
+- install kubeapps ( default in my clusters, bitnami catalog for HELM Repo´s)
+- scale-aks-clusters ( for cf-for-k8s, we go to add some more nodes :-) )
+- deploy-cf-for-k8s
+
+While the first 4 Tasks are default for my AKS Deployments, we will focus on the *deploy-cf-for-k8s* task
+
+## deploy-cf-for-k8s
+
+the *deploy-cf-for-k8s*  requires the following resources from either github or local storage:
+- azs-concourse (required tasks scripts)
+- bosh-cli-release ( latest version of bosh cli)
+- cf-for-k8s-master ( cf-for-k8smaster branch)
+- yml2json-release ( yml to json converter)
+- platform-automation-image (base image to run scripts)
+
+## the tasks
+
+## Monitoring the installation
+
+
+
+cf-for-k8s will be deployed using [k14tools](https://k14s.io/) for an easy composable deployment.
+the pipeline does that during the install
+
+<figure class="full">
+	<img src="images/kapp-deploy.png" alt="">
+	<figcaption>get kubeconfig</figcaption>
 </figure>
 
-You may now create / apply anchors and tasks for your different Azure/AzureStack Environments
+the pipeline may succeed,  with cf-for-k8s not finished deploying. the deployment time varies on multiple factors including internet speed. however, the kapp deployment may still be ongoing when the pipeline is finished.
 
-## Do I need to write a task file each and every time ?
+to minitor the deployment on your machine, you can install [k14tools](https://k14s.io/) on your machine following the instructions on their site. 
+kapp requires a kubeconfig file to access your cluster.
+copy you kubeconfig file ( the deploy-aks task stores that on your s3 store after deployment)
 
-No, you do not have. Originally, the run Part of the task was Part of the Pipeline as well.
-And for testing Purposes, i would even recommend to create a short test-pipeline for you task including the run statement.
-That would allow you for easier testing and scripting WITHOUT applying changes to your master pipeline.
-
-### Example
-
-create a pipeline file called *script-test.yml* .
-
-Put in your Anchor(s).
-We do not need resource definitions, as we even call the image to use from within the Task.
-We to not trigger the job, as we want to run it manually.
-
-This is a basic task i user for script testing. Modify the run section to your needs.
-
-```yml
----
-# script developement pipeline
-azurestack_asdk_env: &azurestack_asdk_env
-  CLOUD: ((asdk.cloud))
-  CA_CERT: ((asdk.ca_cert))
-  PROFILE: ((asdk.profile))
-  ENDPOINT_RESOURCE_MANAGER: ((asdk.endpoint_resource_manager))
-  VAULT_DNS:  ((asdk.vault_dns))
-  SUFFIX_STORAGE_ENDPOINT: ((asdk.suffix_storage_endpoint))
-  AZURE_TENANT_ID: ((asdk.tenant_id))
-  AZURE_CLIENT_ID: ((asdk.client_id))
-  AZURE_CLIENT_SECRET: ((asdk.client_secret))
-  AZURE_SUBSCRIPTION_ID: ((asdk.subscription_id))
-  AZURE_CLI_CA_PATH: "/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
-
-jobs:
-
-- name: script-test
-  plan:
-  - task: script-test
-    config:
-      platform: linux
-      params:
-        <<: *azurestack_asdk_env
-        RESOURCE_GROUP: ((asdk.resource_group))
-      image_resource:
-        type: docker-image
-        source: {repository: microsoft/azure-cli}
-      outputs:
-      - name: result
-      run:
-          path: bash
-          args:
-          - "-c"
-          - |
-            set -eux
-            case ${CLOUD} in
-
-            AzureStackUser)
-                if [[ -z "${CA_CERT}" ]]
-                then
-                    echo "no Custom root ca cert provided"
-                else
-                    echo "${CA_CERT}" >> ${AZURE_CLI_CA_PATH}
-                fi
-                az cloud register -n ${CLOUD} \
-                --endpoint-resource-manager ${ENDPOINT_RESOURCE_MANAGER} \
-                --suffix-storage-endpoint ${SUFFIX_STORAGE_ENDPOINT} \
-                --suffix-keyvault-dns ${VAULT_DNS} \
-                --profile ${PROFILE}
-                ;;
-
-            *)
-                echo "Nothing to do here"
-                ;;
-            esac
-            az cloud set -n ${CLOUD}
-            az cloud list --output table
-            set +x
-            az login --service-principal \
-              -u ${AZURE_CLIENT_ID} \
-              -p ${AZURE_CLIENT_SECRET} \
-              --tenant ${AZURE_TENANT_ID}
-              # --allow-no-subscriptions
-            set -eux
-            RESULT=$(az vm list --output json)
-            echo $RESULT
-            echo $RESULT > ./result/result.json
-```
-
-Now start a new pipeline called *script-test* with the new Pipeline file
+i have an alias that copies my latest kubeconfig file:
 
 ```bash
-fly -t docker sp -p script-test -c .\script-test.yml -l .\parameters.yml
+get-kubeconfig
+```
+<figure class="full">
+	<img src="images/get-kubeconfig.png" alt="">
+	<figcaption>get kubeconfig</figcaption>
+</figure>
+
+to monitor / inspect the deployment, run
+
+```bash
+kapp inspect -a cf
+```
+<figure class="full">
+	<img src="images/kapp-inspect.png" alt="">
+	<figcaption>get kubeconfig</figcaption>
+</figure>
+
+in short, oince all pods in namespace cf-system are running, the system should be ready ( be aware, as there are daily changes, a deployment *might* fail)
+
+[k9s](https://k9scli.io/) can give you a great overview of the running pods
+
+<figure class="full">
+	<img src="images/k9s-ready.png" alt="">
+	<figcaption>get kubeconfig</figcaption>
+</figure>
+
+## connect to you cloudfoundry environment
+
+cf-for-k8s depoloy´s a Service Type Loadbalancer per default.
+the Pipeline create a dns a record for the cf domain you specified for the pipeline.
+
+the admin´s password is autogenerated and stored in the cf-yalues.yml that get stored on your s3 location.
+in my (direnv) environment, i receive the firl / the credentials   with
+
+```bash
+get-cfvalues
+get-cfadmin
 ```
 
-The new Pipeline should be in a paused mode. Press the Play Button to start
+### connecting to cf api and logging in:
+
+```bash
+get-cfvalues
+cf api api.cf.local.azurestack.external --skip-ssl-validation
+cf auth admin $(get-cfadmin)
+```
 
 <figure class="full">
-	<img src="/images/paused-script-pipe.png" alt="">
-	<figcaption>paused-script-pipe</figcaption>
+	<img src="images/cf-auth.png" alt="">
+	<figcaption>cf auth</figcaption>
 </figure>
 
-when you click in the script-test pipeline, you will see only one job, no dependencies, no triggers.
-Trigger a build by clicking the plus button
+there are no orgs and spaces defined per default, so we are going to create:
+```bash
+cf create-org demo
+cf create-space test -o demo
+cf target -o demo -s test
+```
 
 <figure class="full">
-	<img src="/images/script-test-trigger.png" alt="">
-	<figcaption>script-test-trigger</figcaption>
+	<img src="/images/create-org.png" alt="">
+	<figcaption>cf auth</figcaption>
 </figure>
 
-This should run your script.
-You can see from the pipeline file that inline Scripting makes you pipeline quite large.  
-My preferred method is to put the scripts in task files and load them from GitHub.  
-You even can have versioned scripts zipped on external resources.  
-That will also allow to trigger a new build on script change.
+### push a docker container
 
-We will dive into that in one of the next Chapters.
+to run docker containers in cloudfoundry, you also have to 
+```bash
+cf enable-feature-flag diego_docker
+```
 
-For now, familiarize yourself with Anchors, internal and external tasks, and even have a look at the fly cli for method´s to pass tasks from directories
+now it is time deploy our first docker container to cf-for-k8s
+
+push the diego-docker-app from the cloudfoundry project on dockerhub
+
+```bash
+cf push diego-docker-app -o cloudfoundry/diego-docker-app
+```
+
+<figure class="full">
+	<img src="images/diego-docker-app.png" alt="">
+	<figcaption>cf auth</figcaption>
+</figure>
+
+
+we can now browse the endpoint og the demo app http://diego-docker-app.cf.local.azurestack.external/env
+
+<figure class="full">
+	<img src="/images/cf-diego-docker-browser.png" alt="">
+	<figcaption>cf auth</figcaption>
+</figure>
+
+or use curl:
+
+```
+curl http://diego-docker-app.cf.local.azurestack.external/env
+```
+
+
+### pushing an app from source
+cf-for-k8s utilizes cloudnative buildpacks using [kpack](https://github.com/pivotal/kpack)
+In essence, a watcher it running in the kpack namespace to monitor new build request from cloudcontroller.
+a "build pod" will run the build process of detecting, analyzing building and exportin the image
+
+once a new request is detected, the clusterbuilder will create an image an ship it to the (gcr) registry.
+from there
+
+<figure class="full">
+	<img src="/images/cf-build-pod.png" alt="">
+	<figcaption>cf auth</figcaption>
+</figure>
+
+you can always view and monitor the image builder process by viewing the image and use the [log_tail](https://github.com/pivotal/kpack/blob/master/docs/logs.md) utility to view the builder logs:
+
+```bash
+kubectl get images --namespace cf-system
+logs --image caf42222-dc42-45ce-b11e-7f81ae511e06 --namespace cf-system
+```
+
+<figure class="full">
+	<img src="/images/image_and_log.png" alt="">
+	<figcaption>cf auth</figcaption>
+</figure>
 
