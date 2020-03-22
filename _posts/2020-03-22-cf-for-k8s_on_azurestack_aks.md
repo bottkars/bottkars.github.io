@@ -140,8 +140,8 @@ i have an alias that copies my latest kubeconfig file:
 get-kubeconfig
 ```
 <figure class="full">
-	<img src="images/get-kubeconfig.png" alt="">
-	<figcaption>get kubeconfig</figcaption>
+	<img src="/images/get-kubeconfig.png" alt="">
+	<figcaption>get-kubeconfig</figcaption>
 </figure>
 
 to monitor / inspect the deployment, run
@@ -150,8 +150,8 @@ to monitor / inspect the deployment, run
 kapp inspect -a cf
 ```
 <figure class="full">
-	<img src="images/kapp-inspect.png" alt="">
-	<figcaption>get kubeconfig</figcaption>
+	<img src="/images/kapp-inspect.png" alt="">
+	<figcaption>kapp-inspect</figcaption>
 </figure>
 
 in short, oince all pods in namespace cf-system are running, the system should be ready ( be aware, as there are daily changes, a deployment *might* fail)
@@ -159,7 +159,7 @@ in short, oince all pods in namespace cf-system are running, the system should b
 [k9s](https://k9scli.io/) can give you a great overview of the running pods
 
 <figure class="full">
-	<img src="images/k9s-ready.png" alt="">
+	<img src="/images/k9s-ready.png" alt="">
 	<figcaption>get kubeconfig</figcaption>
 </figure>
 
@@ -185,7 +185,7 @@ cf auth admin $(get-cfadmin)
 ```
 
 <figure class="full">
-	<img src="images/cf-auth.png" alt="">
+	<img src="/images/cf-auth.png" alt="">
 	<figcaption>cf auth</figcaption>
 </figure>
 
@@ -217,7 +217,7 @@ cf push diego-docker-app -o cloudfoundry/diego-docker-app
 ```
 
 <figure class="full">
-	<img src="images/diego-docker-app.png" alt="">
+	<img src="/images/diego-docker-app.png" alt="">
 	<figcaption>cf auth</figcaption>
 </figure>
 
