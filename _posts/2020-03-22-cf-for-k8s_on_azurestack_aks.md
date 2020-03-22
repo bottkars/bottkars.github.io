@@ -124,8 +124,8 @@ cf-for-k8s will be deployed using [k14tools](https://k14s.io/) for an easy compo
 the pipeline does that during the install
 
 <figure class="full">
-	<img src="images/kapp-deploy.png" alt="">
-	<figcaption>get kubeconfig</figcaption>
+	<img src="/images/kapp-deploy.png" alt="">
+	<figcaption>kapp-deploy</figcaption>
 </figure>
 
 the pipeline may succeed,  with cf-for-k8s not finished deploying. the deployment time varies on multiple factors including internet speed. however, the kapp deployment may still be ongoing when the pipeline is finished.
