@@ -110,7 +110,7 @@ also, the following variables need to be passed:
   <<: *azure_env # youre azure-stack enfironment 
   DNS_DOMAIN: ((cf_k8s_domain)) # the cf domain
   GCR_CRED: ((gcr_cred)) # credentials for gcr
-``     
+```     
 
 
 
@@ -176,7 +176,7 @@ get-cfvalues
 get-cfadmin
 ```
 
-### connecting to cf api and logging in:
+### connecting to cf api and logging in
 
 ```bash
 get-cfvalues
