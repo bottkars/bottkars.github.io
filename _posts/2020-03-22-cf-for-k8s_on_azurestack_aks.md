@@ -27,8 +27,25 @@ in the above call, the following aliases / variables are used:
 
 *flyme*:  is an alias for fly --target
 *AKS_PIPELINE*: is the pipeline file
-*PLATFORM_VARS*: Variables containing essential, pipeline independant Environment Variable, e.G. AzureSTack Endpoints ( leading with AZURE_) and general var´s
-*AKS_VARS*: essntially, vars to control the AKS Engine ( cluster, size etc.. )
+*PLATFORM_VARS*: Variables containing essential, pipeline independent Environment Variable, e.G. AzureStack Endpoints ( leading with AZURE_) and general var´s 
+  this must resolve:
+  ```yaml
+  azure_env: &azure_env
+    PROFILE: ((azs.arm_profile))
+    CA_CERT: ((azs_ca.certificate))
+    AZURE_CLI_CA_PATH: /opt/az/lib/python3.6/site-packages/certifi/cacert.pem
+    ENDPOINT_RESOURCE_MANAGER: ((endpoint-resource-manager))
+    VAULT_DNS:  ((azs.vault_dns))
+    SUFFIX_STORAGE_ENDPOINT: ((azs.suffix_storage_endpoint))
+    AZURE_TENANT_ID: ((tenant_id))
+    AZURE_CLIENT_ID: ((client_id))
+    AZURE_CLIENT_SECRET: ((client_secret))
+    AZURE_SUBSCRIPTION_ID: ((subscription_id))
+    RESOURCE_GROUP: ((aks.resource_group))
+    LOCATION: ((azs.azurestack_region))
+  ``  
+
+*AKS_VARS*: essentially, vars to control the AKS Engine ( cluster, size etc.. )
 Example AKS_VARS:
 
 ```yaml
@@ -87,8 +104,18 @@ the *deploy-cf-for-k8s*  requires the following resources from either github or 
 - yml2json-release ( yml to json converter)
 - platform-automation-image (base image to run scripts)
 
-## the tasks
+also, the following variables need to be passed:
 
+```yaml
+      <<: *azure_env # youre azure-stack enfironment 
+      DNS_DOMAIN: ((cf_k8s_domain)) # the cf domain
+      GCR_CRED: ((gcr_cred)) # credentials for gcr
+``     
+
+
+
+## the tasks
+tbd
 ## Monitoring the installation
 
 
@@ -103,7 +130,7 @@ the pipeline does that during the install
 
 the pipeline may succeed,  with cf-for-k8s not finished deploying. the deployment time varies on multiple factors including internet speed. however, the kapp deployment may still be ongoing when the pipeline is finished.
 
-to minitor the deployment on your machine, you can install [k14tools](https://k14s.io/) on your machine following the instructions on their site. 
+to monitor the deployment on your machine, you can install [k14tools](https://k14s.io/) on your machine following the instructions on their site. 
 kapp requires a kubeconfig file to access your cluster.
 copy you kubeconfig file ( the deploy-aks task stores that on your s3 store after deployment)
 
@@ -233,4 +260,3 @@ logs --image caf42222-dc42-45ce-b11e-7f81ae511e06 --namespace cf-system
 	<img src="/images/image_and_log.png" alt="">
 	<figcaption>cf auth</figcaption>
 </figure>
-
