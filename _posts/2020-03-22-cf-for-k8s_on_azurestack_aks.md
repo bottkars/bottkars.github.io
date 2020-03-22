@@ -43,7 +43,8 @@ in the above call, the following aliases / variables are used:
     AZURE_SUBSCRIPTION_ID: ((subscription_id))
     RESOURCE_GROUP: ((aks.resource_group))
     LOCATION: ((azs.azurestack_region))
-  ``  
+  ```
+    
 
 *AKS_VARS*: essentially, vars to control the AKS Engine ( cluster, size etc.. )
 Example AKS_VARS:
