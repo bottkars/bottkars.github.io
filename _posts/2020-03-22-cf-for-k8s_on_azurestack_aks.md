@@ -97,6 +97,7 @@ the Pipeline has the folllowing Task Flow:
 - deploy-cf-for-k8s
 
 While the first 4 Tasks are default for my AKS Deployments, we will focus on the *deploy-cf-for-k8s* task
+( *note* i will write about the AKS Engine Pipeline soon !)
 
 ## deploy-cf-for-k8s
 
