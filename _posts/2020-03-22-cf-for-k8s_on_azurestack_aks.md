@@ -44,9 +44,8 @@ in the above call, the following aliases / variables are used:
     RESOURCE_GROUP: ((aks.resource_group))
     LOCATION: ((azs.azurestack_region))
   ```
-    
 
-*AKS_VARS*: essentially, vars to control the AKS Engine ( cluster, size etc.. )
+*AKS_VARS* : essentially, vars to control the AKS Engine ( cluster, size etc.. ) 
 Example AKS_VARS:
 
 ```yaml
@@ -75,14 +74,14 @@ aks:
     ssh_public_key: ssh-rsa AAAAB... 
   ```
 <figure class="full">
-	<img src="images/cf_for_k8s_set_pipeline.png" alt="">
+	<img src="/images/cf_for_k8s_set_pipeline.png" alt="">
 	<figcaption>set-pipeline</figcaption>
 </figure>  
 
 we should now have a Paused cf-for-k8s Pipeline in our UI :
 
 <figure class="full">
-	<img src="images/cf_for_k8s_pused_pipeline.png" alt="">
+	<img src="/images/cf_for_k8s_paused_pipeline.png" alt="">
 	<figcaption>paused pipeline</figcaption>
 </figure>  
 
@@ -108,9 +107,9 @@ the *deploy-cf-for-k8s*  requires the following resources from either github or 
 also, the following variables need to be passed:
 
 ```yaml
-      <<: *azure_env # youre azure-stack enfironment 
-      DNS_DOMAIN: ((cf_k8s_domain)) # the cf domain
-      GCR_CRED: ((gcr_cred)) # credentials for gcr
+  <<: *azure_env # youre azure-stack enfironment 
+  DNS_DOMAIN: ((cf_k8s_domain)) # the cf domain
+  GCR_CRED: ((gcr_cred)) # credentials for gcr
 ``     
 
 
