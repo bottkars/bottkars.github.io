@@ -13,7 +13,10 @@ image:
   creditlink: 
 ---
 
-# cf-for-8 Pipeline for concourse-ci [Concourse CI](https://concourse-ci.org/) 
+# cf-for-k8s pipeline for concourse-ci [Concourse CI](https://concourse-ci.org/) 
+
+this is a short run tru my cf-for-k8s deployment on azurestack on AKS.
+it will be updated continously. to understand the scripts i use, the the included links :-)
 
 Before getting started:
 cf-for-k8s installation is pretty straight forward. In this example i am using concourse-fi [Concourse CI](https://concourse-ci.org/), and the dployment scripts are custom tasks based out of my github repo [azs-concourse](https://github.com/bottkars/azs-concourse/tree/tanzu), where the pipeline used is [platform automation](https://raw.githubusercontent.com/bottkars/platform-automation/tanzu/pipeline_azurestack_aksengine.yml)
@@ -97,7 +100,7 @@ While the first 4 Tasks are default for my AKS Deployments, we will focus on the
 
 ## deploy-cf-for-k8s
 
-the *deploy-cf-for-k8s*  requires the following resources from either github or local storage:
+the [deploy-cf-for-k8s](https://github.com/bottkars/azs-concourse/blob/de92a34508a6d068c0d192fa18f60baf85ed3ff8/ci/scripts/deploy-cf-for-k8s.sh#L1-L70) task  requires the following resources from either github or local storage:
 - azs-concourse (required tasks scripts)
 - bosh-cli-release ( latest version of bosh cli)
 - cf-for-k8s-master ( cf-for-k8smaster branch)
