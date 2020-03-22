@@ -2,7 +2,7 @@
 layout: post
 title: cf-for-k8s -> Run Cloudfoundry on Azurestack AKS
 description: "the way software get´s created in the cloud"
-modified: 2019-08-24
+modified: 2020-03-22
 comments: true
 published: true
 tags: [AzureStack, azure, concourse, cli, fly, cf-for-k8s, kubernetes, cloudfoundry]
