@@ -160,7 +160,7 @@ in short, oince all pods in namespace cf-system are running, the system should b
 
 <figure class="full">
 	<img src="/images/k9s-ready.png" alt="">
-	<figcaption>get kubeconfig</figcaption>
+	<figcaption>get-kubeconfig</figcaption>
 </figure>
 
 ## connect to you cloudfoundry environment
@@ -186,7 +186,7 @@ cf auth admin $(get-cfadmin)
 
 <figure class="full">
 	<img src="/images/cf-auth.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>cf_auth</figcaption>
 </figure>
 
 there are no orgs and spaces defined per default, so we are going to create:
@@ -198,7 +198,7 @@ cf target -o demo -s test
 
 <figure class="full">
 	<img src="/images/create-org.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>cf-create-org</figcaption>
 </figure>
 
 ### push a docker container
@@ -218,7 +218,7 @@ cf push diego-docker-app -o cloudfoundry/diego-docker-app
 
 <figure class="full">
 	<img src="/images/diego-docker-app.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>cf-diego-docker</figcaption>
 </figure>
 
 
@@ -226,7 +226,7 @@ we can now browse the endpoint og the demo app http://diego-docker-app.cf.local.
 
 <figure class="full">
 	<img src="/images/cf-diego-docker-browser.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>cf-browser</figcaption>
 </figure>
 
 or use curl:
@@ -246,7 +246,7 @@ from there
 
 <figure class="full">
 	<img src="/images/cf-build-pod.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>cf-build-pod</figcaption>
 </figure>
 
 you can always view and monitor the image builder process by viewing the image and use the [log_tail](https://github.com/pivotal/kpack/blob/master/docs/logs.md) utility to view the builder logs:
@@ -258,5 +258,5 @@ logs --image caf42222-dc42-45ce-b11e-7f81ae511e06 --namespace cf-system
 
 <figure class="full">
 	<img src="/images/image_and_log.png" alt="">
-	<figcaption>cf auth</figcaption>
+	<figcaption>kubectl-image-log</figcaption>
 </figure>
