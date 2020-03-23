@@ -24,13 +24,12 @@ cf-for-k8s installation is pretty straight forward. In this example i am using c
 So we actually start with setting the Pipeline:
 
 ```bash
-flyme set-pipeline -c ${AKS_PIPELINE}  -l ${PLATFORM_VARS} -l ${AKS_VARS} -p ${AKS_CLUSTER} -v cf_k8s_domain=cf.local.azurestack.external
+fly -t concourse_target set-pipeline -c ${AKS_PIPELINE}  -l ${PLATFORM_VARS} -l ${AKS_VARS} -p ${AKS_CLUSTER} -v cf_k8s_domain=cf.local.azurestack.external
 ```
 in the above call, the following aliases / variables are used:
 
-*flyme*:  is an alias for fly --target
 *AKS_PIPELINE*: is the pipeline file
-*PLATFORM_VARS*: Variables containing essential, pipeline independent Environment Variable, e.G. AzureStack Endpoints ( leading with AZURE_) and general var´s 
+*PLATFORM_VARS*: Variables containing essential, pipeline independent Environment Variable, e.G. AzureStack Endpoints ( leading with AZURE_) and general var´s
   this must resolve:
   ```yaml
   azure_env: &azure_env
@@ -115,7 +114,37 @@ also, the following variables need to be passed:
   DNS_DOMAIN: ((cf_k8s_domain)) # the cf domain
   GCR_CRED: ((gcr_cred)) # credentials for gcr
 ```     
+where GCR_CRED contains the credentials to you Google Container Registry. You can provide them either form a secure store like credhub ( preferred way ), therefore simply load the credtials JSON file obtained from creating the secret with:
 
+```bash
+credhub set -n /concourse/<main or team>/gcr_cred -t json -v "$(cat ../aks/your-project-storage-creds.json)"
+```
+
+or load the variable to the pipeline from a YAML file in this example, gcr.yaml):
+
+```yml
+gcr_cred:
+  type: service_account
+  project_id: your-project_id
+  private_key_id: your-private_key_id
+  private_key: your-private_key
+  client_email: your-client_email
+  client_id: your-client_id
+  auth_uri: your-auth_uri
+  token_uri: your-token_uri
+  auth_provider_x509_cert_url: your-auth_provider_x509_cert_url
+  client_x509_cert_url: your-auth_uri
+```  
+and then 
+
+```bash
+fly -t concourse_target set-pipeline -c ${AKS_PIPELINE} \
+  -l ${PLATFORM_VARS} \
+  -l gcr.yml \
+  -l ${AKS_VARS} \
+  -p ${AKS_CLUSTER} \
+  -v cf_k8s_domain=cf.local.azurestack.external
+```
 
 
 ## the tasks
