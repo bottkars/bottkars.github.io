@@ -4,11 +4,11 @@ title: deploy and run Harbor COntainer Registry as VM on Azurestack for AKS
 description: "the easiest way to get a secure container registry on Azurestack"
 modified: 2020-04-07
 comments: true
-published: false
+published: true
 tags: [AzureStack, azure, harbor, kubernetes, cloudfoundry]
 image:
-  path: /images/k9s-ready.png
-  feature: k9s-ready.png
+  path: /images/goharbor.png
+  feature: goharbor.png
   credit: 
   creditlink: 
 ---
@@ -63,7 +63,7 @@ az deployment group validate --resource-group ${DNS_LABEL_PREFIX:?variable is em
 	<figcaption>validate_devregistry</figcaption>
 </figure>  
 
-### for Provided Cerificates
+### for user Provided Cerificates
 for user provided Certificate, you also need to provide your
 - hostCert, the Cerificate content of you Host or Domain Wildcard Cert
 - certKey, the content of the matching Key for the above Certificate
@@ -92,8 +92,9 @@ az deployment group validate --resource-group ${DNS_LABEL_PREFIX:?variable is em
 </figure>  
 
 If there are no errors from above commands, we should be ready to start the deployment
-### start deployment for selfsigned registry
+## starting the Deployment
 
+### start deployment for selfsigned registry
 
 ```bash
 az deployment group create --resource-group  ${DNS_LABEL_PREFIX:?variable is empty} \
@@ -121,11 +122,9 @@ az deployment group create --resource-group ${DNS_LABEL_PREFIX:?variable is empt
 <figure class="full">
 	<img src="/images/create_registry_deployment.png" alt="">
 	<figcaption>create_registry_deployment</figcaption>
-</figure> 
+</figure>
 
-
-
-### validation / monitoring the installation
+## validation / monitoring the installation
 
 You can monitor the deployment in the Azurestack User Portal. The Resource group will be the name of the *DNS_LABEL_PREFIX*
 
@@ -139,4 +138,67 @@ once the Public IP is online, you can also ssh into the Harbor host to monitor t
 ssh ubuntu@${DNS_LABEL_PREFIX:? variable empty}.local.cloudapp.azurestack.external
 ```
 
+<figure class="full">
+	<img src="/images/validate_host_logs.png" alt="">
+	<figcaption>validate_host_logs</figcaption>
+</figure>
 
+there are 2 logs on the Harbor host that you may want to examine
+- install.log, the log file of the custom script installer
+-  ~/conductor/logs/deploy_harbor.sh.*.log, the log file of my harbor deployment
+
+the installation should be successful one you see
+```✔ ----Harbor has been installed and started successfully.----```
+<figure class="full">
+	<img src="/images/harbor_log.png" alt="">
+	<figcaption>harbor_log</figcaption>
+</figure>
+
+## Testing the Registry
+
+### Logging into UI
+First we log in to our Registry. For the DevRegistry, use you Browser and just browse to https://devregistry.local.cloudapp.azurestack.external (replace with you Azurestack region and Domain)
+
+Chrome Users: as we use a selfsigned cert, you might want to type *thisisunsafe* in the Browserwindow.
+
+The  Login for the registry is :
+username: admin ( if not changed in the deployment Parameter)
+password: Harbor12345 ( i recommend changing the password, as the Password is in cleartext in the Harbor installation template)
+
+If you are using your own CA and specified a different *EXTERNAL_HOSTNAME* you might need to create a DNS A Record pointing to your Harbors external IP Address
+
+### logging in and pushing an image from docker cli
+
+To login from docker CLI it might me necessary to put the ROOT ca in dockers /etc/docker/certs.d directory.
+On the Harbor Host, my custom installer has done this already for you:
+
+```bash
+ls /etc/docker/certs.d/registry.home.labbuildr.com/ca.crt
+```
+
+for Kubernetes Clusters, the same rule applies. I have created a DaemonSet for my Kubernetes Deployments, more on that in my next post.
+
+you can test the login with 
+
+docker login <registry> -u admin -p Harbor12345
+
+once logged in, we can try to tag one of the local docker images for our registry:
+
+```bash
+docker images
+docker tag goharbor/harbor-core:v1.10.1 registry.home.labbuildr.com/library/harbor-core:v1.10.1
+docker push registry.home.labbuildr.com/library/harbor-core:v1.10.1
+```
+Note: the default Project on our Harbor registry is called *library*, you can create Procects for your needs using Harbor UI or API.
+
+<figure class="full">
+	<img src="/images/docker_push.png" alt="">
+	<figcaption>docker_push</figcaption>
+</figure>
+
+You can verify the Image Push Operation by Browsing to the Library from the UI:
+
+<figure class="full">
+	<img src="/images/goharbor.png" alt="">
+	<figcaption>goharbor</figcaption>
+</figure>
