@@ -32,14 +32,14 @@ in the following examples, i deploy 2 Registry, 1 called devregistry with self-s
 
 ## Testing Deployment and Parameters
 first we need to a variable before we start or Test the Deployment.
-The Variable *DNS_LABEL_PREFIX* marks the hostname for the VM and will be registered with Azurestack´s DNS, eg
+The Variable *DNS_LABEL_PREFIX* marks the external hostname for the VM and will be registered with Azurestack´s DNS, eg
 DNS_LABEL_PREFIX.location.cloudapp.dnsdomain
 ```bash
 DNS_LABEL_PREFIX=devregistry # this should be the azurestack cloudapp dns name , e.g. Harbor, Mandatory
 ```
 The name will also be used in the Generated Certificate for Self Signed Certs
 
-If you are deploying using you own Certificates, you will also have provide you external hostname you created your Certificate for:
+If you are deploying using you own Certificates, you will also have provide you external hostname the Harbor Registry will use and you created your Certificate for: (i am using a wildcard Cert for my domain here)
 
 ```bash
 EXTERNAL_HOSTNAME=registry.home.labbuildr.com #external dns name
