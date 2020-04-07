@@ -1,6 +1,6 @@
 ---
 layout: post
-title: deploy and run Harbor COntainer Registry as VM on Azurestack for AKS
+title: deploy and run Harbor Cntainer Registry as VM on Azurestack for AKS
 description: "the easiest way to get a secure container registry on Azurestack"
 modified: 2020-04-07
 comments: true
@@ -8,7 +8,7 @@ published: true
 tags: [AzureStack, azure, harbor, kubernetes, cloudfoundry]
 image:
   path: /images/goharbor.png
-  feature: goharbor.png
+  feature: docker_push.png
   credit: 
   creditlink: 
 ---
