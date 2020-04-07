@@ -23,7 +23,7 @@ You can opt to have selfsigned certificates created automatically for you OR use
 
 Before we start the deployment, wi need to check that we have
  - a ssh Public Key in Place ( i default to ~/.ssh/id_rsa.pub in my code samples)
- - connection to AzureSTack from AZ CLI
+ - connection to AzureStack from AZ CLI
  - Ubuntu 18.04 LTS Marketplace Image on Azurestack
  - Custom Script Extension for Linux on Azurestack
  - internet connection to dockerhub, canonical repo´s and GitHub
