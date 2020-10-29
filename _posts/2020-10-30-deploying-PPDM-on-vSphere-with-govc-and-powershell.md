@@ -216,5 +216,3 @@ You can verify the Image Push Operation by Browsing to the Library from the UI:
 	<figcaption>goharbor</figcaption>
 </figure>
 
-
-The template is currently available on my Git Repo: [bottkars GiT](https://githuib.com/bottkars/201-azurestack-harbor-registry)
