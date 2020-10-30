@@ -1,6 +1,6 @@
 ---
 layout: post
-title: deploy and run DELLEMC Powerprotect Datamanager on vSphere
+title: Powerprotect Datamanager deployment on vSphere using govc and Powershell
 description: "the fastest way to get tarted with PPDM on vSphere"
 modified: 2020-10-30
 comments: true
@@ -12,12 +12,19 @@ image:
   credit: 
   creditlink: 
 ---
+DRAFT
+# Deploying PowerProtect Datamanger (PPDM) to vSpheger using govc and Powershell 
+when it comes to deploy Powerprotect Datamanger, we have a variety of options, for example
+- Terraform
+- Ansible
+- OVA Upload
+- Saltstack
+- bash / Concourse
+just to name few.
+In this Post I focus on a Powershell Deployment leveraging mware govc and my [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh/) Module
 
-# Deploying PowerProtect Datamanger (PPDM) to vSpger using govc and Powershell 
-
-this is an explanation of my Deployment of PPDM to vShere using vmware govc and my [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh/)  Module
 ## Requirements
-Before we start the deployment, wiwe need to check that we have
+Before we start the deployment, we need to check that we have
  - govc >= 0.23 insalled from [Github Releases](https://github.com/vmware/govmomi/releases/download/v0.23.0/govc_windows_amd64.exe.zip) installed in a path as govc
  - my Powershell modules for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
  {% highlight scss %}
@@ -91,15 +98,53 @@ Now, we can Power on the vm with
 govc vm.power -on $env:GOVC_VM
 {% endhighlight %}
 
+we now need to fait for the ppdm to be up and running.
 
+In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh until receiving a 2ß00
+
+## Step 3: Configure PPDM
+
+if not already node, load the Modules by 
+
+{% highlight scss %}
+import-moduel PPDM-pwsh
+{% endhighlight %}
+
+The fisrt step is to connect to the PPDM API:
+
+{% highlight scss %}
+$API=Connect-PPDMapiEndpoint -PPDM_API_URI https://ppdm-demo.home.labbuildr.com -user -trustCert
+{% endhighlight %}
+
+You will be asked for for the username ad *admin* and Password of *changeme* 
+Once conected, we need to Accept the EULA by using
+{% highlight scss %}
+Approve-PPDMEula
+{% endhighlight %}
+
+The next step is to confiure PPDM. For that, we need to specify Timezone, NTP Server and thge new Password(s)
+to get a list of timezones, run
+{% highlight scss %}
+Get-PPDMTimezones
+{% endhighlight %}
+
+In the below example, we use Europe/Berlin :
+
+{% highlight scss %}
+Set-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!' -VerboseSet-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!'
+{% endhighlight %}
+
+It will take up to t10 Minutes for PPDM to finis. Monitor with 
 
 
 
 {% highlight scss %}
-
+ Get-PPDMconfigurations | Get-PPDMconfigstatus
 {% endhighlight %}
 
-### The complete script can be found here:
+
+
+### Scriptlistings:
 
 <script src="https://gist.github.com/bottkars/f05d8357232778a24da45a46eb382a3d.js"></script>
 
