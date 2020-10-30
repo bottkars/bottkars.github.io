@@ -13,7 +13,7 @@ image:
   creditlink: 
 ---
 DRAFT
-# Deploying PowerProtect Datamanger (PPDM) to vSpheger using govc and Powershell 
+# Deploying PowerProtect Datamanager (PPDM) to vSphere using govc and Powershell 
 when it comes to deploy Powerprotect Datamanger, we have a variety of options, for example
 - Terraform
 - Ansible
