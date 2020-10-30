@@ -27,20 +27,6 @@ Before we start the deployment, wiwe need to check that we have
 From a Powershell, we fisrt need to connect to our vSphere Virtual Center By using the following code,
 we can securly create a connection:
 
-```Powershell
-# Set the Basic Parameter
-$env:GOVC_URL="vcsa1.home.labbuildr.com"    # replace ith your vCenter
-$env:GOVC_INSECURE="true"                   # allow untrusted certs
-$env:GOVC_DATASTORE="vsanDatastore"         # set the default Datastore 
-# read Password
-$username = Read-Host -Prompt "Please Enter Virtual Center Username"
-$SecurePassword = Read-Host -Prompt "Enter Password for user $username" -AsSecureString
-$Credentials = New-Object System.Management.Automation.PSCredential($username, $Securepassword)
-#Set Username and Password in environment
-$env:GOVC_USERNAME=$($Credentials.GetNetworkCredential().username)
-$env:GOVC_PASSWORD=$($Credentials.GetNetworkCredential().password)
-govc ls
-```
 <script src="https://gist.github.com/bottkars/920fb2c16104bf0494ba9739bd383e69.js"></script>
 
 ## Testing Deployment and Parameters
