@@ -44,13 +44,14 @@ we can securly create a connection:
 </figure>
 
 ## Step 2:deploying Powerprotect Datamanager ova using govc from Powershell
-download the latest Powerprotect DataManager from [DELLEMC Support](https://dl.dell.com/downloads/DL100787_PowerProtect-Data-Manager-19.6-Install-OVA.ova) *login required*
+- Requirement:
+download the latest Powerprotect DataManager from [DELLEMC Support](https://dl.dell.com/downloads/DL100787_PowerProtect-Data-Manager-19.6-Install-OVA.ova) ( *login required* )
 
 first of all, we set our govc environment to have the Following Variables
-( complete codesnipped of step 2 below )
+( complete code snippet of step 2 below )
 {% highlight scss %}
 $ovapath="$HOME/Downloads/dellemc-ppdm-sw-19.6.0-3.ova" # the Path to your OVA File
-$env:GOVC_FOLDER='/home_dc/vm/labbuildr_vms'            # the vm Folder in your vCenter wher the Machine can be found
+$env:GOVC_FOLDER='/home_dc/vm/labbuildr_vms'            # the vm Folder in your vCenter where the Machine can be found
 $env:GOVC_VM='ppdm_demo'                                # the vm Name
 $env:GOVC_DATASTORE='mgmtvms'                           # The Name of the Datastore
 $env:GOVC_HOST='esxi-mgmt.home.labbuildr.com'           # The taget ESXi Host for Deployment
@@ -98,7 +99,7 @@ Now, we can Power on the vm with
 govc vm.power -on $env:GOVC_VM
 {% endhighlight %}
 
-we now need to fait for the ppdm to be up and running.
+we now need to wait for the Powerprotect Datamanager Services to be up and running.
 
 In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh until receiving a 200
 
@@ -107,22 +108,22 @@ In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh un
 if not already node, load the Modules by 
 
 {% highlight scss %}
-import-moduel PPDM-pwsh
+import-module PPDM-pwsh
 {% endhighlight %}
 
-The fisrt step is to connect to the PPDM API:
+The first step is to connect to the PPDM API:
 
 {% highlight scss %}
 $API=Connect-PPDMapiEndpoint -PPDM_API_URI https://ppdm-demo.home.labbuildr.com -user -trustCert
 {% endhighlight %}
 
-You will be asked for for the username ad *admin* and Password of *changeme* 
-Once conected, we need to Accept the EULA by using
+You will be asked for for the username ad *admin* and Password of *admin* 
+Once connected, we need to Accept the EULA by using
 {% highlight scss %}
 Approve-PPDMEula
 {% endhighlight %}
 
-The next step is to confiure PPDM. For that, we need to specify Timezone, NTP Server and thge new Password(s)
+The next step is to configure PPDM. For that, we need to specify Timezone, NTP Server and the new Password(s)
 to get a list of timezones, run
 {% highlight scss %}
 Get-PPDMTimezones
@@ -130,10 +131,19 @@ Get-PPDMTimezones
 
 In the below example, we use Europe/Berlin :
 
-{% highlight scss %}
-Set-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!' -VerboseSet-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!'
-{% endhighlight %}
+<figure class="full">
+	<img src="/images/connect_timezome.png" alt="">
+	<figcaption>EULA and Timezone</figcaption>
+</figure>
 
+
+{% highlight scss %}
+Set-PPDMconfigurations -NTPservers 139.162.149.127 -Timezone "Europe/Berlin" -admin_Password 'Password123!'
+{% endhighlight %}
+<figure class="full">
+	<img src="/images/set-ppdmconfigurations.png" alt="">
+	<figcaption>set-ppdmconfigurations</figcaption>
+</figure>
 It will take up to 10 Minutes for PPDM to finish. Monitor with 
 
 
@@ -142,16 +152,13 @@ It will take up to 10 Minutes for PPDM to finish. Monitor with
  Get-PPDMconfigurations | Get-PPDMconfigstatus
 {% endhighlight %}
 
-
+<figure class="full">
+	<img src="/images/config-success.png" alt="">
+	<figcaption>config success</figcaption>
+</figure>
 
 ### Scriptlistings:
 
 <script src="https://gist.github.com/bottkars/f05d8357232778a24da45a46eb382a3d.js"></script>
 
 
-<figure class="full">
-	<img src="/images/connect_vc.ps1.png" alt="">
-	<figcaption>connect_vc.ps1</figcaption>
-</figure>
-
-## Step 3
