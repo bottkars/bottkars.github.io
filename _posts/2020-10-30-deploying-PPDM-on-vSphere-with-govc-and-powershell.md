@@ -100,7 +100,7 @@ govc vm.power -on $env:GOVC_VM
 
 we now need to fait for the ppdm to be up and running.
 
-In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh until receiving a 2ß00
+In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh until receiving a 200
 
 ## Step 3: Configure PPDM
 
@@ -134,7 +134,7 @@ In the below example, we use Europe/Berlin :
 Set-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!' -VerboseSet-PPDMconfigurations -NTPservers 100.250.1.1 -Timezone "Europe/Berlin - Central European Time" -admin_Password 'Password123!'
 {% endhighlight %}
 
-It will take up to t10 Minutes for PPDM to finis. Monitor with 
+It will take up to 10 Minutes for PPDM to finish. Monitor with 
 
 
 
