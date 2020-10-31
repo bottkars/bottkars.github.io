@@ -54,7 +54,7 @@ govc about
 	<figcaption>connect_vc.ps1</figcaption>
 </figure>
 
-## Step 2:deploying Powerprotect Datamanager ova using govc from Powershell
+## Step 2: deploying Powerprotect Datamanager ova using govc from Powershell
 - Requirement:
 download the latest Powerprotect DataManager from [DELLEMC Support](https://dl.dell.com/downloads/DL100787_PowerProtect-Data-Manager-19.6-Install-OVA.ova) ( *login required* )
 
