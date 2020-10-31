@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The ARt of Possible: PowerProtect Datamanager Automation"
+title: "The Art of Possible: PowerProtect Datamanager Automation"
 description: "the automated way to get started with PPDM on vSphere"
 modified: 2020-10-30
 comments: true
