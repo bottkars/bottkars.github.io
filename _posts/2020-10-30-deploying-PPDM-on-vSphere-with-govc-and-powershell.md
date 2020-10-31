@@ -8,7 +8,7 @@ published: true
 tags: [Powerprotect, vSphere, Powershell, PPDM, PPDM-pwsh]
 image:
   path: /images/config-success.png
-  feature: docker_push.png
+  feature: set-ppdmconfigurations.png
   credit: 
   creditlink: 
 ---
