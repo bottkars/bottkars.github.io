@@ -131,7 +131,7 @@ govc vm.power -on $env:GOVC_VM
 
 ... and wait for the Powerprotect Datamanager Services to be up and running.
 
-In an Automated Scenario, one could query the http://fqdn.of.ppdm:443/#/fresh until receiving a 200
+In an Automated Scenario, one could query the URL *http://fqdn.of.ppdm:443/#/fresh* until receiving a 200 ok message from the Webserver ( see below script listing)
 
 ## Step 3: Configure PPDM using PPDM-pwsh
 
@@ -162,7 +162,13 @@ to get a list of timezones, run
 Get-PPDMTimezones
 {% endhighlight %}
 
-In the below example, we use Europe/Berlin :
+In our example, we use Europe/Berlin.
+Configuring the PPDM does only require 3 Parameters:
+ - Timezone
+ - Initial Password(s)
+ - a List of NTP Sever(s)
+
+We can use a Single Powershell Command to start the COnfiguration Process:
 
 {% highlight scss %}
 Set-PPDMconfigurations -NTPservers 139.162.149.127 -Timezone "Europe/Berlin" -admin_Password 'Password123!'
@@ -171,13 +177,15 @@ Set-PPDMconfigurations -NTPservers 139.162.149.127 -Timezone "Europe/Berlin" -ad
 	<img src="/images/set-ppdmconfigurations.png" alt="">
 	<figcaption>set-ppdmconfigurations</figcaption>
 </figure>
-It will take up to 10 Minutes for PPDM to finish. Monitor with 
-
+It will take up to 10 Minutes for PPDM to finish. 
+We can Monitor  the Success Status with 
 
 
 {% highlight scss %}
  Get-PPDMconfigurations | Get-PPDMconfigstatus
 {% endhighlight %}
+
+In an Automation, we would wait for *percentageCompleted -eq 100*
 
 <figure class="full">
 	<img src="/images/config-success.png" alt="">
