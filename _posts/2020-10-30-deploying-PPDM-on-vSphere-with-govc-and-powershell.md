@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deploy Powerprotect Datamanager on vSphere using govc and Powershell
+title: "The ARt of Possible: PowerProtect Datamanager Automation"
 description: "the automated way to get started with PPDM on vSphere"
 modified: 2020-10-30
 comments: true
@@ -20,7 +20,8 @@ when it comes to deploy Powerprotect Datamanger, we have a variety of options, f
 - Saltstack
 - bash / Concourse
 just to name few.
-In this Post I focus on a Powershell Deployment leveraging mware govc and my [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh/) Module
+In this Post I focus on a Powershell Deployment leveraging mware govc and my [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh/) Module.
+Other Method´s will follow here over the next Couple of Days . . . 
 
 ## Requirements
 Before we start the deployment, we need to check that we have
@@ -49,10 +50,6 @@ govc about
 {% endhighlight %}
 
 
-<figure class="full">
-	<img src="/images/connect_vc.ps1.png" alt="">
-	<figcaption>connect_vc.ps1</figcaption>
-</figure>
 
 ## Step 2: deploying Powerprotect Datamanager ova using govc from Powershell
 - Requirement:
@@ -61,12 +58,29 @@ download the latest Powerprotect DataManager from [DELLEMC Support](https://dl.d
 first of all, we set our govc environment to have the Following Variables
 ( complete code snippet of step 2 below )
 {% highlight scss %}
+# Set the Basic Parameter
+$env:GOVC_URL="vcsa1.home.labbuildr.com"                # replace ith your vCenter
+$env:GOVC_INSECURE="true"                               # allow untrusted certs
+$env:GOVC_DATASTORE="vsanDatastore"                     # set the default Datastore 
 $ovapath="$HOME/Downloads/dellemc-ppdm-sw-19.6.0-3.ova" # the Path to your OVA File
 $env:GOVC_FOLDER='/home_dc/vm/labbuildr_vms'            # the vm Folder in your vCenter where the Machine can be found
 $env:GOVC_VM='ppdm_demo'                                # the vm Name
-$env:GOVC_DATASTORE='mgmtvms'                           # The Name of the Datastore
-$env:GOVC_HOST='esxi-mgmt.home.labbuildr.com'           # The target ESXi Host for Deployment
+$env:GOVC_HOST='e200-n4.home.labbuildr.com'             # The target ESXi Host or ClusterNodefor Deployment
+$env:GOVC_RESOURCE_POOL='mgmt_vms'                      # The Optional Resource Pool
 {% endhighlight %}
+We then can connect to our vSphere Environment:
+
+{% highlight scss %}
+# read Password
+$username = Read-Host -Prompt "Please Enter Virtual Center Username default (Administrator@vsphere.local)"
+If(-not($username)){$username = "Administrator@vsphere.local"}
+$SecurePassword = Read-Host -Prompt "Enter Password for user $username" -AsSecureString
+$Credentials = New-Object System.Management.Automation.PSCredential($username, $Securepassword)
+#Set Username and Password in environment
+$env:GOVC_USERNAME=$($Credentials.GetNetworkCredential().username)
+$env:GOVC_PASSWORD=$($Credentials.GetNetworkCredential().password)
+govc about{% endhighlight %}
+
 then we need to import the Virtual Appliance Specification from the ova using *govc import.spec*
 the command would look like
 
@@ -109,6 +123,11 @@ Now, we can Power on the vm using *govc vm.power* ...
 {% highlight scss %}
 govc vm.power -on $env:GOVC_VM
 {% endhighlight %}
+
+<figure class="full">
+	<img src="/images/connect_vc.ps1_final.png" alt="">
+	<figcaption>connect_vc.ps1</figcaption>
+</figure>
 
 ... and wait for the Powerprotect Datamanager Services to be up and running.
 
@@ -181,8 +200,16 @@ In my next Post we will do so as well from Powershell ... stay tuned
 	<figcaption>config success</figcaption>
 </figure>
 
-### Scriptlistings:
+### Script listings:
+#### Connect Virtual Center:
 <script src="https://gist.github.com/bottkars/920fb2c16104bf0494ba9739bd383e69.js"></script>
+
+#### Deploy PPDM:
+<script src="https://gist.github.com/bottkars/f05d8357232778a24da45a46eb382a3d.js"></script>
+
+#### Wait for Webservice: 
+<script src="https://gist.github.com/bottkars/9d665fecaedf6d9e5e8b8b8a61ec8535.js"></script>
+
 <script src="https://gist.github.com/bottkars/f05d8357232778a24da45a46eb382a3d.js"></script>
 
 
