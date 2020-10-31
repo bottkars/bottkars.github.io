@@ -91,7 +91,7 @@ $SPEC.PropertyMapping[3].Key = "vami.DNS.brs"
 $SPEC.PropertyMapping[3].Value = "192.168.1.44" # < your DNS Server here
 # you FQDN, make sure it is resolvable from above DNS
 $SPEC.PropertyMapping[4].Key = "vami.fqdn.brs"
-$SPEC.PropertyMapping[4].Value = "ppdmdemo.home.labbuidr.com" # < your Gateway here   
+$SPEC.PropertyMapping[4].Value = "ppdmdemo.home.labbuidr.com" # < your fqdn here   
 {% endhighlight %}
 Now we need to import the OVA using *govc import.ova* with the settings we just created:
 
