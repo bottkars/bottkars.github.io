@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Powerprotect Datamanager deployment on vSphere using govc and Powershell
+title: Deploy Powerprotect Datamanager on vSphere using govc and Powershell
 description: "the fastest way to get tarted with PPDM on vSphere"
 modified: 2020-10-30
 comments: true
@@ -17,7 +17,7 @@ DRAFT
 when it comes to deploy Powerprotect Datamanger, we have a variety of options, for example
 - Terraform
 - Ansible
-- OVA Upload
+- OVA deployment from vCenter UI
 - Saltstack
 - bash / Concourse
 just to name few.
@@ -169,6 +169,16 @@ It will take up to 10 Minutes for PPDM to finish. Monitor with
 
 <figure class="full">
 	<img src="/images/config-success.png" alt="">
+	<figcaption>config success</figcaption>
+</figure>
+
+
+You can now visit the PPDM Homepage from your Webbrowser to configure DataDomain, add a vCenter, add Kubernetes Clusters and more.
+In my next Post we will do so as well from Powershell. stay Tuned
+
+
+<figure class="full">
+	<img src="/images/ppdm-wizard.png" alt="">
 	<figcaption>config success</figcaption>
 </figure>
 
