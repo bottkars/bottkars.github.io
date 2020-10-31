@@ -26,7 +26,7 @@ Other Method´s will follow here over the next Couple of Days . . .
 ## Requirements
 Before we start the deployment, we need to check that we have
  - govc >= 0.23 insalled from [Github Releases](https://github.com/vmware/govmomi/releases/download/v0.23.0/govc_windows_amd64.exe.zip) installed in a path as govc
- - my Powershell modules ( minimum : 0.19.6.1 ) for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
+ - my Powershell modules ( minimum : 0.19.6.2 ) for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
  {% highlight scss %}
  install-module PPDM-pwsh -MinimumVersion 0.19.6.1
 {% endhighlight %}
