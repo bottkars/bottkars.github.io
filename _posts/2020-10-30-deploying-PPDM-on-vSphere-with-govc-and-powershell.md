@@ -173,7 +173,7 @@ It will take up to 10 Minutes for PPDM to finish. Monitor with
 
 
 You can now visit the PPDM Homepage from your Webbrowser to configure DataDomain, add a vCenter, add Kubernetes Clusters and more.
-In my next Post we will do so as well from Powershell. stay Tuned
+In my next Post we will do so as well from Powershell ... stay tuned
 
 
 <figure class="full">
