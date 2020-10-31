@@ -164,12 +164,6 @@ Get-PPDMTimezones
 
 In the below example, we use Europe/Berlin :
 
-<figure class="full">
-	<img src="/images/connect_timezome.png" alt="">
-	<figcaption>EULA and Timezone</figcaption>
-</figure>
-
-
 {% highlight scss %}
 Set-PPDMconfigurations -NTPservers 139.162.149.127 -Timezone "Europe/Berlin" -admin_Password 'Password123!'
 {% endhighlight %}
@@ -210,6 +204,7 @@ In my next Post we will do so as well from Powershell ... stay tuned
 #### Wait for Webservice: 
 <script src="https://gist.github.com/bottkars/9d665fecaedf6d9e5e8b8b8a61ec8535.js"></script>
 
-<script src="https://gist.github.com/bottkars/f05d8357232778a24da45a46eb382a3d.js"></script>
+#### configure PPDM:
+<script src="https://gist.github.com/bottkars/1cb3a77b62478973d5e504293dde6fae.js"></script>
 
 
