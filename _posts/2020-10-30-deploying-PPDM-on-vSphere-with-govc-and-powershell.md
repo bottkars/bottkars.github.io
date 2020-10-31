@@ -25,9 +25,9 @@ In this Post I focus on a Powershell Deployment leveraging mware govc and my [PP
 ## Requirements
 Before we start the deployment, we need to check that we have
  - govc >= 0.23 insalled from [Github Releases](https://github.com/vmware/govmomi/releases/download/v0.23.0/govc_windows_amd64.exe.zip) installed in a path as govc
- - my Powershell modules ( minimum : 0.2.8 ) for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
+ - my Powershell modules ( minimum : 0.19.6.1 ) for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
  {% highlight scss %}
- install-module PPDM-pwsh -MinimumVersion 0.2.8
+ install-module PPDM-pwsh -MinimumVersion 0.19.6.1
 {% endhighlight %}
 ## Step 1: Connecting to vSphere using govc
 From a Powershell, we first need to connect to our vSphere Virtual Center By using the following code,
