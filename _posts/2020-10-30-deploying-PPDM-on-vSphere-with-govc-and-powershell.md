@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Deploy Powerprotect Datamanager on vSphere using govc and Powershell
-description: "the fastest way to get started with PPDM on vSphere"
+description: "the automated way to get started with PPDM on vSphere"
 modified: 2020-10-30
 comments: true
 published: true
