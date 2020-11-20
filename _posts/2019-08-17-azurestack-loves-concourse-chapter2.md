@@ -175,7 +175,7 @@ the *platform* parameter identifies the platform stack ( worker type ) to run on
 The *parameters* section contains the (possible) Parameters we can provide to our task. We will provide the Parameters later from our Pipeline
 As we are going to define a Custom Cloud Profile in case of AzureStack, this will also define our custom endpoints
 
-For goos reasons, you should *NOT* put any default values in here.
+For good reasons, you should *NOT* put any default values in here.
 
 Next, we add a "run" section. The run section is essence is the Script to be executed. if the script exits with a failure code, the Build Task will considered failed.
 
@@ -256,7 +256,7 @@ now, add the following to *02-azcli-pipeline.yml*
       AZURE_CLI_CA_PATH: "/usr/local/lib/python3.6/site-packages/certifi/cacert.pem"
 {% endhighlight %}
 
-Note that in my example, i prefix the parameter Variable´s with asdk, as i am going to maintain multiple azurestack´s in my Parameter File. This again is for ease of use
+Note that in my example, i prefix the parameter Variable´s with asdk, as i am going to maintain multiple Azurestack´s in my Parameter File. This again is for ease of use
 
 ### edit the Parameter file
 
