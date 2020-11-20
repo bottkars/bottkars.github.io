@@ -171,7 +171,7 @@ this is our first pipeline. it has 2 resources configured:
 Now tha we have edited the Parameter to point to our github repo, we can load the pipeline into concourse
 
 {% highlight scss %}
-azcli-concourse-uri: <your github repo>
+fly -t docker set-pipeline -p azurestack  -c 01-azcli-pipeline.yml -l parameters.yml
 {% endhighlight %}
 
 <figure class="full">
