@@ -175,7 +175,7 @@ fly -t docker set-pipeline -p azurestack  -c 01-azcli-pipeline.yml -l parameters
 {% endhighlight %}
 
 <figure class="full">
-	<img src="/images/set-pipeline.png" alt="">
+	<img src="/images/set-pipeline-chap1.png" alt="">
 	<figcaption>set-pipeline</figcaption>
 </figure>
 
