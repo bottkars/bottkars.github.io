@@ -317,7 +317,7 @@ kubectl describe backupjobs/<you jobnumber> -n=powerprotect
 
 <figure class="full">
 	<img src="/images/describe_job.png" alt="">
-	<figcaption>Decribe Backup Jobs</figcaption>
+	<figcaption>Describe Backup Jobs</figcaption>
 </figure>
 
 
@@ -334,7 +334,7 @@ Configure an Asset filter with
 in my example i am using the Label *ppdm_policy=ppdm_gold*
 <figure class="full">
 	<img src="/images/asset_filter.png" alt="">
-	<figcaption>Describe Backup Jobs</figcaption>
+	<figcaption>Asset Filters</figcaption>
 </figure>
 
 
