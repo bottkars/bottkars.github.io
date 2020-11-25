@@ -49,7 +49,7 @@ Using CLI ? We got you covered. Simply download the ARM Template using the Marke
 
 You can always get a list of all DELLEMC Marketplace Items using
 
-	{% highlight scss %}
+	{% highlight shell %}
 	az vm image list --all --publisher dellemc --output tsv
 	{% endhighlight %}
 
@@ -65,24 +65,24 @@ See [Enable Container Storage Interface (CSI) drivers for Azure disks and Azure 
 AKS Cluster using CSI *must* be deployed from AZ CLI as the Date of this article.
 
 If this is the first AKS Cluster using CSI in your Subscription, you will need to enable the feature using:
-{% highlight scss %}
+{% highlight shell %}
 az feature register --namespace "Microsoft.ContainerService" \
  --name "EnableAzureDiskFileCSIDriver"
 {% endhighlight %}
 
 You can query the state using:
-{% highlight scss %}
+{% highlight shell %}
 az feature list -o table \
 --query "[?contains(name, 'Microsoft.ContainerService/EnableAzureDiskFileCSIDriver')].{Name:name,State:properties.state}"
 {% endhighlight %}
 
 Once finished, we register the Provider with:
-{% highlight scss %}
+{% highlight shell %}
 az provider register --namespace Microsoft.ContainerService
 {% endhighlight %}
 
 But we also need to update our AZ CLI to support the latest extensions for AKS. Therefore, run:
-{% highlight scss %}
+{% highlight shell %}
 az extension add --name aks-preview
 az extension update --name aks-preview
 {% endhighlight %}
@@ -95,12 +95,12 @@ You might want to use the same Service Principal again for Future Deployments, o
 If not already done, login to Azure from AZ CLI. Two Method´s, depending on your Workflow:
 
 Using Device Login (good to Create the SP for RBAC):
-{% highlight scss %}
+{% highlight shell %}
 az login --use-device-code --output tsv
 {% endhighlight %}
 
 Using a limited Service OPrincipal, with already configured SP for AKS:
-{% highlight scss %}
+{% highlight shell %}
 AZURE_CLIENT_ID=<your client id>
 AZURE_CLIENT_SECRET=<your secret>
 AZURE_TENANT_ID=<your Tenant ID>
@@ -113,7 +113,7 @@ az login --service-principal \
 
 So we are good to create our first AKS Cluster.
 Make sure you are scoped to the correct Subscription:
-{% highlight scss %}
+{% highlight shell %}
 RESOURCE_GROUP=<your AKS Resource Group>
 AKS_CLUSTER_NAME=<your AKS Cluster>
 AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
@@ -132,7 +132,7 @@ AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
 
 
 Once the deployment is done, we can get the Kubernetes Config for kubectl using:
-{% highlight scss %}
+{% highlight shell %}
 az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_NAME}
 {% endhighlight %}
 
@@ -142,13 +142,13 @@ az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_N
 </figure>
 
 In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass:
-{% highlight scss %}
+{% highlight shell %}
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/example/snapshot/storageclass-azuredisk-snapshot.yaml
 {% endhighlight %}
 
 With that, the Preparation for AKS using CSI is done.
 You can view your new StorageClasses with:
-{% highlight scss %}
+{% highlight shell %}
 kubectl get storageclasses
 {% endhighlight %}
 
@@ -162,13 +162,13 @@ kubectl get storageclasses
 
 In order to connect to AKS from PPDM, we need to create Service Account with Role based access.
 A basic RBAC Template can be applied with:
-{% highlight scss %}
+{% highlight shell %}
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-admin.yml
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-rbac.yml
 {% endhighlight %}
 
 After, you can export the Token to be used for PPDM with:
-{% highlight scss %}
+{% highlight shell %}
 kubectl get secret "$(kubectl -n kube-system get secret | grep ppdm-admin | awk '{print $1}')" \
 -n kube-system --template={{.data.token}} | base64 -d
 {% endhighlight %}
@@ -222,7 +222,7 @@ You will see that 2 new Namespaces have been deployed, velero-ppdm and powerprot
 We are leveraging upstream [velero](https://github.com/vmware-tanzu/velero) and added support for DataDomain Boost Protocol.
 
 In my example, i already added a mysql application using the Storageclass *managed-csi* for PV Claim, you can use my Template from here:
-{% highlight scss %}
+{% highlight shell %}
 NAMESPACE=mysql
 kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/mysql/mysql-namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/mysql/mysql-secret.yaml --namespace ${NAMESPACE}
@@ -275,7 +275,7 @@ I am using [K9s](https://k9scli.io/) to easy dive into Pods and Logs:
 	<figcaption>Claim Proxy</figcaption>
 </figure>
 kubectl command: 
-{% highlight scss %}
+{% highlight shell %}
 kubectl get pods --namespace mysql
 {% endhighlight %}
 
@@ -286,7 +286,7 @@ A PVC will be created for the MYSQL Snapshot. You can verify that by viewing the
 	<figcaption>Claim Proxy</figcaption>
 </figure>
 kubectl command: 
-{% highlight scss %}
+{% highlight shell %}
 kubectl get pvc --namespace mysql
 {% endhighlight %}
 
@@ -297,7 +297,7 @@ See the details of the snapshot claiming by c-proxy:
 </figure>
 
 kubectl command: 
-{% highlight scss %}
+{% highlight shell %}
 kubectl describe pod/"$(kubectl get pod --namespace mysql  | grep cproxy | awk '{print $1}')" --namespace mysql
 {% endhighlight %}
 
@@ -341,7 +341,7 @@ in my example i am using the Label *ppdm_policy=ppdm_gold*
 Now we need to create the Namespace and an Application
 I use a Wordpress deployment in my example. For this, create a new Directory on your machine and change into it
 Create the Namespace template:
-{% highlight scss %}
+{% highlight yaml %}
 NAMESPACE=wordpress
 PPDM_POLICY=ppdm_gold
 cat <<EOF >./namespace.yaml
@@ -369,13 +369,13 @@ resources:
 {% endhighlight %}
 
 Download my Wordpress Templates:
-{% highlight scss %}
+{% highlight shell %}
 wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/mysql-deployment.yaml
 wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/wordpress-deployment.yaml
 {% endhighlight %}
 
 with the 4 files now in place, we can run the Deployment with:
-{% highlight scss %}
+{% highlight shell %}
 kubectl apply -k ./ --namespace ${NAMESPACE}
 {% endhighlight %}
 
@@ -418,6 +418,6 @@ Run the Protection Policy as before, but now only select the New Asset to be Bac
 ### Backups fail
 In case your Backups fail, redeploy the powerprotect-controller
 by deleting the POD:
-{% highlight scss %}
+{% highlight shell %}
 kubectl delete pod "$(kubectl get pod --namespace powerprotect  | grep powerprotect-controller | awk '{print $1}')" --namespace powerprotect
 {% endhighlight %}
