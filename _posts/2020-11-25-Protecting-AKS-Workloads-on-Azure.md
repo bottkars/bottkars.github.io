@@ -49,9 +49,9 @@ Using CLI ? We got you covered. Simply download the ARM Template using the Marke
 
 You can always get a list of all DELLEMC Marketplace Items using
 
-```azcli
-az vm image list --all --publisher dellemc --output tsv
-```
+	{% highlight scss %}
+	az vm image list --all --publisher dellemc --output tsv
+	{% endhighlight %}
 
 If you feel like terraforming the above, i have some templates ready in my [terraforming DPS](https://github.com/bottkars/terraforming-dps) main repository to try. They are pretty modular and also covering Avamar and Networker. Feel free to reach out to me on how to use.
 
