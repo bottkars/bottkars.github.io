@@ -7,7 +7,7 @@ comments: true
 published: true
 tags: [terraform, json, bash, concourse, aks, powerprotect]
 image:
-  path: /images/config-success.png
+  path: /images/masterpipeline_ppdm_aks.png
   feature: masterpipeline_ppdm_aks.png
   credit: 
   creditlink: 
