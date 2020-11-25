@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Protectink AKS Workloads on Azure using Powerprotect Datamanager"
+title: "Protecting AKS Workloads on Azure using Powerprotect Datamanager"
 description: "the new star for Protecting Kubernetes Workloads"
 modified: 2020-11-25
 comments: true
@@ -14,9 +14,10 @@ image:
 ---
 # Using DELLEMC Powerprotect to Backup and Protect AKS Workloads
 
-This mont we released PowerProtect Datamanager 19.6. Along with new and improved Featuresets, we also released our First Version to the Azure Marketplace. 
+This month we released PowerProtect Datamanager 19.6.  
+Along with new and improved featuresets, we also released our first version to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
 
-This allows  Organizations to Protct the following workloads natively on Azure:
+This allows  Organizations to Protect the following workloads natively on Azure:
 
 - Kubernetes
 - Applications (Oracle, SQL, SAP Hana)
@@ -30,20 +31,20 @@ In order to get Started with PPDM on Azure, we will require 2 vm´s to be deploy
 
 ## Deployment from Marketplace
 
-Yes, we got you Covered. Our Marketplace Item Deploys both in a One Stop Shopping Experience to your Environment.
+Yes, we got you covered. Our Marketplace Item Deploys both in a One Stop Shopping Experience to your Environment.
 
 Simply Type *PPDM* into the Azure Search and it directly take you to the *Dell EMC PowerProtect Data Manager and Dell EMC PowerProtect DD Virtual Edition* Marketplace Item
-
+[PPDM 19.6 Deployment](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0)
 <figure class="full">
 	<img src="/images/ppdm_marketplace.png" alt="">
 	<figcaption>PPDM Marketplace Image</figcaption>
 </figure>
 
-The Deployment will only allow you to select validated Machine Types, and will deploy the the Datadomain for using ATOS (Active Tier on Object Store)
+The Deployment will only allow you to select validated Machine Types, and will deploy the the DataDomain for using ATOS (Active Tier on Object Store)
 
 our [PowerProtect Data Manager Azure Deployment Guide](https://dl.dell.com/content/docu100810_PowerProtect_Data_Manager_19.6_Azure_Deployment_Guide.pdf?language=en_US) takes you to all the details you may want to configure.
 
-Using CLI ? We got you Covered. Simply download the ARM Template using the Marketplace Wizard and you are good to go
+Using CLI ? We got you covered. Simply download the ARM Template using the Marketplace Wizard and you are good to go
 
 You can always get a list of all DELLEMC Marketplace Items using
 
@@ -57,7 +58,7 @@ If you feel like terraforming the above, i have some templates ready in my [terr
 
 assuming you followed the Instructions from the PPDM Deployment Guide, we now will  deploy our first AKS Cluster to Azure. 
 
-As we are using the [Container STorage Interface](https://github.com/container-storage-interface/spec/blob/master/spec.md) to protect Persistant Volume Claims, we need to follow Microsoft´s guidance to Deploy Managed AKS Clusters using CSI.
+As we are using the [Container STorage Interface](https://github.com/container-storage-interface/spec/blob/master/spec.md) to protect Persistent Volume Claims, we need to follow Microsoft´s guidance to Deploy Managed AKS Clusters using CSI.
 See [Enable Container Storage Interface (CSI) drivers for Azure disks and Azure Files on Azure Kubernetes Service (AKS) (preview)](https://docs.microsoft.com/en-us/azure/aks/csi-storage-drivers) for details.
 
 AKS Cluster using CSI *must* be deployed from CLI as the Date of this article.
@@ -125,9 +126,9 @@ AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
   --aks-custom-headers EnableAzureDiskFileCSIDriver=true \
   --subscription ${AZURE_SUBSCRIPTION_ID} \
 #  --node-vm-size ${AKS_AGENT_0_VMSIZE} \
-#  --service-principal ${AKS_APP_ID} \ this when using 
-#  --client-secret ${AKS_SECRET} \ this for using client secret
-#  --vnet-subnet-id "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Network/virtualNetworks/${RESOURCE_GROUP}-virtual-network/subnets/${RESOURCE_GROUP}-aks-subnet"  \ # when using existing subnet
+#  --service-principal ${AKS_APP_ID} \ <-- this when using 
+#  --client-secret ${AKS_SECRET} \ <-- this for using client secret
+#  --vnet-subnet-id "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Network/virtualNetworks/${RESOURCE_GROUP}-virtual-network/subnets/${RESOURCE_GROUP}-aks-subnet"  \ # <-- this when using existing subnet
   --generate-ssh-keys
 )
 {% endhighlight %}
