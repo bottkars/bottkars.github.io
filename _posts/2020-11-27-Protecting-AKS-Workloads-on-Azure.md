@@ -129,6 +129,8 @@ AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
 #  --vnet-subnet-id "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Network/virtualNetworks/${RESOURCE_GROUP}-virtual-network/subnets/${RESOURCE_GROUP}-aks-subnet"  \ # when using existing subnet
   --generate-ssh-keys
 )
+{% endhighlight %}
+
 
 Once the deployment is done, we can get the Kubernetes Config for kubectl using
 {% highlight scss %}
