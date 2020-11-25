@@ -12,7 +12,7 @@ image:
   credit: 
   creditlink: 
 ---
-# Using DELLEMC Powerprotect to Backup and Protect AKS Workloads
+# Using DELLEMC Powerprotect to Backup and Protect Managed AKS Clusters on Azure
 
 This month we released PowerProtect Datamanager 19.6.  
 Along with new and improved featuresets, we also released our first version to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
@@ -31,7 +31,7 @@ In order to get Started with PPDM on Azure, we will require 2 vm´s to be deploy
 
 ## Deployment from Marketplace
 
-Yes, we got you covered. Our Marketplace Item Deploys both in a One Stop Shopping Experience to your Environment.
+Yes, we got you covered. Our Marketplace Temlate Deploys PPDM and PPDD in a *One Stop Shopping Experience* to your Environment.
 
 Simply Type *PPDM* into the Azure Search and it directly take you to the *Dell EMC PowerProtect Data Manager and Dell EMC PowerProtect DD Virtual Edition* Marketplace Item
 [PPDM 19.6 Deployment](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0)
@@ -286,3 +286,65 @@ We can now start our First Protection by clicking *Backup Now* on the Protection
 </figure>
 
 
+Once the Backup Kicked in, you can monitor the job by viewing the Protection Jon from the Jobs Menu
+
+<figure class="full">
+	<img src="/images/monitor_job_protect.png" alt="">
+	<figcaption>Backup Now</figcaption>
+</figure>
+You can
+
+protection_job
+
+
+
+You can also use your favorite Kubernetes tools to monitor what is Happening behind the Curtains.
+
+In you Application namespace ( here, mysql ) we will create a "c-proxy", that is essentially a datamover to claim the Snapshot PV:
+
+<figure class="full">
+	<img src="/images/claim_proxy.png" alt="">
+	<figcaption>Claim Proxy</figcaption>
+</figure>
+kubectl command 
+{% highlight scss %}
+kubectl get pods --namespace mysql
+{% endhighlight %}
+
+
+A PVC will be created for the MYSQL Snapshot. You can verify that by viewing the PVC´s:
+
+<figure class="full">
+	<img src="/images/pvc_listing.png" alt="">
+	<figcaption>Claim Proxy</figcaption>
+</figure>
+kubectl command 
+{% highlight scss %}
+kubectl get pvc --namespace mysql
+{% endhighlight %}
+
+
+
+See the details of the snapsot claiming by c-proxy
+
+<figure class="full">
+	<img src="/images/claimed_snapshot.png" alt="">
+	<figcaption>claimed Snapshot</figcaption>
+</figure>
+
+kubectl command 
+{% highlight scss %}
+kubectl describe pod/"$(kubectl get pod --namespace mysql  | grep cproxy | awk '{print $1}')" --namespace mysql
+{% endhighlight %}
+
+
+
+
+## Troubleshooting
+
+### Backups fail
+
+delete the PPDM powerprotect-controller POD:
+{% highlight scss %}
+kubectl delete pod "$(kubectl get pod --namespace powerprotect  | grep powerprotect-controller | awk '{print $1}')" --namespace powerprotect
+{% endhighlight %}
