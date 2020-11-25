@@ -4,7 +4,7 @@ title: "The Interop: Generating variable Exports from terraform tfvars.json file
 description: "the automated way to get started with PPDM on vSphere"
 modified: 2020-11-04
 comments: true
-published: true
+published: false
 tags: [terraform, json, bash, concourse]
 image:
   path: /images/config-success.png
