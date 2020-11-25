@@ -298,10 +298,10 @@ protection_job
 
 
 
-You can also use your favorite Kubernetes tools to monitor what is Happening behind the Curtains.
+As a Kubernetes User, you can also use your favorite Kubernetes tools to monitor what is happening behind the Curtains.
 
-In you Application namespace ( here, mysql ) we will create a "c-proxy", that is essentially a datamover to claim the Snapshot PV:
-
+In you Application namespace ( here, mysql ), PowerProtect  will create a "c-proxy", which  is essentially a datamover to claim the Snapshot PV:
+I am using [K9s](https://k9scli.io/) to easy dive into Pods and Logs
 <figure class="full">
 	<img src="/images/claim_proxy.png" alt="">
 	<figcaption>Claim Proxy</figcaption>
@@ -325,7 +325,7 @@ kubectl get pvc --namespace mysql
 
 
 
-See the details of the snapsot claiming by c-proxy
+See the details of the snapshot claiming by c-proxy
 
 <figure class="full">
 	<img src="/images/claimed_snapshot.png" alt="">
@@ -339,7 +339,110 @@ kubectl describe pod/"$(kubectl get pod --namespace mysql  | grep cproxy | awk '
 
 
 
+You can Browse your Backups now from PPDM UI by selecting assets --> Kubernetes Tab --> <namespace> --> copies
 
+
+<figure class="full">
+	<img src="/images/assets_mysql_copies.png" alt="">
+	<figcaption>Asset Copies</figcaption>
+</figure>
+
+
+Also, as a Kubernetes User, you can use
+kubectl command 
+{% highlight scss %}
+kubectl get backupjobs -n=powerprotect
+kubectl describe backupjobs/<you jobnumber> -n=powerprotect
+{% endhighlight %}
+
+<figure class="full">
+	<img src="/images/describe_job.png" alt="">
+	<figcaption>Decribe Backup Jobs</figcaption>
+</figure>
+
+
+## Automated Protection
+
+We have now created a Protection Policy and added a Kubernetes Namespace Resource
+to be protected. But we also can add K8S assets automatically by using Protection Rules and Kubernetes Labels.
+
+For that, we select Protection Rules on PPDM.
+On the Kubernetes Tab, we click on add to create a new Rule.
+Select your existing Policy and Click on Next.
+Configure an Asset filter with
+- Field: Namespace Label  Includes <your label>
+in my example i am using the Label *ppdm_policy=ppdm_gold*
+<figure class="full">
+	<img src="/images/dasset_filter.png" alt="">
+	<figcaption>Decribe Backup Jobs</figcaption>
+</figure>
+
+
+Now we need to create the Namespace and an Application
+I use a Wordpress Deployment in my Example.
+Create a new Directory on your machine and change into it
+Create the Namespace template:
+{% highlight scss %}
+NAMESPACE=wordpress
+PPDM_POLICY=ppdm_gold
+cat <<EOF >./namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+  labels: 
+    ppdm_policy: ${PPDM_POLICY}
+EOF
+{% endhighlight %}
+
+Create a Kustomization File:
+
+{% highlight scss %}
+WP_PASSWORD=<mysecretpassword>
+cat <<EOF >./kustomization.yaml
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=${WP_PASSWORD}
+resources:
+  - namespace.yaml  
+  - mysql-deployment.yaml
+  - wordpress-deployment.yaml
+{% endhighlight %}
+
+Download my Wordpress Templates:
+
+{% highlight scss %}
+wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/mysql-deployment.yaml
+wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/wordpress-deployment.yaml
+{% endhighlight %}
+
+with the 4 files now in place, we can run the Deployment with
+{% highlight scss %}
+kubectl apply -k ./ --namespace ${NAMESPACE}
+{% endhighlight %}
+
+i am using a Concourse Pipeline to do the above, but your out may look similar:
+
+<figure class="full">
+	<img src="/images/deploy_wp.png" alt="">
+	<figcaption>Deploy Wordpress</figcaption>
+</figure>
+
+
+
+We can Verify the Namespace from K9s /kubectl/azure
+
+Now go to you PPDM and manually re-discover the AKSCluster. 
+Once done, we Go to Protection --> Protection Rules and manually run the Protection Rule we created earlier
+
+
+<figure class="full">
+	<img src="/images/rule_assigned_final.png" alt="">
+	<figcaption>Rule Assigned</figcaption>
+</figure>
+
+After Running, the new Asset is Assigned to the Protection Policy 
 ## Troubleshooting
 
 ### Backups fail
