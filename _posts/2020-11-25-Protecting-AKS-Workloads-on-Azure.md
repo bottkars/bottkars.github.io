@@ -355,7 +355,7 @@ EOF
 {% endhighlight %}
 
 Create a Kustomization File:
-{% highlight scss %}
+{% highlight yaml %}
 WP_PASSWORD=<mysecretpassword>
 cat <<EOF >./kustomization.yaml
 secretGenerator:
