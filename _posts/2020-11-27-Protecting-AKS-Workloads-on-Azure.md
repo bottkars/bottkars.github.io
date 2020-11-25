@@ -46,6 +46,7 @@ our [PowerProtect Data Manager Azure Deployment Guide](https://dl.dell.com/conte
 Using CLI ? We got you Covered. Simply download the ARM Template using the Marketplace Wizard and you are good to go
 
 You can always get a list of all DELLEMC Marketplace Items using
+
 {% highlight scss %}
 az vm image list --all --publisher dellemc --output tsv
 {% endhighlight %}
