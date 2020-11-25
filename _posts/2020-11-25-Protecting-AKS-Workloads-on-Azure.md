@@ -15,7 +15,7 @@ image:
 # Using DELLEMC Powerprotect to Backup and Protect Managed AKS Clusters on Azure
 
 This month we released the new PowerProtect Datamanager 19.6.  
-Along with new and improved featuresets, we also released our first version of PPDM to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
+Along with new and improved feature sets, we also released our first version of PPDM to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
 
 This allows  Organizations to Protect the following workloads natively on Azure:
 
@@ -23,7 +23,8 @@ This allows  Organizations to Protect the following workloads natively on Azure:
 - Applications (Oracle, SQL, SAP Hana)
 - Windows and Linux FS
 
-Todays Blogpost will focus on the Protection of Managed Azure Kubernetes Service, AKS
+Todays Blogpost will focus on the Protection of Managed Azure Kubernetes Service, AKS.
+We will do so by fisrt Creating Protection Policies and Add Namespace Assts to ist, amd in a second Step add Namespaces automatically from Kubernetes Namespace Labels using Protection Rules  
 
 In order to get Started with PPDM on Azure, we will require 2 Solutions to be deployed to Azure:
 - DataDomain Virtual Edition (>= 6.0), DDVE ( AKA PPDD )
