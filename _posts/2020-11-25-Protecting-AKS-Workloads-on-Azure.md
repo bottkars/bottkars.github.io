@@ -55,7 +55,7 @@ az vm image list --all --publisher dellemc --output tsv
 
 If you feel like terraforming the above, i have some templates ready in my [terraforming DPS](https://github.com/bottkars/terraforming-dps) main repository to try. They are pretty modular and also covering Avamar and Networker. Feel free to reach out to me on how to use.
 
-## Prepare for pur First AKS Cluster
+## Prepare for our First AKS Cluster
 
 assuming you followed the Instructions from the PPDM Deployment Guide, we now will deploy our first AKS Cluster to Azure. 
 
@@ -138,7 +138,7 @@ az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_N
 
 <figure class="full">
 	<img src="/images/get_aks_cluster.png" alt="">
-	<figcaption>Get AKS Cluster</figcaption>
+	<figcaption>Get AKS Cluster Credentials</figcaption>
 </figure>
 
 In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass:
@@ -321,7 +321,7 @@ kubectl describe backupjobs/<you jobnumber> -n=powerprotect
 </figure>
 
 
-## Automated Protection
+## Automated Protection Using Namespace Labels
 
 We have now created a Protection Policy and added a Kubernetes Namespace Resource
 to be protected. But we also can add K8S assets automatically by using Protection Rules and Kubernetes Labels.
@@ -333,8 +333,8 @@ Configure an Asset filter with
 - Field: Namespace Label  Includes <your label>
 in my example i am using the Label *ppdm_policy=ppdm_gold*
 <figure class="full">
-	<img src="/images/dasset_filter.png" alt="">
-	<figcaption>Decribe Backup Jobs</figcaption>
+	<img src="/images/asset_filter.png" alt="">
+	<figcaption>Describe Backup Jobs</figcaption>
 </figure>
 
 
