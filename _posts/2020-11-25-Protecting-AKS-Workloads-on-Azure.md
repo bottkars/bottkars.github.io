@@ -41,7 +41,7 @@ Simply Type *PPDM* into the Azure Search and it directly take you to the *Dell E
 </figure>
 
 The Deployment will only allow you to select validated Machine Types, and will deploy the the DataDomain for using ATOS (Active Tier on Object Store)
-
+I am not going into the Details of Basic PPDM od PPDD Configuration, so Please refer to
 our [PowerProtect Data Manager Azure Deployment Guide](https://dl.dell.com/content/docu100810_PowerProtect_Data_Manager_19.6_Azure_Deployment_Guide.pdf?language=en_US) 
 takes you to all the details you may want/need to configure.
 
