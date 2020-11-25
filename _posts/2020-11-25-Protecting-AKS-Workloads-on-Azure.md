@@ -310,7 +310,7 @@ You can Browse your Backups now from PPDM UI by selecting assets --> Kubernetes 
 
 Also, as a Kubernetes User, you can use the  
 kubectl command :
-{% highlight scss %}
+{% highlight bash %}
 kubectl get backupjobs -n=powerprotect
 kubectl describe backupjobs/<you jobnumber> -n=powerprotect
 {% endhighlight %}
