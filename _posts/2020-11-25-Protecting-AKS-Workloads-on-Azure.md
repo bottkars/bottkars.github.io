@@ -14,18 +14,18 @@ image:
 ---
 # Using DELLEMC Powerprotect to Backup and Protect Managed AKS Clusters on Azure
 
-This month we released PowerProtect Datamanager 19.6.  
-Along with new and improved featuresets, we also released our first version to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
+This month we released the new PowerProtect Datamanager 19.6.  
+Along with new and improved featuresets, we also released our first version of PPDM to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
 
 This allows  Organizations to Protect the following workloads natively on Azure:
 
-- Kubernetes
+- Vanilla Kubernetes and AKS
 - Applications (Oracle, SQL, SAP Hana)
 - Windows and Linux FS
 
 Todays Blogpost will focus on the Protection of Managed Azure Kubernetes Service, AKS
 
-In order to get Started with PPDM on Azure, we will require 2 vm´s to be deployed to Azure:
+In order to get Started with PPDM on Azure, we will require 2 Solutions to be deployed to Azure:
 - DataDomain Virtual Edition (>= 6.0), DDVE ( AKA PPDD )
 - PowerProtect Datamanager, PPDM
 
@@ -42,7 +42,8 @@ Simply Type *PPDM* into the Azure Search and it directly take you to the *Dell E
 
 The Deployment will only allow you to select validated Machine Types, and will deploy the the DataDomain for using ATOS (Active Tier on Object Store)
 
-our [PowerProtect Data Manager Azure Deployment Guide](https://dl.dell.com/content/docu100810_PowerProtect_Data_Manager_19.6_Azure_Deployment_Guide.pdf?language=en_US) takes you to all the details you may want to configure.
+our [PowerProtect Data Manager Azure Deployment Guide](https://dl.dell.com/content/docu100810_PowerProtect_Data_Manager_19.6_Azure_Deployment_Guide.pdf?language=en_US) 
+takes you to all the details you may want/need to configure.
 
 Using CLI ? We got you covered. Simply download the ARM Template using the Marketplace Wizard and you are good to go
 
@@ -52,38 +53,35 @@ You can always get a list of all DELLEMC Marketplace Items using
 az vm image list --all --publisher dellemc --output tsv
 {% endhighlight %}
 
-If you feel like terraforming the above, i have some templates ready in my [terraforming DPS](https://github.com/bottkars/terraforming-dps) main repository to try. They are Pretty modular also covering Avamar and Networker. Feel free to reach out to me on how to use.
+If you feel like terraforming the above, i have some templates ready in my [terraforming DPS](https://github.com/bottkars/terraforming-dps) main repository to try. They are pretty modular and also covering Avamar and Networker. Feel free to reach out to me on how to use.
 
 ## Prepare for pur First AKS Cluster
 
-assuming you followed the Instructions from the PPDM Deployment Guide, we now will  deploy our first AKS Cluster to Azure. 
+assuming you followed the Instructions from the PPDM Deployment Guide, we now will deploy our first AKS Cluster to Azure. 
 
-As we are using the [Container STorage Interface](https://github.com/container-storage-interface/spec/blob/master/spec.md) to protect Persistent Volume Claims, we need to follow Microsoft´s guidance to Deploy Managed AKS Clusters using CSI.
+As we are using the [Container Storage Interface](https://github.com/container-storage-interface/spec/blob/master/spec.md) to protect Persistent Volume Claims, we need to follow Microsoft´s guidance to Deploy Managed AKS Clusters using CSI.
 See [Enable Container Storage Interface (CSI) drivers for Azure disks and Azure Files on Azure Kubernetes Service (AKS) (preview)](https://docs.microsoft.com/en-us/azure/aks/csi-storage-drivers) for details.
 
-AKS Cluster using CSI *must* be deployed from CLI as the Date of this article.
+AKS Cluster using CSI *must* be deployed from AZ CLI as the Date of this article.
 
-If this is the first AKS Cluster using CSI in your Subscription, you will need to enable the feature using 
-
+If this is the first AKS Cluster using CSI in your Subscription, you will need to enable the feature using:
 {% highlight scss %}
 az feature register --namespace "Microsoft.ContainerService" \
  --name "EnableAzureDiskFileCSIDriver"
 {% endhighlight %}
 
-You can query the state using
+You can query the state using:
 {% highlight scss %}
 az feature list -o table \
 --query "[?contains(name, 'Microsoft.ContainerService/EnableAzureDiskFileCSIDriver')].{Name:name,State:properties.state}"
 {% endhighlight %}
 
-Once finished, we register the Provider with 
-
+Once finished, we register the Provider with:
 {% highlight scss %}
 az provider register --namespace Microsoft.ContainerService
 {% endhighlight %}
 
-But we also need to update our AZ CLI to support the latest extensions for AKS. Therefore, run
-
+But we also need to update our AZ CLI to support the latest extensions for AKS. Therefore, run:
 {% highlight scss %}
 az extension add --name aks-preview
 az extension update --name aks-preview
@@ -96,12 +94,12 @@ You might want to use the same Service Principal again for Future Deployments, o
 
 If not already done, login to Azure from AZ CLI. Two Method´s, depending on your Workflow:
 
-Using Device Login (good to Create the SP for RBAC)
+Using Device Login (good to Create the SP for RBAC):
 {% highlight scss %}
 az login --use-device-code --output tsv
 {% endhighlight %}
 
-Using a limited Service OPrincipal, with already configured SP for AKS
+Using a limited Service OPrincipal, with already configured SP for AKS:
 {% highlight scss %}
 AZURE_CLIENT_ID=<your client id>
 AZURE_CLIENT_SECRET=<your secret>
@@ -115,7 +113,6 @@ az login --service-principal \
 
 So we are good to create our first AKS Cluster.
 Make sure you are scoped to the correct Subscription:
-
 {% highlight scss %}
 RESOURCE_GROUP=<your AKS Resource Group>
 AKS_CLUSTER_NAME=<your AKS Cluster>
@@ -134,7 +131,7 @@ AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
 {% endhighlight %}
 
 
-Once the deployment is done, we can get the Kubernetes Config for kubectl using
+Once the deployment is done, we can get the Kubernetes Config for kubectl using:
 {% highlight scss %}
 az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_NAME}
 {% endhighlight %}
@@ -144,15 +141,13 @@ az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_N
 	<figcaption>Get AKS Cluster</figcaption>
 </figure>
 
-In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass
+In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass:
 {% highlight scss %}
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/example/snapshot/storageclass-azuredisk-snapshot.yaml
 {% endhighlight %}
 
 With that, the Preparation for AKS using CSI is done.
-
-You can view your new StorageClasses with
-
+You can view your new StorageClasses with:
 {% highlight scss %}
 kubectl get storageclasses
 {% endhighlight %}
@@ -166,34 +161,27 @@ kubectl get storageclasses
 ## Add Kubernetes Secret for PPDM
 
 In order to connect to AKS from PPDM, we need to create Service Account with Role based access.
-
-A basic RBAC Template can be applied with
-
+A basic RBAC Template can be applied with:
 {% highlight scss %}
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-admin.yml
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-rbac.yml
 {% endhighlight %}
 
-After, you can export the Token to be used for PPDM with
-
+After, you can export the Token to be used for PPDM with:
 {% highlight scss %}
 kubectl get secret "$(kubectl -n kube-system get secret | grep ppdm-admin | awk '{print $1}')" \
 -n kube-system --template={{.data.token}} | base64 -d
 {% endhighlight %}
 
 This is needed for the Credentials we Create in PPDM
-
-Now sign in to PPDM and go to Credentials
-
-
+Now sign in to PPDM and go to Credentials:
 <figure class="full">
 	<img src="/images/add_credentials.png" alt="">
 	<figcaption>Credentials</figcaption>
 </figure>
 
 Add a Credential of Type Kubernetes, with the name of the secret we created in AKS, in the example it is ppdm-admin.
-Copy the Service token in you got from above
-
+Copy the Service token in you got from above:
 <figure class="full">
 	<img src="/images/ppdm_credentials_aks.png" alt="">
 	<figcaption>PPDM Credentials AKS</figcaption>
@@ -202,8 +190,7 @@ Copy the Service token in you got from above
 
 ## Add AKS Cluster to PPDM
 
-Now we are good to add the new AKS Cluster to PPDM. Therefore, we go to the new Asset Sources Dashboard in PPDM  
-
+Now we are good to add the new AKS Cluster to PPDM. Therefore, we go to the new Asset Sources Dashboard in PPDM: 
 <figure class="full">
 	<img src="/images/enable_asset_sources.png" alt="">
 	<figcaption>Enable Asset Sources</figcaption>
@@ -212,8 +199,7 @@ Now we are good to add the new AKS Cluster to PPDM. Therefore, we go to the new 
 Click on the Kubernetes Source to enable Kubernetes Assets.
 After clicking OK on the Instructions, click Add on the Kubernetes 
 
-Fill in the Information for your AKS Cluster, and use the ppdm-admin Credentials
-
+Fill in the Information for your AKS Cluster, and use the ppdm-admin Credentials:
 <figure class="full">
 	<img src="/images/add_aks_cluster.png" alt="">
 	<figcaption>Add AKS Cluster</figcaption>
