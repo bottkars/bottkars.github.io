@@ -441,8 +441,29 @@ Once done, we Go to Protection --> Protection Rules and manually run the Protect
 	<img src="/images/rule_assigned_final.png" alt="">
 	<figcaption>Rule Assigned</figcaption>
 </figure>
-
 After Running, the new Asset is Assigned to the Protection Policy 
+
+We now can go to our Protection Policy, and the Asset Counted should include the new Asset.
+You can Click edit to see / verify Wordpress has been Added :
+
+<figure class="full">
+	<img src="/images/edit_assets.png" alt="">
+	<figcaption>Edit Assets</figcaption>
+</figure>
+
+The "Manage Exclusions" link in PVC´s Excluded Column will show you the PVC´s in the Wordpress Asset. It should be 2 PVC´s of type managed-csi
+<figure class="full">
+	<img src="/images/pvc_wordpress.png" alt="">
+	<figcaption>Included PVC´s</figcaption>
+</figure>
+Run the Protection Policy as before, but now only select the New Asset to be Backed up
+
+
+<figure class="full">
+	<img src="/images/backup_now_slected.png" alt="">
+	<figcaption>Backup Now</figcaption>
+</figure>
+
 ## Troubleshooting
 
 ### Backups fail
