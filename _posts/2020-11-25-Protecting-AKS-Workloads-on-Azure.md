@@ -321,17 +321,19 @@ kubectl describe backupjobs/<you jobnumber> -n=powerprotect
 </figure>
 
 
-## Automated Protection Using Namespace Labels
+## Automated Protection using Namespace Labels
 
-We have now created a Protection Policy and added a Kubernetes Namespace Resource
-to be protected. But we also can add K8S assets automatically by using Protection Rules and Kubernetes Labels.
+One of the great features is the Automated Asset Selection for Kubernetes Assets using Namespace Labels.
+In the Previous Example we have created a Protection Policy and added a Kubernetes Namespace Asset to it.
+to be protected. 
+No we are adding K8S assets automatically by using Protection Rules and Kubernetes Labels.
 
 For that, we select Protection Rules on PPDM.
 On the Kubernetes Tab, we click on add to create a new Rule.
 Select your existing Policy and Click on Next.
 Configure an Asset filter with
 - Field: Namespace Label  Includes <your label>
-in my example i am using the Label *ppdm_policy=ppdm_gold*
+in my example I am using the Label *ppdm_policy=ppdm_gold*
 <figure class="full">
 	<img src="/images/asset_filter.png" alt="">
 	<figcaption>Asset Filters</figcaption>
