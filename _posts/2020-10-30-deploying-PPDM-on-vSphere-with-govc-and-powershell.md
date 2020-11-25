@@ -27,13 +27,13 @@ Other Method´s will follow here over the next Couple of Days . . .
 Before we start the deployment, we need to check that we have
  - govc >= 0.23 insalled from [Github Releases](https://github.com/vmware/govmomi/releases/download/v0.23.0/govc_windows_amd64.exe.zip) installed in a path as govc
  - my Powershell modules ( minimum : 0.19.6.2 ) for PPDM installed from [PPDM Powershell](https://www.powershellgallery.com/packages/PPDM-pwsh)using  
- {% highlight scss %}
- install-module PPDM-pwsh -MinimumVersion 0.19.6.2
+{% highlight shell %}
+install-module PPDM-pwsh -MinimumVersion 0.19.6.2
 {% endhighlight %}
 ## Step 1: Connecting to vSphere using govc
 From a Powershell, we first need to connect to our vSphere Virtual Center By using the following code,
 we can securely create a connection:
-{% highlight scss %}
+{% highlight shell %}
 # Set the Basic Parameter
 $env:GOVC_URL="vcsa1.home.labbuildr.com"    # replace ith your vCenter
 $env:GOVC_INSECURE="true"                   # allow untrusted certs
@@ -57,7 +57,7 @@ download the latest Powerprotect DataManager from [DELLEMC Support](https://dl.d
 
 first of all, we set our govc environment to have the Following Variables
 ( complete code snippet of step 2 below )
-{% highlight scss %}
+{% highlight shell %}
 # Set the Basic Parameter
 $env:GOVC_URL="vcsa1.home.labbuildr.com"                # replace ith your vCenter
 $env:GOVC_INSECURE="true"                               # allow untrusted certs
@@ -70,7 +70,7 @@ $env:GOVC_RESOURCE_POOL='mgmt_vms'                      # The Optional Resource 
 {% endhighlight %}
 We then can connect to our vSphere Environment:
 
-{% highlight scss %}
+{% highlight shell %}
 # read Password
 $username = Read-Host -Prompt "Please Enter Virtual Center Username default (Administrator@vsphere.local)"
 If(-not($username)){$username = "Administrator@vsphere.local"}
@@ -84,13 +84,13 @@ govc about{% endhighlight %}
 then we need to import the Virtual Appliance Specification from the ova using *govc import.spec*
 the command would look like
 
-{% highlight scss %}
+{% highlight shell %}
 $SPEC=govc import.spec $ovapath| ConvertFrom-Json
 {% endhighlight %}
 
 Once we have the Configuration Data, we will change the vami keys in the "Property Mappings" to our desired Values
 
-{% highlight scss %}
+{% highlight shell %}
 # edit your ip address
 $SPEC.PropertyMapping[0].Key='vami.ip0.brs'
 $SPEC.PropertyMapping[0].Value='100.250.1.123' # < your IP here
@@ -109,18 +109,18 @@ $SPEC.PropertyMapping[4].Value = "ppdmdemo.home.labbuidr.com" # < your fqdn here
 {% endhighlight %}
 Now we need to import the OVA using *govc import.ova* with the settings we just created:
 
-{% highlight scss %}
+{% highlight shell %}
 $SPEC | ConvertTo-Json | Set-Content -Path spec.json
 govc import.ova -name $env:GOVC_VM -options="./spec.json" $ovapath
 {% endhighlight %}
 And change to the Correct "VM Network" for  ethernet-0
-{% highlight scss %}
+{% highlight shell %}
 govc vm.network.change -net="VM Network" ethernet-0
 {% endhighlight %}
 
 Now, we can Power on the vm using *govc vm.power* ...
 
-{% highlight scss %}
+{% highlight shell %}
 govc vm.power -on $env:GOVC_VM
 {% endhighlight %}
 
@@ -137,7 +137,7 @@ In an Automated Scenario, one could query the URL *http://fqdn.of.ppdm:443/#/fre
 
 if not already node, load the Modules by 
 
-{% highlight scss %}
+{% highlight shell %}
 import-module PPDM-pwsh
 {% endhighlight %}
 
@@ -146,19 +146,19 @@ You will be asked for for the username ad *admin* and Password of *admin*
 We will retrieve a Bearer Token from the API, that will be used automatically for Subsequent requests in the Current Powershell Session. 
 PPDM-pwsh also will figure out your Powershell Version and therefore use different Methods to use non trusted certificates. ( -trustCert)
 
-{% highlight scss %}
+{% highlight shell %}
 $API=Connect-PPDMapiEndpoint -PPDM_API_URI https://ppdm-demo.home.labbuildr.com -user -trustCert
 {% endhighlight %}
 
 
 Once connected, we need to Accept the EULA for PPDM by using
-{% highlight scss %}
+{% highlight shell %}
 Approve-PPDMEula
 {% endhighlight %}
 
 The next step is to configure PPDM. For that, we need to specify Timezone, NTP Server and the new Password(s)
 to get a list of timezones, run
-{% highlight scss %}
+{% highlight shell %}
 Get-PPDMTimezones
 {% endhighlight %}
 
@@ -170,7 +170,7 @@ Configuring the PPDM does only require 3 Parameters:
 
 We can use a Single Powershell Command to start the COnfiguration Process:
 
-{% highlight scss %}
+{% highlight shell %}
 Set-PPDMconfigurations -NTPservers 139.162.149.127 -Timezone "Europe/Berlin" -admin_Password 'Password123!'
 {% endhighlight %}
 <figure class="full">
@@ -181,7 +181,7 @@ It will take up to 10 Minutes for PPDM to finish.
 We can Monitor  the Success Status with 
 
 
-{% highlight scss %}
+{% highlight shell %}
  Get-PPDMconfigurations | Get-PPDMconfigstatus
 {% endhighlight %}
 
