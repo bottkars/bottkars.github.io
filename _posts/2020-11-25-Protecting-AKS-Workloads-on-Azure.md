@@ -205,17 +205,14 @@ Fill in the Information for your AKS Cluster, and use the ppdm-admin Credentials
 	<figcaption>Add AKS Cluster</figcaption>
 </figure>
 
-Click on Verify Certificate to import the AKS API Server.
-
-
+Click on Verify Certificate to import the AKS API Server:
 <figure class="full">
 	<img src="/images/verify_aks_certificate.png" alt="">
 	<figcaption>Verify Certificate</figcaption>
 </figure>
 
 Then Click save to add the AKS Cluster. The AKS Cluster will be discovered automatically for us now, so go over to
-Assets.
-
+Assets:
 <figure class="full">
 	<img src="/images/aks_assets.png" alt="">
 	<figcaption>AKS Assets</figcaption>
@@ -225,8 +222,6 @@ You will see that 2 new Namespaces have been deployed, velero-ppdm and powerprot
 We are leveraging upstream [velero](https://github.com/vmware-tanzu/velero) and added support for DataDomain Boost Protocol.
 
 In my example, i already added a mysql application using the Storageclass *managed-csi* for PV Claim, you can use my Template from here:
-
-
 {% highlight scss %}
 NAMESPACE=mysql
 kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/mysql/mysql-namespace.yaml
@@ -235,8 +230,7 @@ kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/
 kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/mysql/mysql-deployment.yaml --namespace ${NAMESPACE}
 {% endhighlight %}
 
-You can verify the Storage Class in PPDM by cliking on the "exclusions" link form the namespace vie in PPDM
-
+You can verify the Storage Class in PPDM by cliking on the "exclusions" link form the namespace vie in PPDM:
 <figure class="full">
 	<img src="/images/ppdm_storage_class.png" alt="">
 	<figcaption>Storage Class in PPDM</figcaption>
@@ -246,96 +240,76 @@ We now can create a Protection Policy. Therefore, go to Protection --> Protectio
 The step is similar to all other Protection Policy.
 Make sure to select
 - Type Kubernetes
-- Purpose Chrash Consistent
+- Purpose Crash Consistent
 - Select the Asset ( Namespace ) with the Managed CSI
 - Add at least a Schedule for Type Backup
-
-
 <figure class="full">
 	<img src="/images/proitection_policy_detail.png" alt="">
 	<figcaption>Protection Policy Detail</figcaption>
 </figure>
 
-
-Once done, monitor the System Job to finish Configuring the Protection Policy.
-
+Once done, monitor the System Job to finish Configuring the Protection Policy:
 <figure class="full">
 	<img src="/images/system_job.png" alt="">
 	<figcaption>System Job</figcaption>
 </figure>
 
-We can now start our First Protection by clicking *Backup Now* on the Protection Policy
-
+We can now start our First Protection by clicking *Backup Now* on the Protection Policy:
 <figure class="full">
 	<img src="/images/backup_now.png" alt="">
 	<figcaption>Backup Now</figcaption>
 </figure>
 
-
-Once the Backup Kicked in, you can monitor the job by viewing the Protection Jon from the Jobs Menu
-
+Once the Backup Kicked in, you can monitor the job by viewing the Protection Jon from the Jobs Menu:
 <figure class="full">
 	<img src="/images/monitor_job_protect.png" alt="">
 	<figcaption>Backup Now</figcaption>
 </figure>
-You can
-
-protection_job
-
-
 
 As a Kubernetes User, you can also use your favorite Kubernetes tools to monitor what is happening behind the Curtains.
 
 In you Application namespace ( here, mysql ), PowerProtect  will create a "c-proxy", which  is essentially a datamover to claim the Snapshot PV:
-I am using [K9s](https://k9scli.io/) to easy dive into Pods and Logs
+I am using [K9s](https://k9scli.io/) to easy dive into Pods and Logs:
 <figure class="full">
 	<img src="/images/claim_proxy.png" alt="">
 	<figcaption>Claim Proxy</figcaption>
 </figure>
-kubectl command 
+kubectl command: 
 {% highlight scss %}
 kubectl get pods --namespace mysql
 {% endhighlight %}
 
 
 A PVC will be created for the MYSQL Snapshot. You can verify that by viewing the PVC´s:
-
 <figure class="full">
 	<img src="/images/pvc_listing.png" alt="">
 	<figcaption>Claim Proxy</figcaption>
 </figure>
-kubectl command 
+kubectl command: 
 {% highlight scss %}
 kubectl get pvc --namespace mysql
 {% endhighlight %}
 
-
-
-See the details of the snapshot claiming by c-proxy
-
+See the details of the snapshot claiming by c-proxy:
 <figure class="full">
 	<img src="/images/claimed_snapshot.png" alt="">
 	<figcaption>claimed Snapshot</figcaption>
 </figure>
 
-kubectl command 
+kubectl command: 
 {% highlight scss %}
 kubectl describe pod/"$(kubectl get pod --namespace mysql  | grep cproxy | awk '{print $1}')" --namespace mysql
 {% endhighlight %}
 
-
-
 You can Browse your Backups now from PPDM UI by selecting assets --> Kubernetes Tab --> <namespace> --> copies
-
-
 <figure class="full">
 	<img src="/images/assets_mysql_copies.png" alt="">
 	<figcaption>Asset Copies</figcaption>
 </figure>
 
 
-Also, as a Kubernetes User, you can use
-kubectl command 
+Also, as a Kubernetes User, you can use the  
+kubectl command :
 {% highlight scss %}
 kubectl get backupjobs -n=powerprotect
 kubectl describe backupjobs/<you jobnumber> -n=powerprotect
@@ -365,8 +339,7 @@ in my example i am using the Label *ppdm_policy=ppdm_gold*
 
 
 Now we need to create the Namespace and an Application
-I use a Wordpress Deployment in my Example.
-Create a new Directory on your machine and change into it
+I use a Wordpress deployment in my example. For this, create a new Directory on your machine and change into it
 Create the Namespace template:
 {% highlight scss %}
 NAMESPACE=wordpress
@@ -382,7 +355,6 @@ EOF
 {% endhighlight %}
 
 Create a Kustomization File:
-
 {% highlight scss %}
 WP_PASSWORD=<mysecretpassword>
 cat <<EOF >./kustomization.yaml
@@ -397,54 +369,45 @@ resources:
 {% endhighlight %}
 
 Download my Wordpress Templates:
-
 {% highlight scss %}
 wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/mysql-deployment.yaml
 wget https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/wordpress/wordpress-deployment.yaml
 {% endhighlight %}
 
-with the 4 files now in place, we can run the Deployment with
+with the 4 files now in place, we can run the Deployment with:
 {% highlight scss %}
 kubectl apply -k ./ --namespace ${NAMESPACE}
 {% endhighlight %}
 
 i am using a Concourse Pipeline to do the above, but your out may look similar:
-
 <figure class="full">
 	<img src="/images/deploy_wp.png" alt="">
 	<figcaption>Deploy Wordpress</figcaption>
 </figure>
 
-
-
 We can Verify the Namespace from K9s /kubectl/azure
-
-Now go to you PPDM and manually re-discover the AKSCluster. 
-Once done, we Go to Protection --> Protection Rules and manually run the Protection Rule we created earlier
-
-
+Now we need to go to you PPDM and manually re-discover the AKSCluster. (default every 15 Minutes)
+Once done, we go to Protection --> Protection Rules and manually run the Protection Rule we created earlier:
 <figure class="full">
 	<img src="/images/rule_assigned_final.png" alt="">
 	<figcaption>Rule Assigned</figcaption>
 </figure>
-After Running, the new Asset is Assigned to the Protection Policy 
 
+After Running, the new Asset is Assigned to the Protection Policy 
 We now can go to our Protection Policy, and the Asset Counted should include the new Asset.
 You can Click edit to see / verify Wordpress has been Added :
-
 <figure class="full">
 	<img src="/images/edit_assets.png" alt="">
 	<figcaption>Edit Assets</figcaption>
 </figure>
 
-The "Manage Exclusions" link in PVC´s Excluded Column will show you the PVC´s in the Wordpress Asset. It should be 2 PVC´s of type managed-csi
+The "Manage Exclusions" link in PVC´s Excluded Column will show you the PVC´s in the Wordpress Asset. It should be 2 PVC´s of type managed-csi:
 <figure class="full">
 	<img src="/images/pvc_wordpress.png" alt="">
 	<figcaption>Included PVC´s</figcaption>
 </figure>
-Run the Protection Policy as before, but now only select the New Asset to be Backed up
 
-
+Run the Protection Policy as before, but now only select the New Asset to be Backed up:
 <figure class="full">
 	<img src="/images/backup_now_slected.png" alt="">
 	<figcaption>Backup Now</figcaption>
@@ -453,8 +416,8 @@ Run the Protection Policy as before, but now only select the New Asset to be Bac
 ## Troubleshooting
 
 ### Backups fail
-
-delete the PPDM powerprotect-controller POD:
+In case your Backups fail, redeploy the powerprotect-controller
+by deleting the POD:
 {% highlight scss %}
 kubectl delete pod "$(kubectl get pod --namespace powerprotect  | grep powerprotect-controller | awk '{print $1}')" --namespace powerprotect
 {% endhighlight %}
