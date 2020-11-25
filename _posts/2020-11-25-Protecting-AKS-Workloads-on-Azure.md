@@ -283,8 +283,8 @@ kubectl get pods --namespace mysql
 
 A PVC will be created for the MYSQL Snapshot. You can verify that by viewing the PVC´s:
 <figure class="full">
-	<img src="/images/pvc_listing.png" alt="">
-	<figcaption>Claim Proxy</figcaption>
+	<img src="/images/pvc_list.png" alt="">
+	<figcaption>PVC List</figcaption>
 </figure>
 kubectl command: 
 {% highlight shell %}
