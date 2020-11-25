@@ -2,7 +2,7 @@
 layout: post
 title: "Protectink AKS Workloads on Azure using Powerprotect Datamanager"
 description: "the new star for Protecting Kubernetes Workloads"
-modified: 2020-11-27
+modified: 2020-11-25
 comments: true
 published: true
 tags: [terraform, json, bash, concourse, aks, powerprotect]
