@@ -30,7 +30,7 @@ In order to get Started with PPDM on Azure, we will require 2 vm´s to be deploy
 
 ## Deployment from Marketplace
 
-Yes, we got you Covered. Our Marketplace Item Deploys Both in a One Stop Shopping Experience to your Environment.
+Yes, we got you Covered. Our Marketplace Item Deploys both in a One Stop Shopping Experience to your Environment.
 
 Simply Type *PPDM* into the Azure Search and it directly take you to the *Dell EMC PowerProtect Data Manager and Dell EMC PowerProtect DD Virtual Edition* Marketplace Item
 
