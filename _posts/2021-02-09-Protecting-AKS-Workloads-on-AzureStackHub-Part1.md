@@ -19,7 +19,7 @@ If you have read my previous article, you could get a Brief understanding how we
 One of my personal aspirations is always: 
 *If it runs on Azure, it should run on AzureStackHub*
 
-Well, we all no, AzureStackHub is like Azure, *but different*
+Well, we all know, AzureStackHub is like Azure, *but different*
 
 # What works, how it works and what is/was missing
 
@@ -120,7 +120,7 @@ When AKS is deployed using the Engine, most likely 3 Storageclasses are installe
 In order to make use of the CSI Storageclass, we need to add at least one new Storageclass:
 create a class_csi.yaml with the following content
 
-{% highlight json %}
+{% highlight shell %}
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -157,7 +157,7 @@ kubectl apply -f storageclass-azuredisk-snapshot.yaml
 {% endhighlight %}
 
 
-{% highlight json %}
+{% highlight shell %}
 ---
 apiVersion: snapshot.storage.k8s.io/v1beta1
 kind: VolumeSnapshotClass
