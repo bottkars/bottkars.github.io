@@ -51,7 +51,7 @@ I am not going to explain how to deploy AKS-Engine based Clusters on AzureStackH
 
 Once you Cluster is deployed, you need to deploy *the latest* azuredisk-csi-drivers.
 
-Microsoft Provides a guidance here that *helm charts* must be used to deploy the azuredisk-csi-drivers on AzureStackHub.
+Microsoft Provides a guidance here that *helm charts* must be used to deploy the azuredisk-csi-drivers on AzureStackHub.  
 Here is a Screenshot of the Helmchart from my Kubeapps Dashboard:
 <figure class="full">
 	<img src="/images/csi_helm.png" alt="">
