@@ -16,10 +16,14 @@ image:
 
 If you have read my previous article, you could get a Brief understanding how we can Protect AKS Persistent Workloads on Azure using @ProjectVelero and DellEMC PowerProtect Datamanager.
 
-One of my personal aspirations is always: 
-*If it runs on Azure, it should run on AzureStack Hub*
+Velero and PowerProtect Datamanager Kubernetes Protection depends on the Container Storage Interface (CSI) for persistent Volumes.
 
-Well, we all know, AzureStack Hub is like Azure, *but different*
+
+Having in mind: 
+*If it runs on Azure, it should run on AzureStack Hub*,   
+I was keen to get CSI run on AzureStack Hub AKS.  
+
+Well, we all know, AzureStack Hub is like Azure, *but different*, so it was a journey ...
 
 ## What works, how it works and what is/was missing
 
