@@ -5,7 +5,7 @@ description: "create, snapshot and clone persistent volumes the k8s way"
 modified: 2021-02-09
 comments: true
 published: true
-tags: [aks-engine, json, bash, csi, aks, powerprotect]
+tags: [aks-engine, json, bash, csi, aks, AzureStackHub]
 image:
   path: /images/csi_helm.png
   feature: csi_helm.png
@@ -17,9 +17,9 @@ image:
 If you have read my previous article, you could get a Brief understanding how we can Protect AKS Persistent Workloads on Azure using @ProjectVelero and DellEMC PowerProtect Datamanager.
 
 One of my personal aspirations is always: 
-*If it runs on Azure, it should run on AzureStackHub*
+*If it runs on Azure, it should run on AzureStack Hub*
 
-Well, we all know, AzureStackHub is like Azure, *but different*
+Well, we all know, AzureStack Hub is like Azure, *but different*
 
 ## What works, how it works and what is/was missing
 
@@ -27,31 +27,31 @@ Before we start, let´s get some basics.
 
 ### What *was* missing
 
-AzureStackHub allows you to deploy Kubernetes Clusters using the AKS Engine.
+AzureStack Hub allows you to deploy Kubernetes Clusters using the AKS Engine.
 AKS Engine is a legacy tool to create ARM Template´s to deploy Kubernetes Clusters.
 While Public Azure AKS Clusters will transition to Cluster API ( CAPZ ), AzureStack Hub only support AKS-Engine
 The Current ( officially Supported ) version of AKS-Engine for AzureStack Hub is v0.55.4.
 
-It allows for Persistent Volumes, however, they would use the InTree Volume Plugin.
-In order to make use of the Container Storage Interface (CSI), we first would need a CSI Driver that is able to talk to AzureStackHub.
+It allows for Persistent Volumes, however, they would use the InTree Volume Plugin.  
+In order to make use of the Container Storage Interface (CSI), we first would need a CSI Driver that is able to talk to AzureStack Hub.  
 When I tried to implement the Azure CSI Drivers on AzureStack Hub last year, I essentially failed because of a ton of Certificate and API Issues.
 
 With PowerProtect official Support for Azure, I started to dig into the CSI Drivers again.
 I browsed through the existing Github Issues and PR´s, and found at least that some People are working on iot.
 
 And finally a got in touch with Andy Zhang. who maintains the azuredisk-csi-driver kuberenetes-sigs.
-From an initial "it should" work, he connected me to the people doing E2E Test for AzureStackHub.
+From an initial "it should" work, he connected me to the people doing E2E Test for AzureStack Hub.
 
 Within 2 Days turnaround, we managed to fix all API and SSL related issues, and *FINALLY GOT A WORKING VERSION* !
 
 ### how it works
 
-I am not going to explain how to deploy AKS-Engine based Clusters on AzureStackHub, there is a good explanation on the [Microsoft Documentation](https://docs.microsoft.com/en-us/azure-stack/user/azure-stack-kubernetes-aks-engine-overview?view=azs-2008#:~:text=The%20AKS%20engine%20provides%20a%20command-line%20tool%20to,other%20infrastructure-as-a-service%20(IaaS)%20resources%20in%20Azure%20Stack%20Hub.) Website.
+I am not going to explain how to deploy AKS-Engine based Clusters on AzureStack Hub, there is a good explanation on the [Microsoft Documentation](https://docs.microsoft.com/en-us/azure-stack/user/azure-stack-kubernetes-aks-engine-overview?view=azs-2008#:~:text=The%20AKS%20engine%20provides%20a%20command-line%20tool%20to,other%20infrastructure-as-a-service%20(IaaS)%20resources%20in%20Azure%20Stack%20Hub.) Website.
 
 
 Once you Cluster is deployed, you need to deploy *the latest* azuredisk-csi-drivers.
 
-Microsoft Provides a guidance here that *helm charts* must be used to deploy the azuredisk-csi-drivers on AzureStackHub.  
+Microsoft Provides a guidance here that *helm charts* must be used to deploy the azuredisk-csi-drivers on AzureStack Hub.  
 Here is a Screenshot of the Helmchart from my Kubeapps Dashboard:
 <figure class="full">
 	<img src="/images/csi_helm.png" alt="">
@@ -68,7 +68,7 @@ helm repo add azuredisk-csi-driver https://raw.githubusercontent.com/kubernetes-
 With the Repo now added, we can now deploy the azuredisk-csi-driver Helm Chart.
 When doing this, we will pass some setting to the deployment:
  - cloud=AzureStackCloud
-This determines we run on AzureSTackHub and instructs the csi driver to load the Cloud Config from a File on the Master.
+This determines we run on AzureStack Hub and instructs the csi driver to load the Cloud Config from a File on the Master.
 
 - snapshot.enabled=true
 This installs the *csi-snapshot-controller* that is required to expose Snapshot Functionality
