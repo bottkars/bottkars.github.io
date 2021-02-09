@@ -7,8 +7,8 @@ comments: true
 published: true
 tags: [aks-engine, json, bash, csi, aks, powerprotect]
 image:
-  path: /images/masterpipeline_ppdm_aks.png
-  feature: masterpipeline_ppdm_aks.png
+  path: /images/csi_helm.png
+  feature: csi_helm.png
   credit: 
   creditlink: 
 ---
@@ -52,6 +52,12 @@ I am not going to explain how to deploy AKS-Engine based Clusters on AzureStackH
 Once you Cluster is deployed, you need to deploy *the latest* azuredisk-csi-drivers.
 
 Microsoft Provides a guidance here that *helm charts* must be used to deploy the azuredisk-csi-drivers on AzureStackHub.
+Here is a Screenshot of the Helmchart from my Kubeapps Dashboard:
+<figure class="full">
+	<img src="/images/csi_helm.png" alt="">
+	<figcaption>CSI Helm CHart</figcaption>
+</figure>
+
 #### installing the driver
 So first we add the Repo from Github:
 
@@ -83,12 +89,12 @@ helm install azuredisk-csi-driver azuredisk-csi-driver/azuredisk-csi-driver \
 </figure>
 This should install:
 A Replica Set for the csi-azuredisk-controller with 2 Pods containing the following containers:
-	mcr.microsoft.com/k8s/csi/azuredisk-csi
-	mcr.microsoft.com/oss/kubernetes-csi/csi-attacher
-	mcr.microsoft.com/oss/kubernetes-csi/csi-provisioner
-	mcr.microsoft.com/oss/kubernetes-csi/csi-resizer
-	mcr.microsoft.com/oss/kubernetes-csi/csi-snapshotter
-	mcr.microsoft.com/oss/kubernetes-csi/livenessprobe
+	mcr.microsoft.com/k8s/csi/azuredisk-csi  
+	mcr.microsoft.com/oss/kubernetes-csi/csi-attacher  
+	mcr.microsoft.com/oss/kubernetes-csi/csi-provisioner  
+	mcr.microsoft.com/oss/kubernetes-csi/csi-resizer  
+	mcr.microsoft.com/oss/kubernetes-csi/csi-snapshotter  
+	mcr.microsoft.com/oss/kubernetes-csi/livenessprobe  
 
 A Replica Set for the csi-snapshot-controller with 1 Pod
 One csi-azuredisk-node Pod per Node
@@ -100,10 +106,6 @@ kubectl -n kube-system get pod -o wide --watch -l app=csi-azuredisk-controller
 kubectl -n kube-system get pod -o wide --watch -l app=csi-azuredisk-node
 {% endhighlight %}
 
-<figure class="full">
-	<img src="/images/csi_helm.png" alt="">
-	<figcaption>CSI Helm CHart</figcaption>
-</figure>
 
 
 #### Adding the Storageclasses
