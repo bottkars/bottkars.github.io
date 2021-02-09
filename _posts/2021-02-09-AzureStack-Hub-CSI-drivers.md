@@ -201,7 +201,7 @@ kubectl get pvc
 The PVC will show the identical Volume Name as the Disk Name from The Portal / CLI
 
 <figure class="full">
-	<img src="/images/pvc_cli.png" alt="">
+	<img src="/images/pvc_portal.png" alt="">
 	<figcaption>AKS Storageclasses</figcaption>
 </figure>
 
