@@ -7,8 +7,8 @@ comments: true
 published: true
 tags: [aks-engine, json, bash, csi, aks, powerprotect]
 image:
-  path: /images/csi_helm.png
-  feature: csi_helm.png
+  path: /images/masterpipeline_ppdm_aks.png
+  feature: masterpipeline_ppdm_aks.png
   credit: 
   creditlink: 
 ---
