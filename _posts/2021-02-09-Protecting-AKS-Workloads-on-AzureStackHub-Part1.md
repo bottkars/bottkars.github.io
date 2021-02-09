@@ -4,7 +4,7 @@ title: "Protecting AKS Workloads on AzureStackHub Part 1"
 description: "create, snapshot and clone persistent volumes the k8s way"
 modified: 2021-02-09
 comments: true
-published: false
+published: true
 tags: [aks-engine, json, bash, csi, aks, powerprotect]
 image:
   path: /images/masterpipeline_ppdm_aks.png
