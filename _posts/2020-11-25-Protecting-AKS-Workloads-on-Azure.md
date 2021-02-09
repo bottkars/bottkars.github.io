@@ -100,7 +100,7 @@ Using Device Login (good to Create the SP for RBAC):
 az login --use-device-code --output tsv
 {% endhighlight %}
 
-Using a limited Service OPrincipal, with already configured SP for AKS:
+Using a limited Service Principal, with already configured SP for AKS:
 {% highlight shell %}
 AZURE_CLIENT_ID=<your client id>
 AZURE_CLIENT_SECRET=<your secret>
