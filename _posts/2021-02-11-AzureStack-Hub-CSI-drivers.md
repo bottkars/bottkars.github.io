@@ -32,8 +32,8 @@ Before we start, let´s get some basics.
 ### What *was* missing
 
 AzureStack Hub allows you to deploy Kubernetes Clusters using the AKS Engine.
-AKS Engine is a legacy tool to create ARM Template´s to deploy Kubernetes Clusters.
-While Public Azure AKS Clusters will transition to Cluster API ( CAPZ ), AzureStack Hub only support AKS-Engine
+AKS Engine is a legacy tool to create ARM Template´s to deploy Kubernetes Clusters.  
+While Public Azure AKS Clusters will transition to Cluster API ( CAPZ ), AzureStack Hub only support AKS-Engine.  
 The Current ( officially Supported ) version of AKS-Engine for AzureStack Hub is v0.55.4.
 
 It allows for Persistent Volumes, however, they would use the InTree Volume Plugin.  
@@ -41,7 +41,7 @@ In order to make use of the Container Storage Interface (CSI), we first would ne
 When I tried to implement the Azure CSI Drivers on AzureStack Hub last year, I essentially failed because of a ton of Certificate and API Issues.
 
 With PowerProtect official Support for Azure, I started to dig into the CSI Drivers again.
-I browsed through the existing Github Issues and PR´s, and found at least that some People are working on iot.
+I browsed through the existing Github Issues and PR´s, and found at least that some People are working on it.
 
 And finally a got in touch with Andy Zhang. who maintains the azuredisk-csi-driver kuberenetes-sigs.
 From an initial "it should" work, he connected me to the people doing E2E Test for AzureStack Hub.
