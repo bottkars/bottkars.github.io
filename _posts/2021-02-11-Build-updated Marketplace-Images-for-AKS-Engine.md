@@ -4,7 +4,7 @@ title: "updated AKS Image SKU`s on AzureSTack Hub for new(er) Versions of AKS-En
 description: "stay up to date"
 modified: 2021-02-09
 comments: true
-published: false
+published: no
 tags: [aks-engine, json, bash, csi, aks, AzureStackHub]
 image:
   path: /images/aks_compute_images.png
@@ -68,31 +68,42 @@ This would require image 2021.01.28, as per [chore: rev 2021.01.28](https://gith
 
 ## Building a new Image
 
-Wile reading and Browsing the github, i found a convenient way for me to create new microsoft-aks images using packer, as also leveraged by Microsoft.
+While reading and Browsing the github, i found a convenient way for me to create new microsoft-aks images using packer, as also leveraged by Microsoft.
 
 As you can see from the Changelog, it *has* newer support for AzureStack Hub, however, aks-engine would complain about a missing aks sku version.
 
-To create our own image offer, we will use packer and the artifacts from the github repo. But befor we start, we will need to do some prereqs.  
+To create a newer image offer, we will use packer and the artifacts from the aks-engine github repo.  
+But before we start, we will need to do some prereqs.  
 
 ### Pre Requirements
-I run the imaging process from an buntu 18.04 Machine. you can use a VM, WSL2 or any linux host / Docker Image.
+I run the imaging process from an ubuntu 18.04 Machine. you can use a VM, WSL2 or any linux host / Docker Image.
 
 Install the following Packages:
 - Packer from https://www.packer.io/downloads
 - make utils ( sudo apt install make )
 - git ( sudo apt install git)
 
-### Creting a v0.60.0 Compliant image
+We also would need an Azure Service Principal in an Azure Subscription, as the build process runs in Azure.
 
-First of all, use git to clone into the aks-egine repo  
+### Creating a v0.60.0 Compliant image
 
-{% highlight yaml %}
+First of all, use git to clone into the aks-engine repo  
+
+{% highlight shell %}
 git clone git@github.com:Azure/aks-engine.git
 cd aks-engine
 {% endhighlight %}
 every release of aks sitś in a new bracnch
-to get a list of all released versions of aks-engine, symply type
+to get a list of all released versions of aks-engine, simply type  
 
-{% highlight yaml %}
+{% highlight shell %}
 git branch -r| grep release
 {% endhighlight %}
+
+as we want to create a v0.60.0 compliant image, we checkout the corresponding release branch:
+
+{% highlight shell %}
+git checkout release-v0.60.0
+{% endhighlight %}
+
+
