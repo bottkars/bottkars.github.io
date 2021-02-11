@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Getting Started with AzureDisk CSI Drivers on AzureStack Hub Part 1"
+title: "Getting Started with Kubernetes AzureDisk CSI Drivers on AzureStack Hub (AKS) Part 1"
 description: "create, snapshot and clone persistent volumes the k8s way"
 modified: 2021-02-11
 comments: true
@@ -12,7 +12,7 @@ image:
   credit: 
   creditlink: 
 ---
-# AzureDisk CSI Drivers on AzureStack Hub Part 1
+# AzureDisk CSI Drivers on AzureStack Hub (AKS) Part 1
 
 If you have read my previous article, you could get a Brief understanding how we can Protect AKS Persistent Workloads on Azure using [@ProjectVelero](https://twitter.com/projectvelero) and [DellEMC PowerProtect Datamanager](https://twitter.com/DellEMCProtect).
 
