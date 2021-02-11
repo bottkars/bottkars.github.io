@@ -17,7 +17,7 @@ image:
 This month we released the new PowerProtect Datamanager 19.6.  
 Along with new and improved feature sets, we also released our first version of PPDM to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
 
-This allows  Organizations to Protect the following workloads natively on Azure:
+This allows  Organizations to Protect the following workloads natively on Azure:  
 
 - Vanilla Kubernetes and AKS
 - Applications (Oracle, SQL, SAP Hana)
@@ -26,7 +26,7 @@ This allows  Organizations to Protect the following workloads natively on Azure:
 Todays Blogpost will focus on the Protection of Managed Azure Kubernetes Service, AKS.
 We will do so by fisrt Creating Protection Policies and Add Namespace Assts to ist, amd in a second Step add Namespaces automatically from Kubernetes Namespace Labels using Protection Rules  
 
-In order to get Started with PPDM on Azure, we will require 2 Solutions to be deployed to Azure:
+In order to get Started with PPDM on Azure, we will require 2 Solutions to be deployed to Azure:  
 - DataDomain Virtual Edition (>= 6.0), DDVE ( AKA PPDD )
 - PowerProtect Datamanager, PPDM
 
@@ -77,12 +77,12 @@ az feature list -o table \
 --query "[?contains(name, 'Microsoft.ContainerService/EnableAzureDiskFileCSIDriver')].{Name:name,State:properties.state}"
 {% endhighlight %}
 
-Once finished, we register the Provider with:
+Once finished, we register the Provider with:  
 {% highlight shell %}
 az provider register --namespace Microsoft.ContainerService
 {% endhighlight %}
 
-But we also need to update our AZ CLI to support the latest extensions for AKS. Therefore, run:
+But we also need to update our AZ CLI to support the latest extensions for AKS. Therefore, run:  
 {% highlight shell %}
 az extension add --name aks-preview
 az extension update --name aks-preview
@@ -93,14 +93,14 @@ az extension update --name aks-preview
 Deploying the AKS Cluster creates a Service Principal in the Azure AD *on every run*.
 You might want to use the same Service Principal again for Future Deployments, or Cleanup the SP after ( as it will not be deleted from AzureAD ).
 
-If not already done, login to Azure from AZ CLI. Two Method´s, depending on your Workflow:
+If not already done, login to Azure from AZ CLI. Two Method´s, depending on your Workflow:  
 
-Using Device Login (good to Create the SP for RBAC):
+Using Device Login (good to Create the SP for RBAC):  
 {% highlight shell %}
 az login --use-device-code --output tsv
 {% endhighlight %}
 
-Using a limited Service Principal, with already configured SP for AKS:
+Using a limited Service Principal, with already configured SP for AKS:  
 {% highlight shell %}
 AZURE_CLIENT_ID=<your client id>
 AZURE_CLIENT_SECRET=<your secret>
@@ -112,8 +112,8 @@ az login --service-principal \
     --output tsv
 {% endhighlight %}
 
-So we are good to create our first AKS Cluster.
-Make sure you are scoped to the correct Subscription:
+So we are good to create our first AKS Cluster.  
+Make sure you are scoped to the correct Subscription:   
 {% highlight shell %}
 RESOURCE_GROUP=<your AKS Resource Group>
 AKS_CLUSTER_NAME=<your AKS Cluster>
@@ -132,7 +132,7 @@ AKS_CONFIG=$(az aks create -g ${RESOURCE_GROUP} \
 {% endhighlight %}
 
 
-Once the deployment is done, we can get the Kubernetes Config for kubectl using:
+Once the deployment is done, we can get the Kubernetes Config for kubectl using:  
 {% highlight shell %}
 az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_NAME}
 {% endhighlight %}
@@ -142,13 +142,13 @@ az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${AKS_CLUSTER_N
 	<figcaption>Get AKS Cluster Credentials</figcaption>
 </figure>
 
-In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass:
+In order to use Snapshots with the CSI Driver, we need to deploy the Snapshot Storageclass:  
 {% highlight shell %}
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/example/snapshot/storageclass-azuredisk-snapshot.yaml
 {% endhighlight %}
 
 With that, the Preparation for AKS using CSI is done.
-You can view your new StorageClasses with:
+You can view your new StorageClasses with:  
 {% highlight shell %}
 kubectl get storageclasses
 {% endhighlight %}
@@ -162,27 +162,27 @@ kubectl get storageclasses
 ## Add Kubernetes Secret for PPDM
 
 In order to connect to AKS from PPDM, we need to create Service Account with Role based access.
-A basic RBAC Template can be applied with:
+A basic RBAC Template can be applied with:  
 {% highlight shell %}
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-admin.yml
 kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/ppdm/ppdm-rbac.yml
 {% endhighlight %}
 
-After, you can export the Token to be used for PPDM with:
+After, you can export the Token to be used for PPDM with:  
 {% highlight shell %}
 kubectl get secret "$(kubectl -n kube-system get secret | grep ppdm-admin | awk '{print $1}')" \
 -n kube-system --template={{.data.token}} | base64 -d
 {% endhighlight %}
-
-This is needed for the Credentials we Create in PPDM
-Now sign in to PPDM and go to Credentials:
+ 
+This is needed for the Credentials we Create in PPDM  
+Now sign in to PPDM and go to Credentials:     
 <figure class="full">
 	<img src="/images/add_credentials.png" alt="">
 	<figcaption>Credentials</figcaption>
 </figure>
 
-Add a Credential of Type Kubernetes, with the name of the secret we created in AKS, in the example it is ppdm-admin.
-Copy the Service token in you got from above:
+Add a Credential of Type Kubernetes, with the name of the secret we created in AKS, in the example it is ppdm-admin.  
+Copy the Service token in you got from above:   
 <figure class="full">
 	<img src="/images/ppdm_credentials_aks.png" alt="">
 	<figcaption>PPDM Credentials AKS</figcaption>
@@ -222,7 +222,7 @@ Assets:
 You will see that 2 new Namespaces have been deployed, velero-ppdm and powerprotect.
 We are leveraging upstream [velero](https://github.com/vmware-tanzu/velero) and added support for DataDomain Boost Protocol.
 
-In my example, i already added a mysql application using the Storageclass *managed-csi* for PV Claim, you can use my Template from here:
+In my example, i already added a mysql application using the Storageclass *managed-csi* for PV Claim, you can use my Template from here:  
 {% highlight shell %}
 NAMESPACE=mysql
 kubectl apply -f https://raw.githubusercontent.com/bottkars/dps-modules/main/ci/templates/mysql/mysql-namespace.yaml
@@ -297,7 +297,7 @@ See the details of the snapshot claiming by c-proxy:
 	<figcaption>claimed Snapshot</figcaption>
 </figure>
 
-kubectl command: 
+kubectl command:  
 {% highlight shell %}
 kubectl describe pod/"$(kubectl get pod --namespace mysql  | grep cproxy | awk '{print $1}')" --namespace mysql
 {% endhighlight %}
@@ -310,7 +310,7 @@ You can Browse your Backups now from PPDM UI by selecting assets --> Kubernetes 
 
 
 Also, as a Kubernetes User, you can use the  
-kubectl command :
+kubectl command :  
 {% highlight bash %}
 kubectl get backupjobs -n=powerprotect
 kubectl describe backupjobs/<you jobnumber> -n=powerprotect
@@ -343,7 +343,7 @@ in my example I am using the Label *ppdm_policy=ppdm_gold*
 
 Now we need to create the Namespace and an Application
 I use a Wordpress deployment in my example. For this, create a new Directory on your machine and change into it
-Create the Namespace template:
+Create the Namespace template:  
 {% highlight yaml %}
 NAMESPACE=wordpress
 PPDM_POLICY=ppdm_gold
