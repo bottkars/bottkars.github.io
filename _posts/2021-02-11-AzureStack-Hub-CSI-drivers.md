@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Getting Started with AzureStack Hub CSI Drivers Part 1"
+title: "Getting Started with AzureDisk CSI Drivers on AzureStack Hub Part 1"
 description: "create, snapshot and clone persistent volumes the k8s way"
-modified: 2021-02-09
+modified: 2021-02-11
 comments: true
 published: true
 tags: [aks-engine, json, bash, csi, aks, AzureStackHub]
@@ -12,14 +12,14 @@ image:
   credit: 
   creditlink: 
 ---
-# AKS CSI Drivers on AzureStack Hub Part 1
+# AzureDisk CSI Drivers on AzureStack Hub Part 1
 
-If you have read my previous article, you could get a Brief understanding how we can Protect AKS Persistent Workloads on Azure using @ProjectVelero and DellEMC PowerProtect Datamanager.
+If you have read my previous article, you could get a Brief understanding how we can Protect AKS Persistent Workloads on Azure using [@ProjectVelero](https://twitter.com/projectvelero) and [DellEMC PowerProtect Datamanager](https://twitter.com/DellEMCProtect).
 
 Velero and PowerProtect Datamanager Kubernetes Protection depends on the Container Storage Interface (CSI) for persistent Volumes.
 
-
-Having in mind: 
+We have Successfully qualified Azure AKS against PowerProtect 19.6 with CSI Driver version 0.7.  
+Having in my mind:   
 *If it runs on Azure, it should run on AzureStack Hub*,   
 I was keen to get CSI run on AzureStack Hub AKS.  
 
@@ -71,10 +71,10 @@ helm repo add azuredisk-csi-driver https://raw.githubusercontent.com/kubernetes-
 
 With the Repo now added, we can now deploy the azuredisk-csi-driver Helm Chart.
 When doing this, we will pass some setting to the deployment:
- - cloud=AzureStackCloud
+ - *cloud=AzureStackCloud*  
 This determines we run on AzureStack Hub and instructs the csi driver to load the Cloud Config from a File on the Master.
 
-- snapshot.enabled=true
+- *snapshot.enabled=true*  
 This installs the *csi-snapshot-controller* that is required to expose Snapshot Functionality
 
 We deploy the driver with:
@@ -92,17 +92,17 @@ helm install azuredisk-csi-driver azuredisk-csi-driver/azuredisk-csi-driver \
 	<figcaption>installing</figcaption>
 </figure>
 This should install:
-A Replica Set for the csi-azuredisk-controller with 2 Pods containing the following containers:
-	mcr.microsoft.com/k8s/csi/azuredisk-csi  
+A Replica Set for the csi-azuredisk-controller with 2 Pods containing the following containers:  
+	*mcr.microsoft.com/k8s/csi/azuredisk-csi  
 	mcr.microsoft.com/oss/kubernetes-csi/csi-attacher  
 	mcr.microsoft.com/oss/kubernetes-csi/csi-provisioner  
 	mcr.microsoft.com/oss/kubernetes-csi/csi-resizer  
 	mcr.microsoft.com/oss/kubernetes-csi/csi-snapshotter  
-	mcr.microsoft.com/oss/kubernetes-csi/livenessprobe  
+	mcr.microsoft.com/oss/kubernetes-csi/livenessprobe*  
 
-A Replica Set for the csi-snapshot-controller with 1 Pod
-One csi-azuredisk-node Pod per Node
-and the corresponding CRD´s for the snapshotter
+A Replica Set for the csi-snapshot-controller with 1 Pod:   
+One csi-azuredisk-node Pod per Node  
+and the corresponding CRD´s for the snapshotter  
 
 you can check the pods with
 {% highlight shell %}
@@ -114,7 +114,7 @@ kubectl -n kube-system get pod -o wide --watch -l app=csi-azuredisk-node
 
 #### Adding the Storageclasses
 
-When AKS is deployed using the Engine, most likely 3 Storageclasses are installed by the In-Tree Provider
+When AKS is deployed using the Engine, most likely 3 Storageclasses are installed by the In-Tree Provider:  
 
 <figure class="full">
 	<img src="/images/aks_storageclasses.png" alt="">
@@ -154,8 +154,8 @@ kubectl get storageclasses
 
 #### optional: Add a snapshot Class
 
-Similar to the Storage Class, we may want to add a Snaphot Class
-apply the below config with
+Similar to the Storage Class, we may want to add a Snaphot Class if we want to clone volumes.   
+apply the below config with:  
 
 {% highlight shell %}
 kubectl apply -f storageclass-azuredisk-snapshot.yaml
@@ -206,5 +206,5 @@ The PVC will show the identical Volume Name as the Disk Name from The Portal / C
 </figure>
 
 
-You know should have a Running azuredisk-csi-driver Environment on your AzureSTack Hub. 
+You know should have a Running azuredisk-csi-driver Environment on your AzureStack Hub. 
 Stay Tuned for Part 2 including DataProtection with PowerProtect Datamanager ...
