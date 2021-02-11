@@ -54,15 +54,23 @@ K8S_VERSIONS="
 "
 {% endhighlight %}
 
-Howeve
-
-
+However, while reading the Relesenotes for AKS-Engine on GitHub, i found newer versions exist with newer Image Support:  
 
 <figure class="full">
-	<img src="/images/aks_compute_images.png" alt="">
+	<img src="/images/aks_release.png" alt="">
 	<figcaption>AKS Images</figcaption>
 </figure>
 
+Yes, it say v0.60.0 would support up to K8S-AzS v1.18.15, but that is *NOT* in the current image.  
+
+This would require image 2021.01.28, as per [chore: rev 2021.01.28](https://github.com/Azure/aks-engine/pull/4223/commits/976e0c41e75a4bfe24741f5dfec78b006ad6fdfc)
+
+
+## Building a new Image
+
+Wile reading and Browsing the github, i found a convenient way for me to create new microsoft-aks images using packer, as also leveraged by Microsoft.
+
+First of all, we +
 
 You know should have a Running azuredisk-csi-driver Environment on your AzureSTack Hub. 
 Stay Tuned for Part 2 including DataProtection with PowerProtect Datamanager ...
