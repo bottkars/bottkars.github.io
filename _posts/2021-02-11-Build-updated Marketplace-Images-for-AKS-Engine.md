@@ -106,4 +106,12 @@ as we want to create a v0.60.0 compliant image, we checkout the corresponding re
 git checkout release-v0.60.0
 {% endhighlight %}
 
+export SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+export TENANT_ID=$ARM_TENANT_ID
+export CLIENT_SECRET=$ARM_CLIENT_SECRET
+export CLIENT_ID=$ARM_CLIENT_ID
+export AZURE_RESOURCE_GROUP_NAME=packer
+export AZURE_VM_SIZE=Standard_F4
+export AZURE_LOCATION=germanywestcentral
+export UBUNTU_SKU=18.04
 
