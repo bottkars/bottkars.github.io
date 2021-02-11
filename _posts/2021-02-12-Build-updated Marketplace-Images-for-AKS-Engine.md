@@ -4,7 +4,7 @@ title: "update AKS Image SKU`s for new Versions of AKS-Engine"
 description: "stay up to date"
 modified: 2021-02-09
 comments: true
-published: true
+published: false
 tags: [aks-engine, json, bash, csi, aks, AzureStackHub]
 image:
   path: /images/aks_compute_images.png
