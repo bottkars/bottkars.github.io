@@ -70,7 +70,29 @@ This would require image 2021.01.28, as per [chore: rev 2021.01.28](https://gith
 
 Wile reading and Browsing the github, i found a convenient way for me to create new microsoft-aks images using packer, as also leveraged by Microsoft.
 
-First of all, we +
+As you can see from the Changelog, it *has* newer support for AzureStack Hub, however, aks-engine would complain about a missing aks sku version.
 
-You know should have a Running azuredisk-csi-driver Environment on your AzureSTack Hub. 
-Stay Tuned for Part 2 including DataProtection with PowerProtect Datamanager ...
+To create our own image offer, we will use packer and the artifacts from the github repo. But befor we start, we will need to do some prereqs.  
+
+### Pre Requirements
+I run the imaging process from an buntu 18.04 Machine. you can use a VM, WSL2 or any linux host / Docker Image.
+
+Install the following Packages:
+- Packer from https://www.packer.io/downloads
+- make utils ( sudo apt install make )
+- git ( sudo apt install git)
+
+### Creting a v0.60.0 Compliant image
+
+First of all, use git to clone into the aks-egine repo  
+
+{% highlight yaml %}
+git clone git@github.com:Azure/aks-engine.git
+cd aks-engine
+{% endhighlight %}
+every release of aks sitś in a new bracnch
+to get a list of all released versions of aks-engine, symply type
+
+{% highlight yaml %}
+git branch -r| grep release
+{% endhighlight %}
