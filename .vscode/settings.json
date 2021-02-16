@@ -1,5 +1,13 @@
 {
     "cSpell.words": [
         "endhighlight"
+    ],
+    "spellright.language": [
+        "en_US"
+    ],
+    "spellright.documentTypes": [
+        "latex",
+        "plaintext",
+        "markdown"
     ]
 }
