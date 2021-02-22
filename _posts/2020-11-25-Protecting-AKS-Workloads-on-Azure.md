@@ -171,7 +171,7 @@ kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci
 After, you can export the Token to be used for PPDM with:  
 {% highlight yaml %}
 kubectl get secret "$(kubectl -n kube-system get secret | grep ppdm-admin | awk '{print $1}')" \
--n kube-system --template={{.data.token}} | base64 -d
+-n kube-system --template={{ '{{' }}.data.token}} | base64 -d
 {% endhighlight %}
  
 This is needed for the Credentials we Create in PPDM  
