@@ -14,7 +14,7 @@ image:
 ---
 # Using DELLEMC Powerprotect to Backup and Protect Managed AKS Clusters on Azure
 
-This month we released the new PowerProtect Datamanager 19.6.  
+This month we released the new PowerProtect Datamanager 19.6    
 Along with new and improved feature sets, we also released our first version of PPDM to the [Azure Marketplace](https://portal.azure.com/#create/dellemc.ppdm_ddve_0_0_1ppdm19_6-ddve_6_0). 
 
 This allows  Organizations to Protect the following workloads natively on Azure:  
@@ -169,9 +169,9 @@ kubectl apply -f  https://raw.githubusercontent.com/bottkars/dps-modules/main/ci
 {% endhighlight %}
 
 After, you can export the Token to be used for PPDM with:  
-{% highlight shell %}
+{% highlight yaml %}
 kubectl get secret "$(kubectl -n kube-system get secret | grep ppdm-admin | awk '{print $1}')" \
--n kube-system --template={{.data.token}} | base64 -d
+-n kube-system --template={{ '{{' }}.data.token}} | base64 -d
 {% endhighlight %}
  
 This is needed for the Credentials we Create in PPDM  
