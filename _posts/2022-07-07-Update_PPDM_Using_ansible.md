@@ -54,9 +54,9 @@ so i use a role called get_ppdm_token to retrieve the token from the API:
     access_token: "{{ result.json.access_token }}"
 {% endhighlight %}
 
-to upload an update package, we have to use a curl shell call ( this being the one exception :-) ), as an upload vi URI Module fails for files > 2GB
-### 1.2 Task for uploading a package
 
+### 1.2 Task for uploading a package
+to upload an update package, we have to use a curl via an ansible shell call ( this being the one exception :-) ), as an upload vi URI Module fails for files > 2GB
 {% highlight shell %}
 # note: using curl here as uploads >=2GB still fail in ansible uri module ....
 - name: Uploading Update File {{ upload_file }}, this may take a while
