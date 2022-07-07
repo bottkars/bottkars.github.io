@@ -16,11 +16,13 @@ image:
 *Disclaimer: use this at your own Risk*  
 
 ## why that ?
-Automation is everywhere. Automation is Standardized. Automation should be based on Rest API´s.  
-Our customers broadly use Ansible to automate standard IT Tasks. Here an example use case to manage Dell PowerProtect Datamanager´s Update lifecycle.   
+Automation is everywhere. Automation should be Standardized. Automation should be based on (Rest) API´s.  
+As our customers broadly use Ansible to automate standard IT Tasks, i created this Example use case to manage Dell PowerProtect Datamanager´s Update lifecycle.   
 My Friend Preston De Guise has written a Nice Post on [PowerProtect Data Manager 19.11 – What’s New, and Updating](https://nsrd.info/blog/2022/07/05/powerprotect-data-manager-19-11-whats-new-and-updating/)
 
-We will do all of his outlined steps to update a PPDM form 19.10 to 19.11 using Ansible
+We will do all of his outlined steps to update a PowerProtect Datamanager from 19.10 to 19.11 using Ansible.
+
+The individual API Calls are Organized in Ansible roles and will be executed from corresponding Playbooks
 
 ## what we need
 In general, all of the following playbooks / roles are built with the Ansible URI module ( with one exception :-) )
@@ -32,7 +34,7 @@ we can find the REST API calls required / used in my Examples on [DELL Technolog
 i am happy to share my ansible roles per request for now.
 so let us walk trough a typical update scenario
 ## 1. Uploading the Update Package
-### 1.1 authenticating with the api endpoint
+### 1.1 the *get_ppdm_token* role to authenticate with the api endpoint
 All of the playbooks require to authenticate via the API endpoint and use a Bearer token for Subsequent requests.
 so i use a role called get_ppdm_token to retrieve the token from the API:
 
@@ -55,7 +57,7 @@ so i use a role called get_ppdm_token to retrieve the token from the API:
 {% endhighlight %}
 
 
-### 1.2 Task for uploading a package
+### 1.2 the *upload_update* role for uploading a package to PPDM
 to upload an update package, we have to use a curl via an ansible shell call ( this being the one exception :-) ), as an upload vi URI Module fails for files > 2GB
 {% highlight shell %}
 # note: using curl here as uploads >=2GB still fail in ansible uri module ....
@@ -124,10 +126,9 @@ The Playbook will run like this:
 The Update Pre Check will inform you about Required Actions need to be taken in order to make the update succeed.
 It will also show us Warnings for issues we might correct prior the Update.
 
-### 2.1 Task for getting the Update ID
-PPDM has an API endpoint to get all Updates in the System. This Could be Active or Historical Updates
-
-To get the active, uploaded Update, we use the task
+### 2.1 the *get_ppdm_update_package* role for getting the Update ID
+PPDM has an API endpoint to get all Updates in the System. This could be active or historical Updates.
+The Response Contains JSON Documents with specific information and state about the Update
 
 {% highlight yaml %}
 {% raw %}
@@ -213,10 +214,10 @@ This example shows the JSON response for the Update Package with Essential infor
 	<figcaption>Example Upgrade Package</figcaption>
 </figure>
 
-### 2.3 the Precheck Task
+### 2.3 the *precheck_ppdm_update_package* role
 After reviewing the Information, we will trigger the Pre Check using the precheck endpoint.
 This will transform the Package state to Processing.
-Te´he below Precheck task will wait for the state AVAILABLE and the Validation Results: 
+The below Precheck role will wait for the state AVAILABLE and the Validation Results: 
 {% highlight yaml %}
 {% raw %}
 # Example Playbook to Precheck PPDM Update
@@ -328,7 +329,7 @@ The Playbook  will output the validation Details:
 
 ## 3. Executing the Upgrade
 Once the Update Validation has passed, we can execute the Update
-### 3.1 the install_ppdm_update_package role
+### 3.1 the *install_ppdm_update_package* role
 The below example task shows the upgrade-packages endpoint to be called
 A JSON Body needs to be provided with additional information.
 We wil create the Body from the Calling Playbook 
@@ -356,10 +357,10 @@ We wil create the Body from the Calling Playbook
 {% endraw %}      
 {% endhighlight %}
 
-### 3.2 Task to check the Progress
+### 3.2 the *check_update_done* role
 Once the Update is started, PPDM sysmgr and other components will shut down.
 PPDM has a specific API Port to Monitor the Update( also from the UI, Port 14443)
-The check_update_done Role will wait until the Update reaches 100%
+The check_update_done role will wait until the Update reaches 100%
 
 
 {% highlight yaml %}
