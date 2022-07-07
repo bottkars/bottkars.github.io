@@ -4,7 +4,7 @@ title: "Update Dell PowerProtect Datamanager Appliance using ansible"
 description: "know the basics"
 modified: 2022-07-07
 comments: true
-published: false
+published: true
 tags: [ansible, json, rest, PowerProtect]
 image:
   path: /images/update_banner.png
