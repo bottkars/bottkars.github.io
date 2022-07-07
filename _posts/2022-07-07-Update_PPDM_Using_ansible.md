@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Update Dell PowerProtect Datamanager Appliance using ansible"
+title: "Update DELL PowerProtect Datamanager Appliance using Ansible Roles and Playbooks"
 description: "know the basics"
 modified: 2022-07-07
 comments: true
