@@ -18,7 +18,7 @@ image:
 ## why that ?
 Automation is everywhere. Automation should your standards. Automation should be based on (Rest) API´s.  
 As our customers broadly use Ansible to automate standard IT Tasks, i created this Example use case to manage Dell PowerProtect Datamanager´s Update lifecycle.   
-My Friend Preston De Guise has written a Nice Post on [PowerProtect Data Manager 19.11 – What’s New, and Updating](https://nsrd.info/blog/2022/07/05/powerprotect-data-manager-19-11-whats-new-and-updating/)
+My Friend Preston De Guise has written a nice Blogpost on [PowerProtect Data Manager 19.11 – What’s New, and Updating](https://nsrd.info/blog/2022/07/05/powerprotect-data-manager-19-11-whats-new-and-updating/)
 
 We will do all of his outlined steps to update a PowerProtect Datamanager from 19.10 to 19.11 using Ansible.
 
