@@ -4,7 +4,7 @@ title: "Create DellEMC PowerProtect Datamanager Appliance in Azure using az cli"
 description: "know the basics"
 modified: 2021-02-19
 comments: true
-published: false
+published: true
 tags: [aks-engine, json, bash, csi, aks, AzureStackHub]
 image:
   path: /images/appliance_fresh.png
