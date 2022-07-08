@@ -12,7 +12,7 @@ image:
   credit: 
   creditlink: 
 ---
-# Installation and troubleshooting Tips for PPDM 19.11 in disconnected OpenShift 4.10 Environments
+### Installation and troubleshooting Tips for PPDM 19.11 in disconnected OpenShift 4.10 Environments
 *Disclaimer: use this at your own Risk*  
 <figure class="full">
 	<img src="/images/parental_advisory.png" alt="">
