@@ -5,7 +5,7 @@ description: "Tipps and Troublesooting"
 modified: 2022-07-08
 comments: true
 published: true
-tags: [OPenShift, json, rest, PowerProtect]
+tags: [OPenShift, json, rest, PowerProtect, kubernetes]
 image:
   path: /images/operator_ppdm.png
   feature: operator_ppdm.png
