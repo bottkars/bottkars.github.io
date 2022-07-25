@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Customizing PPDM Pods to use Node Affinity by patching K8S Inventory Source"
-description: "Tipps and Troubleshooting"
+title: "Customizing PowerProtect Datamanager  Pods to use Node Affinity by patching K8S Inventory Source"
+description: "Tipps and Tricks"
 modified: 2022-07-25
 comments: true
 published: true
