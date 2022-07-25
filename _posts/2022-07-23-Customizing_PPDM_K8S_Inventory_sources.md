@@ -2,7 +2,7 @@
 layout: post
 title: "Customizing PPDM Pods to use Node Affinity by patching K8S Inventory Source"
 description: "Tipps and Troubleshooting"
-modified: 2022-07-23
+modified: 2022-07-25
 comments: true
 published: true
 tags: [OpenShift, json, rest, PowerProtect, kubernetes, k8s]
@@ -209,4 +209,4 @@ kubectl get pods -n powerprotect -o wide
 </figure>
 
 
-This concludes the Patching of cproxy COnfiguration, stay tuned for more
+This concludes the Patching of cproxy Configuration, stay tuned for more
