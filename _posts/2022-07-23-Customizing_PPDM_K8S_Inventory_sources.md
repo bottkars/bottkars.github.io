@@ -50,7 +50,7 @@ spec:
         nodeSelectorTerms:
         - matchExpressions:
           - key: tier
-            operator: In
+            operator: In # tag must be *in* tags
             values:
             - backup            
   containers:
