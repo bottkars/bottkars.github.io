@@ -19,7 +19,7 @@ image:
 	<figcaption>Warning, Contains JSON and YAML !!!</figcaption>
 </figure>
 ## why that ?
-The PowerProtect DataManager Inventory Source uses Standardized Configurations and Configmaps for the PPDM Deployed Pods, e.gh. cProxy, PowerProtect Controller, as well as Velero.
+The PowerProtect DataManager Inventory Source uses Standardized Configurations and Configmaps for the Pods deployed by PPDM, e.gh. cProxy, PowerProtect Controller, as well as Velero.
 
 In this Post, i will use an example to deploy the cProxies to dedicated nodes using [Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). This makes Perfect sense if you want to separate Backup from Production Nodes.
 
@@ -69,7 +69,7 @@ kubectl label nodes ocpcluster1-ntsgq-worker-local-2xl2z tier=backup
 
 ## 2. Create a Configuration Patch for the cProxy
 We create manifest Patch for the cProxy from a yaml Document.
-This will be base64 encoded and presented as a Value to POD_CONFIG to our Inventory Source
+This will be base64 encoded and presented as a Value to POD_CONFIG type to our Inventory Source
 The [API Reference](https://developer.dell.com/apis/4378/versions/19.11/reference/ppdm-public.oas2.yaml/components/schemas/InventorySourceK8s) describes the Format of the Configuration.
 
 The *CPROXY_CONFIG* variable below will contain the base64 Document
@@ -152,7 +152,7 @@ for that, we will add an list with content
         }
       ]
 {% endhighlight %}
-
+Other *POD_CONFIGS* key´s we could modify are *POWERPROTECT_CONTROLLER* and *VELERO*
 the below json code will take care for this:
 
 {% highlight shell %}
