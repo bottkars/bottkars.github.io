@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Customizing PPDM Pods to use Node Affinity by patching K8S Inventory Source"
-description: "Tipps and Troublesooting"
+description: "Tipps and Troubleshooting"
 modified: 2022-07-23
 comments: true
 published: true
