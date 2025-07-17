@@ -216,6 +216,10 @@ Assign the Asset to the desired Policy, or create a New Policy for generic Agent
 - Run as a user with necessary permissions.
 
 
+### Example Script Link
+
+you can find my Example Script here [Dell Examples Github](https://github.com/dell-examples/PPDM-pwsh/blob/19.18/example_scripts/s3_backup_rclone.sh)
+
 ## Closing Thoughts
 
 Cloud-native data protection doesn't have to mean re-inventing your backup strategy. With Dell’s PowerProtect Data Manager Generic Application Agent and DataDomain BoostFS, you can extend your trusted enterprise data protection to the cloud—simply, securely, and with total control.
