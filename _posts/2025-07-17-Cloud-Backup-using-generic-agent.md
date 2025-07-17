@@ -190,7 +190,7 @@ Check `/var/log/rclone.log` for details. Only the 5 most recent logs are kept.
 
 - Approve the application host in PPDM. The system should automatically recognize the installed agent.
 
-### 5. CCreate an Asset for Generic Application
+### 5. Create an Asset for Generic Application
 
 - In PPDM, define a new Asset for generic Agent, this includes:
   - Connection Credentials

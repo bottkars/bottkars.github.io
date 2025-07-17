@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Configure PowerProtect Datamanger 19.11 with disconnected OpenShift Cluster´s"
-description: "Tipps and Troublesooting"
+description: "Tipps and Troubleshooting"
 modified: 2022-07-08
 comments: true
 published: true
