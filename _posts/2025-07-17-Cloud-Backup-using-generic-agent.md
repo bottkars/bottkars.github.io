@@ -7,8 +7,8 @@ comments: true
 published: true
 tags: [S3, backup, rclone, PowerProtect Datamanager, BoostFS]
 image:
-  path: /images/appliance_fresh.png
-  feature: appliance_fresh.png
+  path: /images/generic_asset_header.png
+  feature: generic_asset_header.png
   credit: 
   creditlink: 
 ---
