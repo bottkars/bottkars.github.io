@@ -17,6 +17,11 @@ Modern enterprises depend on reliable, fast, and auditable data protection—esp
 
 ---
 
+<figure class="full">
+	<img src="images/generic_Agent_activity.png" alt="">
+	<figcaption>Successful Generic Agent Backup</figcaption>
+</figure>
+
 ## Automating Cloud Backups: The Script Workflow
 
 This backup automation script enables IT teams to automatically protect cloud or remote data by transferring it directly to secure, high-performance Dell DataDomain storage using BoostFS. The process is simple, yet robust—ideal for both full system backups and incremental “change-only” protection.
@@ -156,6 +161,52 @@ export BACKUP_LEVEL="FULL"
 ### Troubleshooting
 
 Check `/var/log/rclone.log` for details. Only the 5 most recent logs are kept.
+
+
+## Onboarding the Asset into PPDM
+
+<figure class="full">
+	<img src="images/generic_Asset.png" alt="">
+	<figcaption>Generic Agent Configuration</figcaption>
+</figure>
+
+
+### 1. Verify Compatibility
+
+- Ensure both your PPDM instance and intended application workload are supported.
+- Review the official support matrix for OS and application compatibility.
+
+### 2. Install the Generic Application Agent
+
+- Download the agent package from PPDM’s software repository.
+- Install the agent on the host system where the application resides, following the platform-specific installation steps found in the official user guide.
+
+### 3. Configure Backup Scripts
+
+- Create and configure scripts for backup operations, tailored to your application’s requirements.
+- Store these scripts in a directory accessible to both the agent and PPDM.
+
+### 4. Discover and Register the Agent in PPDM
+
+- Approve the application host in PPDM. The system should automatically recognize the installed agent.
+
+### 5. CCreate an Asset for Generic Application
+
+- In PPDM, define a new Asset for generic Agent, this includes:
+  - Connection Credentials
+  - Asset Host that acts as a Proxy Datammover
+  - Selection the Backup Script to use
+  - Parameters for the Backup Script
+
+<figure class="full">
+	<img src="images/genapp_parameters.png" alt="">
+	<figcaption>Generic Agent Parameters</figcaption>
+</figure>
+
+
+Assign the Asset to the desired Policy, or create a New Policy for generic Agent
+
+
 
 ### Best Practices
 
