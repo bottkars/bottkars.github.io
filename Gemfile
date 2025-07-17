@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 gem "kramdown-parser-gfm"
 gem "tzinfo-data"
-gem "jekyll", "~> 3.7"
+gem "jekyll" #, "~> 3.7"
 gem "jekyll-sitemap"
 gem "jekyll-feed"
 gem "jekyll-paginate"
