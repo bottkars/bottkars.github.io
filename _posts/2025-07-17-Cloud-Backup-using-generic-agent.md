@@ -18,7 +18,7 @@ Modern enterprises depend on reliable, fast, and auditable data protection—esp
 ---
 
 <figure class="full">
-	<img src="images/generic_Agent_activity.png" alt="">
+	<img src="/images/generic_Agent_activity.png" alt="">
 	<figcaption>Successful Generic Agent Backup</figcaption>
 </figure>
 
@@ -166,7 +166,7 @@ Check `/var/log/rclone.log` for details. Only the 5 most recent logs are kept.
 ## Onboarding the Asset into PPDM
 
 <figure class="full">
-	<img src="images/generic_Asset.png" alt="">
+	<img src="/images/generic_Asset.png" alt="">
 	<figcaption>Generic Agent Configuration</figcaption>
 </figure>
 
@@ -199,7 +199,7 @@ Check `/var/log/rclone.log` for details. Only the 5 most recent logs are kept.
   - Parameters for the Backup Script
 
 <figure class="full">
-	<img src="images/genapp_parameters.png" alt="">
+	<img src="/images/genapp_parameters.png" alt="">
 	<figcaption>Generic Agent Parameters</figcaption>
 </figure>
 
